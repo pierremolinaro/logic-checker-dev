@@ -1,0 +1,283 @@
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    AST
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+abstract class @expression {}
+
+#·······················································································································
+
+class @trueExpression : @expression {}
+
+#·······················································································································
+
+class @falseExpression : @expression {}
+
+#·······················································································································
+
+class @varExpression : @expression {
+  @lstring mVariableName
+}
+
+#·······················································································································
+
+class @negationExpression : @expression {
+  @expression mExpression
+}
+
+#·······················································································································
+
+class @andExpression, @orExpression, @xorExpression : @expression {
+  @expression mLeftExpression
+  @expression mRightExpression
+}
+
+#·······················································································································
+
+list @assignmentList {
+  @lstring mTargetName
+  @expression mExpression
+}
+
+#·······················································································································
+
+class @blockDefinition : @definition {
+  @lstring mBlockName
+  @lstringlist mInputVariableList
+  @lstringlist mOutputVariableList
+  @assignmentList mAssignmentList
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    SYNTAX
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+syntax extension logicchecker_syntax {
+
+  #·····················································································································
+
+  rule <definition> !@definition outDefinition {
+    $block$
+    $identifier$ ?let blockName
+    $($
+    @lstringlist inputVariableList = {}
+    repeat
+      $identifier$ ?let inputName
+      inputVariableList += !inputName
+    while
+      $,$
+    end
+    $)$
+    $->$
+    $($
+    @lstringlist outputVariableList = {}
+    repeat
+      $identifier$ ?let outputName
+      outputVariableList += !outputName
+    while
+      $,$
+    end
+    $)$
+    ${$
+    @assignmentList assignmentList = {}
+    repeat
+      <expression> ?let expression
+      $->$
+      $identifier$ ?let targetName
+      assignmentList += !targetName !expression
+    while
+      $,$
+    end
+    $}$
+    outDefinition = @blockDefinition.new {!blockName !inputVariableList !outputVariableList !assignmentList}
+  }
+
+  #·····················································································································
+
+  rule <expression> !@expression outExpression {
+    <terme> ?outExpression
+    repeat
+    while
+      $|$
+      <terme> ?let expression
+      outExpression = @orExpression.new {!outExpression !expression}
+    while
+      $^$
+      <terme> ?let expression
+      outExpression = @xorExpression.new {!outExpression !expression}
+    end
+  }
+  
+  #·····················································································································
+
+  rule <terme> !@expression outExpression {
+    <factor> ?outExpression
+    repeat
+    while
+      $&$
+      <factor> ?let expression
+      outExpression = @andExpression.new {!outExpression !expression}
+    end
+  }
+  
+  #·····················································································································
+
+  rule <factor> !@expression outExpression {
+    $/$
+    <factor> ?let expression
+    outExpression = @negationExpression.new {!expression}
+  }
+  
+  #·····················································································································
+
+  rule <factor> !@expression outExpression {
+    $identifier$ ?let variableName
+    outExpression = @varExpression.new {!variableName}
+  }
+  
+   #·····················································································································
+
+  rule <factor> !@expression outExpression {
+    $($
+    <expression> ?outExpression
+    $)$
+  }
+  
+  #·····················································································································
+
+  rule <factor> !@expression outExpression {
+    $true$
+    outExpression = @trueExpression.new
+  }
+  
+  #·····················································································································
+
+  rule <factor> !@expression outExpression {
+    $false$
+    outExpression = @falseExpression.new
+  }
+  
+  #·····················································································································
+
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#   SEMANTICS
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+map @variableMap {
+  @uint mIndex
+  insert insertKey error message "the '%K' variable is already declared in %L"
+  search searchKey error message "there is no '%K' variable"
+}
+
+#·······················································································································
+
+abstract getter @expression computeExpression ?let @variableMap inVariableMap -> @binaryset
+
+#·······················································································································
+
+override getter @falseExpression computeExpression ?let @variableMap unused inVariableMap -> @binaryset {
+  result = @binaryset.emptyBinarySet
+}
+
+#·······················································································································
+
+override getter @trueExpression computeExpression ?let @variableMap unused inVariableMap -> @binaryset {
+  result = @binaryset.fullBinarySet
+}
+
+#·······················································································································
+
+override getter @negationExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
+  result = ~ [mExpression  computeExpression !inVariableMap]
+}
+
+#·······················································································································
+
+override getter @varExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
+  [inVariableMap searchKey !mVariableName ?let varIndex]
+  result = @binaryset.binarySetWithBit {!varIndex}
+}
+
+#·······················································································································
+
+override getter @andExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
+  let left  = [mLeftExpression  computeExpression !inVariableMap]
+  let right = [mRightExpression computeExpression !inVariableMap]
+  result = left & right
+}
+
+#·······················································································································
+
+override getter @orExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
+  let left  = [mLeftExpression  computeExpression !inVariableMap]
+  let right = [mRightExpression computeExpression !inVariableMap]
+  result = left | right
+}
+
+#·······················································································································
+
+override getter @xorExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
+  let left  = [mLeftExpression  computeExpression !inVariableMap]
+  let right = [mRightExpression computeExpression !inVariableMap]
+  result = left ^ right
+}
+
+#·······················································································································
+
+override method @blockDefinition compute ?!@blockMap blockMap {
+  message "----- Block " + mBlockName + "\n"
+  let variableCount = [mInputVariableList length] + [mOutputVariableList length]
+  @variableMap variableMap = {}
+  @variableMap outputVariableMap = {}
+  @stringlist inputVariableList = {}
+  for (name) in mInputVariableList do
+    [!?variableMap insertKey !name !variableCount - [variableMap count] - 1]
+    inputVariableList += !name.string
+  end
+  @stringlist outputVariableList = {}
+  for (name) in mOutputVariableList do
+    let variableIndex = variableCount - [variableMap count] - 1
+    [!?variableMap insertKey !name !variableIndex]
+    [!?outputVariableMap insertKey !name !variableIndex]
+    outputVariableList += !name.string
+  end
+  @stringset assignedOutputVariableSet = {}
+  for (targetVar expression) in mAssignmentList do
+    [variableMap searchKey !targetVar ?*]
+    if not [outputVariableMap hasKey !targetVar.string] then
+      error targetVar : "this variable should be an output variable"
+    elsif [assignedOutputVariableSet hasKey !targetVar.string] then
+      error targetVar : "output variable has been already assigned"
+    end
+    assignedOutputVariableSet += !targetVar.string
+  end
+  for (unassignedVar) in [outputVariableMap keySet] - assignedOutputVariableSet do
+    error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
+  end
+#--- Compute BDD
+  var blockStates = @binaryset.fullBinarySet
+  var blockTransitions = @binaryset.fullBinarySet
+  for (targetVar expression) in mAssignmentList do
+  #--- Expression BDD
+    let expressionBDD = [expression computeExpression !variableMap]
+  #--- Target var BDD
+    [variableMap searchKey !targetVar ?let targetVarIndex]
+    let targetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex}
+  #--- Accumulate
+    let assignmentBDD = [targetVarBDD equalTo !expressionBDD]
+    blockStates = blockStates & assignmentBDD
+    blockTransitions = blockTransitions & assignmentBDD & (assignmentBDD << variableCount)
+  end
+#--- Display states result
+  message [[blockStates valueCount !variableCount] string]
+          + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"
+#--- Display transitions
+  message [[blockTransitions valueCount !variableCount + variableCount] string] + " transitions (" +
+     [[blockTransitions nodeCount] string] + " BDD nodes)\n"
+#--- Enter in block map
+  [!?blockMap insertKey !mBlockName !inputVariableList !outputVariableList !blockStates !blockTransitions]
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+

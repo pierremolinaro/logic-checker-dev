@@ -1,0 +1,116 @@
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    AST
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+class @displayDefinition : @definition {
+  @lstring mBlockName
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    SYNTAX
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+syntax extension logicchecker_syntax {
+
+  #·····················································································································
+
+  rule <definition> !@definition outDefinition {
+    $display$
+    $identifier$ ?let blockName
+    outDefinition = @displayDefinition.new {!blockName}
+  }
+
+  #·····················································································································
+
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#   SEMANTICS
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+override method @displayDefinition compute ?!@blockMap blockMap {
+  message "----- Display " + mBlockName + "\n"
+  [blockMap searchKey !mBlockName ?let inputVariableList ?let outputVariableList ?let states ?let transitions]
+  let variableCount = [inputVariableList length] + [outputVariableList length]
+#--- Display states result
+  message [[states valueCount !variableCount] string] + " states :\n"
+  var line = ""
+  for (s) in inputVariableList do
+    line += s + " "
+  end
+  line += ": "
+  for (s) in outputVariableList do
+    line += s + " "
+  end
+  message line + "\n"
+  let stateList = [states compressedStringValueList !variableCount]
+  for (s) in stateList do
+    var compressedString = s
+    line = ""
+    for (varName) in inputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += [char string] + " "
+    end
+    line += ": "
+    for (varName) in outputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += [char string] + " "
+    end
+    message line + "\n"
+  end
+  message [[states nodeCount] string] + " BDD nodes\n"
+#--- Display transitions
+  message [[transitions valueCount !variableCount + variableCount] string] + " transitions :\n"
+  line = ""
+  for (s) in inputVariableList do
+    line += s + " "
+  end
+  line += ": "
+  for (s) in outputVariableList do
+    line += s + " "
+  end
+  line += " --->  "
+  for (s) in inputVariableList do
+    line += s + " "
+  end
+  line += ": "
+  for (s) in outputVariableList do
+    line += s + " "
+  end
+  message line + "\n"
+  let transitionList = [transitions compressedStringValueList !variableCount + variableCount]
+  for (s) in transitionList do
+    var compressedString = s
+    line = ""
+    for (varName) in inputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += [char string] + " "
+    end
+    line += ": "
+    for (varName) in outputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += [char string] + " "
+    end
+    line += " --->  "
+    for (varName) in inputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += [char string] + " "
+    end
+    line += ": "
+    for (varName) in outputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += [char string] + " "
+    end
+    message line + "\n"
+  end
+  message [[transitions nodeCount] string] + " BDD nodes\n"
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+

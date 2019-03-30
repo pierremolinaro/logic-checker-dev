@@ -1,0 +1,15 @@
+#--- Prologue routine
+before {
+}
+
+#--- 'when' clauses
+case . "logicchecker"
+message "a source text file with the .logicchecker extension"
+grammar logicchecker_grammar
+?sourceFilePath:@lstring inSourceFile {
+  grammar logicchecker_grammar in inSourceFile
+}
+
+#--- Epilogue routine
+after {
+}
