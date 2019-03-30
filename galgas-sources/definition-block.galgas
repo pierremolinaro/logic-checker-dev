@@ -226,7 +226,7 @@ override getter @xorExpression computeExpression ?let @variableMap inVariableMap
 #·······················································································································
 
 override method @blockDefinition compute ?!@blockMap blockMap {
-  message "----- Block " + mBlockName + "\n"
+  message "--------------- Block " + mBlockName + "\n"
   let variableCount = [mInputVariableList length] + [mOutputVariableList length]
   @variableMap variableMap = {}
   @variableMap outputVariableMap = {}
@@ -257,7 +257,7 @@ override method @blockDefinition compute ?!@blockMap blockMap {
   end
 #--- Compute BDD
   var blockStates = @binaryset.fullBinarySet
-  var blockTransitions = @binaryset.fullBinarySet
+  var blockTransitions = @binaryset.emptyBinarySet
   for (targetVar expression) in mAssignmentList do
   #--- Expression BDD
     let expressionBDD = [expression computeExpression !variableMap]
@@ -267,8 +267,15 @@ override method @blockDefinition compute ?!@blockMap blockMap {
   #--- Accumulate
     let assignmentBDD = [targetVarBDD equalTo !expressionBDD]
     blockStates = blockStates & assignmentBDD
-    blockTransitions = blockTransitions & assignmentBDD & (assignmentBDD << variableCount)
+    blockTransitions = blockTransitions | assignmentBDD
   end
+#--- 
+  var constraint = @binaryset.binarySetWithEqualComparison {
+   ![outputVariableList length]
+   ![inputVariableList length]
+   !variableCount + [outputVariableList length]
+  }
+  blockTransitions = blockTransitions & constraint
 #--- Display states result
   message [[blockStates valueCount !variableCount] string]
           + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"

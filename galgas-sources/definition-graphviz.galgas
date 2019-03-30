@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-class @displayDefinition : @definition {
+class @graphvizDefinition : @definition {
   @lstring mBlockName
 }
 
@@ -15,9 +15,9 @@ syntax extension logicchecker_syntax {
   #·····················································································································
 
   rule <definition> !@definition outDefinition {
-    $display$
+    $graphviz$
     $identifier$ ?let blockName
-    outDefinition = @displayDefinition.new {!blockName}
+    outDefinition = @graphvizDefinition.new {!blockName}
   }
 
   #·····················································································································
@@ -28,88 +28,35 @@ syntax extension logicchecker_syntax {
 #   SEMANTICS
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-override method @displayDefinition compute ?!@blockMap blockMap {
-  message "--------------- Display " + mBlockName + "\n"
+override method @graphvizDefinition compute ?!@blockMap blockMap {
+  message "--------------- Graphviz " + mBlockName + "\n"
   [blockMap searchKey !mBlockName ?let inputVariableList ?let outputVariableList ?let states ?let transitions]
   let variableCount = [inputVariableList length] + [outputVariableList length]
+  var graphviz = "digraph G {\n"
+  graphviz += "node [shape=record fontname=helvetica style=rounded] ;\n"
 #--- Display states result
-  message [[states valueCount !variableCount] string] + " states ("
-    + [[states nodeCount] string] + " BDD nodes):\n"
-  var line = " "
-  for (s) in inputVariableList do
-    line += " " + s
-  end
-  line += " :"
-  for (s) in outputVariableList do
-    line += " " + s
-  end
-  message line + "\n"
   let stateList = [states compressedStringValueList !variableCount]
   for (s) in stateList do
-    var compressedString = s
-    line = " "
-    for (varName) in inputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
+    var st = s
+    if [st length] < variableCount then
+      st += @string.stringWithSequenceOfCharacters {!'X' !variableCount - [st length]}
     end
-    line += " :"
-    for (varName) in outputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
-    end
-    message line + "\n"
+    graphviz += "\"" + st + "\" ;\n"
   end
 #--- Display transitions
-  message [[transitions valueCount !variableCount + variableCount] string] + " transitions ("
-    + [[transitions nodeCount] string] + " BDD nodes):\n"
-  line = " "
-  for (s) in inputVariableList do
-    line += " " + s
-  end
-  line += " :"
-  for (s) in outputVariableList do
-    line += " " + s
-  end
-  line += "  ---> "
-  for (s) in inputVariableList do
-    line += " " + s
-  end
-  line += " :"
-  for (s) in outputVariableList do
-    line += " " + s
-  end
-  message line + "\n"
   let transitionList = [transitions compressedStringValueList !variableCount + variableCount]
   for (s) in transitionList do
-    var compressedString = s
-    line = " "
-    for (varName) in inputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
+    var transition = s
+    if [transition length] < (variableCount + variableCount) then
+      transition += @string.stringWithSequenceOfCharacters {!'X' !2 * variableCount - [transition length]}
     end
-    line += " :"
-    for (varName) in outputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
-    end
-    line += "  ---> "
-    for (varName) in inputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
-    end
-    line += " :"
-    for (varName) in outputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
-    end
-    message line + "\n"
+    let source = [transition subString !0 !variableCount]
+    let target = [transition subString !variableCount !variableCount + variableCount]
+    graphviz += "\"" + source + "\" -> \"" + target + "\" ;\n"
   end
+  graphviz += "}\n\n"
+  let filePath = @string.stringWithSourceFilePath + ".dot"
+  [graphviz writeToFile !filePath]
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

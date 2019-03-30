@@ -4,8 +4,8 @@ block andGate (a, b) -> (s) {
 
 display andGate
 
-block gate (a, b) -> (s) {
-  a & /b -> s
-}
-
-display gate
+#block gate (a, b) -> (s) {
+#  a & /b -> s
+#}
+#
+#display gate
