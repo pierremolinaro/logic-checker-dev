@@ -30,24 +30,24 @@ syntax extension logicchecker_syntax {
 
 override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string inSourceFile {
   message "--------------- Graphviz " + mBlockName + "\n"
-  [blockMap searchKey !mBlockName ?let inputVariableList ?let outputVariableList ?let states ?let transitions]
-  let variableCount = [inputVariableList length] + [outputVariableList length]
+  [blockMap searchKey !mBlockName ?let bloc]
+  let variableCount = [bloc.mInputVariableList length] + [bloc.mOutputVariableList length]
   var graphviz = "digraph G {\n"
   graphviz += "node [shape=record fontname=helvetica style=rounded] ;\n"
 #--- Display states result
-  let stateList = [states stringValueList !variableCount]
+  let stateList = [bloc.mStates stringValueList !variableCount]
   for (s) in stateList do
     var rs = s # [s reversedString]
-    [!?rs insertCharacterAtIndex !':' ![inputVariableList length]]
+    [!?rs insertCharacterAtIndex !':' ![bloc.mInputVariableList length]]
     graphviz += "\"" + rs + "\" ;\n"
   end
 #--- Display transitions
-  let transitionList = [transitions stringValueList !variableCount + variableCount]
+  let transitionList = [bloc.mTransitions stringValueList !variableCount + variableCount]
   for (s) in transitionList do
     var source = [s subString !variableCount !variableCount]
-    [!?source insertCharacterAtIndex !':' ![inputVariableList length]]
+    [!?source insertCharacterAtIndex !':' ![bloc.mInputVariableList length]]
     var target = [s subString !0 !variableCount]
-    [!?target insertCharacterAtIndex !':' ![inputVariableList length]]
+    [!?target insertCharacterAtIndex !':' ![bloc.mInputVariableList length]]
     graphviz += "\"" + source + "\" -> \"" + target + "\" ;\n"
   end
   graphviz += "}\n\n"

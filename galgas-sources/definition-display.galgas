@@ -33,86 +33,16 @@ override method @displayDefinition compute
   ?let @string unused inSourceFile
 {
   message "--------------- Display " + mBlockName + "\n"
-  [blockMap searchKey !mBlockName ?let inputVariableList ?let outputVariableList ?let states ?let transitions]
-  let variableCount = [inputVariableList length] + [outputVariableList length]
+  [blockMap searchKey !mBlockName ?let bloc]
+  let variableCount = [bloc.mInputVariableList length] + [bloc.mOutputVariableList length]
 #--- Display states result
-  message [[states valueCount !variableCount] string] + " states ("
-    + [[states nodeCount] string] + " BDD nodes):\n"
-  var line = " "
-  for (s) in inputVariableList do
-    line += " " + s
-  end
-  line += " :"
-  for (s) in outputVariableList do
-    line += " " + s
-  end
-  message line + "\n"
-  let stateList = [states compressedStringValueList !variableCount]
-  for (s) in stateList do
-    var compressedString = s
-    line = " "
-    for (varName) in inputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
-    end
-    line += " :"
-    for (varName) in outputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
-    end
-    message line + "\n"
-  end
+  message [[bloc.mStates valueCount !variableCount] string] + " states ("
+    + [[bloc.mStates nodeCount] string] + " BDD nodes):\n"
+  [bloc displayStates !bloc.mStates]
 #--- Display transitions
-  message [[transitions valueCount !2 * variableCount] string] + " transitions ("
-    + [[transitions nodeCount] string] + " BDD nodes):\n"
-  line = " "
-  for (s) in inputVariableList do
-    line += " " + s
-  end
-  line += " :"
-  for (s) in outputVariableList do
-    line += " " + s
-  end
-  line += "  --> "
-  for (s) in inputVariableList do
-    line += " " + s
-  end
-  line += " :"
-  for (s) in outputVariableList do
-    line += " " + s
-  end
-  message line + "\n"
-  let transitionList = [transitions compressedStringValueList !2 * variableCount]
-  for (s) in transitionList do
-    var compressedString = s
-    var destString = " "
-    for (varName) in inputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      destString += " " + [char string]
-    end
-    destString += " :"
-    for (varName) in outputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      destString += " " + [char string]
-    end
-    var sourceString = " "
-    for (varName) in inputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      sourceString += " " + [char string]
-    end
-    sourceString += " :"
-    for (varName) in outputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      sourceString += " " + [char string]
-    end
-    message sourceString + "  -->" + destString + "\n"
-  end
+  message [[bloc.mTransitions valueCount !2 * variableCount] string] + " transitions ("
+    + [[bloc.mTransitions nodeCount] string] + " BDD nodes):\n"
+  [bloc displayTransitions !bloc.mTransitions]
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

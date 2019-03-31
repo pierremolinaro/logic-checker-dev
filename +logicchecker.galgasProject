@@ -18,6 +18,7 @@ project (0:0:1) -> "logicchecker" {
   "galgas-sources/logicchecker-semantics.galgas"
   "galgas-sources/logicchecker-syntax.galgas"
 
+  "galgas-sources/struct-block.galgas"
   "galgas-sources/definition-block.galgas"
   "galgas-sources/definition-display.galgas"
   "galgas-sources/definition-graphviz.galgas"

@@ -320,7 +320,6 @@ override method @blockDefinition compute
     [!?variableMap insertKey !name !variableCount - [variableMap count] - 1]
     inputVariableList += !name.string
   end
-#  let inputVarCount = [inputVariableList length]
   @stringlist outputVariableList = {}
   for (name) in mOutputVariableList do
     let variableIndex = variableCount - [variableMap count] - 1
@@ -369,7 +368,8 @@ override method @blockDefinition compute
   message [[blockTransitions valueCount !2* variableCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n"
 #--- Enter in block map
-  [!?blockMap insertKey !mBlockName !inputVariableList !outputVariableList !blockStates !blockTransitions]
+   let b = @block.new {!inputVariableList !outputVariableList !blockStates !blockTransitions}
+  [!?blockMap insertKey !mBlockName !b]
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

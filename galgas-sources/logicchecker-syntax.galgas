@@ -17,10 +17,7 @@ list @definitionList {
 #·······················································································································
 
 map @blockMap {
-  @stringlist mInputVariableList
-  @stringlist mOutputVariableList
-  @binaryset mStates ;
-  @binaryset mTransitions ;
+  @block mBlock
   insert insertKey error message "the '%K' block is already declared in %L"
   search searchKey error message "there is no '%K' block"
 }

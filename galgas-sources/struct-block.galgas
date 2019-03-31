@@ -1,0 +1,142 @@
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    AST
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+struct @block {
+  @stringlist mInputVariableList
+  @stringlist mOutputVariableList
+  @binaryset mStates
+  @binaryset mTransitions
+}
+
+#·······················································································································
+# Ensemble des états complets : ∃s', ∀e' : (e, s) -> (e', s') est une transition et ((e, s) un état
+
+getter @block uncompleteStates -> @binaryset {
+  let outputVarCount = [mOutputVariableList length]
+  let inputVarCount = [mInputVariableList length]
+  let variableCount = inputVarCount + outputVarCount
+  var tr = mTransitions
+  tr = [tr existsOnBitRange !variableCount !outputVarCount]
+#  message "" + [tr valueCount !2*variableCount] + " temp1 states (" + [tr nodeCount]
+#       + " BDD nodes):\n"
+  tr = [tr forAllOnBitIndexAndBeyond !variableCount]
+#  message "" + [tr valueCount !variableCount] + " temp2 states (" + [tr nodeCount]
+#       + " BDD nodes):\n"
+  result = mStates & ~ tr
+}
+
+#·······················································································································
+
+method @block displayStates ?let @binaryset inStates {
+  let outputVarCount = [mOutputVariableList length]
+  let inputVarCount = [mInputVariableList length]
+  let variableCount = inputVarCount + outputVarCount
+  var line = "  "
+  for (s) in mInputVariableList do
+    line += " " + s
+  end
+  line += " :"
+  for (s) in mOutputVariableList do
+    line += " " + s
+  end
+  message line + "\n"
+  let stateList = [inStates compressedStringValueList !variableCount]
+  for (s) in stateList do
+    var compressedString = s
+    line = "  "
+    for (varName) in mInputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += " " + char
+    end
+    line += " :"
+    for (varName) in mOutputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      line += " " + char
+    end
+    message line + "\n"
+  end
+}
+
+#·······················································································································
+
+getter @block ambiguousTransitions -> @binaryset {
+  let outputVarCount = [mOutputVariableList length]
+  let inputVarCount = [mInputVariableList length]
+  let variableCount = inputVarCount + outputVarCount
+# Ensemble des transitions ambiguës :
+# ∀(e, s) état, ∃(e, s) -> (e', s') transition, ∃(e, s) -> (e", s") transition et e' = e" et s' != s"
+  result = mTransitions & [mTransitions binarySetByTranslatingFromIndex !variableCount !variableCount]
+#--- Constraint e' = e"
+  let inputConstraint = @binaryset.binarySetWithEqualComparison {
+    !variableCount + outputVarCount # e'
+    !inputVarCount
+    !2 * variableCount + outputVarCount # e"
+  }
+  result = result & inputConstraint
+#--- Constraint s' ≠ s"
+  let outputConstraint = @binaryset.binarySetWithNotEqualComparison {
+    !variableCount # s'
+    !outputVarCount
+    !2 * variableCount # s"
+  }
+  result = result & outputConstraint
+#--- Suppress (e", s")
+  result = [result existOnBitIndexAndBeyond !2 * variableCount]
+}
+
+method @block displayTransitions ?let @binaryset inTransitions {
+  let outputVarCount = [mOutputVariableList length]
+  let inputVarCount = [mInputVariableList length]
+  let variableCount = inputVarCount + outputVarCount
+  var line = " "
+  for (s) in mInputVariableList do
+    line += " " + s
+  end
+  line += " :"
+  for (s) in mOutputVariableList do
+    line += " " + s
+  end
+  line += "  --> "
+  for (s) in mInputVariableList do
+    line += " " + s
+  end
+  line += " :"
+  for (s) in mOutputVariableList do
+    line += " " + s
+  end
+  message line + "\n"
+  let transitionList = [inTransitions compressedStringValueList !2 * variableCount]
+  for (s) in transitionList do
+    var compressedString = s
+    var destString = " "
+    for (varName) in mInputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      destString += " " + [char string]
+    end
+    destString += " :"
+    for (varName) in mOutputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      destString += " " + [char string]
+    end
+    var sourceString = " "
+    for (varName) in mInputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      sourceString += " " + [char string]
+    end
+    sourceString += " :"
+    for (varName) in mOutputVariableList do
+      [!?compressedString removeCharacterAtIndex ?let char !0]
+      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      sourceString += " " + [char string]
+    end
+    message sourceString + "  -->" + destString + "\n"
+  end
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
