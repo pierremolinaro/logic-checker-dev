@@ -10,3 +10,4 @@ block gate (a, b) -> (s) {
 
 display gate
 graphviz gate
+check gate

@@ -4,4 +4,13 @@ block loopBack (e) -> (s) {
 
 display loopBack
 graphviz loopBack
+check loopBack
+
+block instableLoopBack (e) -> (s) {
+  e & /s -> s
+}
+
+display instableLoopBack
+graphviz instableLoopBack
+check instableLoopBack
 

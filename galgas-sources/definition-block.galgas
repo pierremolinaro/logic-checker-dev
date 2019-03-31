@@ -339,6 +339,7 @@ override method @blockDefinition compute ?!@blockMap blockMap {
   for (unassignedVar) in [outputVariableMap keySet] - assignedOutputVariableSet do
     error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
   end
+#  log variableMap
 #--- Compute BDD
   var blockStates = @binaryset.fullBinarySet
   var blockTransitions = @binaryset.emptyBinarySet

@@ -5,3 +5,5 @@ block rs (r, s) -> (q, qb) {
 display rs
 
 graphviz rs
+
+check rs

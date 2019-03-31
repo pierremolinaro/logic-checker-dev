@@ -51,8 +51,8 @@ override method @graphvizDefinition compute ?!@blockMap blockMap {
     graphviz += "\"" + source + "\" -> \"" + target + "\" ;\n"
   end
   graphviz += "}\n\n"
-  let filePath = @string.stringWithSourceFilePath + ".dot"
-  [graphviz writeToFile !filePath]
+  let filePath = @string.stringWithSourceFilePath + "." + mBlockName + ".dot"
+  [graphviz writeToFileWhenDifferentContents !filePath ?*]
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

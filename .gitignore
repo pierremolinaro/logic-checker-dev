@@ -3,6 +3,7 @@
 
 ## Other files
 *.pyc
+*.dot
 
 ## Xcode files
 **/project.xcworkspace/**

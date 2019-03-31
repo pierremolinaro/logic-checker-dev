@@ -1,0 +1,139 @@
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    AST
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+class @checkDefinition : @definition {
+  @lstring mBlockName
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    SYNTAX
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+syntax extension logicchecker_syntax {
+
+  #·····················································································································
+
+  rule <definition> !@definition outDefinition {
+    $check$
+    $identifier$ ?let blockName
+    outDefinition = @checkDefinition.new {!blockName}
+  }
+
+  #·····················································································································
+
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#   SEMANTICS
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+override method @checkDefinition compute ?!@blockMap blockMap {
+  message "--------------- Check " + mBlockName + "\n"
+  [blockMap searchKey
+    !mBlockName
+    ?let inputVariableList
+    ?let outputVariableList
+    ?let states
+    ?let transitions
+  ]
+  let outputVarCount = [outputVariableList length]
+  let inputVarCount = [inputVariableList length]
+  let variableCount = inputVarCount + outputVarCount
+#  log inputVarCount, outputVarCount
+#--- Check states are complete
+  var tr = transitions
+#  log tr
+  tr = [tr existsOnBitRange !variableCount !outputVarCount]
+#  message "" + [tr valueCount !2*variableCount] + " temp1 states (" + [tr nodeCount]
+#       + " BDD nodes):\n"
+  tr = [tr forAllOnBitIndexAndBeyond !variableCount]
+#  message "" + [tr valueCount !variableCount] + " temp2 states (" + [tr nodeCount]
+#       + " BDD nodes):\n"
+  let incompleteStates = states & ~ tr
+  let incompleteStateCount = [incompleteStates valueCount !variableCount]
+  if incompleteStateCount == 0 then
+    message "All states are complete\n"
+  else
+    error .nowhere : "" + incompleteStateCount + " incomplete states (" + [incompleteStates nodeCount]
+       + " BDD nodes):"
+    var line = "  "
+    for (s) in inputVariableList do
+      line += " " + s
+    end
+    line += " :"
+    for (s) in outputVariableList do
+      line += " " + s
+    end
+    message line + "\n"
+    let stateList = [incompleteStates compressedStringValueList !variableCount]
+    for (s) in stateList do
+      var compressedString = s
+      line = "  "
+      for (varName) in inputVariableList do
+        [!?compressedString removeCharacterAtIndex ?let char !0]
+        line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+        line += " " + char
+      end
+      line += " :"
+      for (varName) in outputVariableList do
+        [!?compressedString removeCharacterAtIndex ?let char !0]
+        line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+        line += " " + char
+      end
+      message line + "\n"
+    end
+  end
+#--- Display transitions
+#  message [[transitions valueCount !2 * variableCount] string] + " transitions ("
+#    + [[transitions nodeCount] string] + " BDD nodes):\n"
+#  line = " "
+#  for (s) in inputVariableList do
+#    line += " " + s
+#  end
+#  line += " :"
+#  for (s) in outputVariableList do
+#    line += " " + s
+#  end
+#  line += "  --> "
+#  for (s) in inputVariableList do
+#    line += " " + s
+#  end
+#  line += " :"
+#  for (s) in outputVariableList do
+#    line += " " + s
+#  end
+#  message line + "\n"
+#  let transitionList = [transitions compressedStringValueList !2 * variableCount]
+#  for (s) in transitionList do
+#    var compressedString = s
+#    var destString = " "
+#    for (varName) in inputVariableList do
+#      [!?compressedString removeCharacterAtIndex ?let char !0]
+#      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+#      destString += " " + [char string]
+#    end
+#    destString += " :"
+#    for (varName) in outputVariableList do
+#      [!?compressedString removeCharacterAtIndex ?let char !0]
+#      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+#      destString += " " + [char string]
+#    end
+#    var sourceString = " "
+#    for (varName) in inputVariableList do
+#      [!?compressedString removeCharacterAtIndex ?let char !0]
+#      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+#      sourceString += " " + [char string]
+#    end
+#    sourceString += " :"
+#    for (varName) in outputVariableList do
+#      [!?compressedString removeCharacterAtIndex ?let char !0]
+#      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+#      sourceString += " " + [char string]
+#    end
+#    message sourceString + "  -->" + destString + "\n"
+#  end
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
