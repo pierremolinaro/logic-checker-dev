@@ -1,5 +1,6 @@
 block rs (r, s) -> (q, qb) {
-  /(r & qb) -> q, /(s & q) -> qb
+  q = /(r & qb) ;
+  qb = /(s & q) ;
 }
 
 display rs

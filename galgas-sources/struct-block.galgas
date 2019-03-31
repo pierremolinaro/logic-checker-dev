@@ -28,6 +28,28 @@ getter @block uncompleteStates -> @binaryset {
 
 #·······················································································································
 
+private func displayState
+  ?let @string inCompressedStringValue
+  ?let @stringlist inInputVariableList
+  ?let @stringlist inOutputVariableList -> @string {
+  var compressedString = [inCompressedStringValue reversedString]
+  var outputList = ""
+  for (varName) in inOutputVariableList do
+    [!?compressedString removeCharacterAtIndex ?let char !0]
+    outputList += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+    outputList += " " + char
+  end
+  var inputList = ""
+  for (varName) in inInputVariableList do
+    [!?compressedString removeCharacterAtIndex ?let char !0]
+    inputList += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+    inputList += " " + char
+  end
+  result = inputList + " :" + outputList
+}
+
+#·······················································································································
+
 method @block displayStates ?let @binaryset inStates {
   let outputVarCount = [mOutputVariableList length]
   let inputVarCount = [mInputVariableList length]
@@ -43,20 +65,7 @@ method @block displayStates ?let @binaryset inStates {
   message line + "\n"
   let stateList = [inStates compressedStringValueList !variableCount]
   for (s) in stateList do
-    var compressedString = s
-    line = "  "
-    for (varName) in mInputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + char
-    end
-    line += " :"
-    for (varName) in mOutputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + char
-    end
-    message line + "\n"
+    message "  " + displayState (!s !mInputVariableList !mOutputVariableList) + "\n"
   end
 }
 
@@ -87,6 +96,8 @@ getter @block ambiguousTransitions -> @binaryset {
   result = [result existOnBitIndexAndBeyond !2 * variableCount]
 }
 
+#·······················································································································
+
 method @block displayTransitions ?let @binaryset inTransitions {
   let outputVarCount = [mOutputVariableList length]
   let inputVarCount = [mInputVariableList length]
@@ -110,32 +121,11 @@ method @block displayTransitions ?let @binaryset inTransitions {
   message line + "\n"
   let transitionList = [inTransitions compressedStringValueList !2 * variableCount]
   for (s) in transitionList do
-    var compressedString = s
-    var destString = " "
-    for (varName) in mInputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      destString += " " + [char string]
-    end
-    destString += " :"
-    for (varName) in mOutputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      destString += " " + [char string]
-    end
-    var sourceString = " "
-    for (varName) in mInputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      sourceString += " " + [char string]
-    end
-    sourceString += " :"
-    for (varName) in mOutputVariableList do
-      [!?compressedString removeCharacterAtIndex ?let char !0]
-      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      sourceString += " " + [char string]
-    end
-    message sourceString + "  -->" + destString + "\n"
+    let source = [s subString !0 !variableCount]
+    var line = " " + displayState (!source !mInputVariableList !mOutputVariableList)
+    let target = [s subString !variableCount !variableCount]
+    line +=  "  --> " + displayState (!target !mInputVariableList !mOutputVariableList)
+    message line + "\n"
   end
 }
 

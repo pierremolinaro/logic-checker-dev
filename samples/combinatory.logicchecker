@@ -1,15 +1,23 @@
 block andGate (a, b) -> (s) {
-  a & b -> s
+  s = a & b ;
 }
 
 display andGate
 combinatory andGate
 
 block gate (a, b) -> (s) {
-  a & /b -> s
+  s = a & /b ;
 }
 
 display gate
 graphviz gate
 check gate
 combinatory gate
+
+block and3Gate (a, b, c) -> (s) {
+  let x = a & b ;
+  s = c & x ;
+}
+
+display and3Gate
+combinatory and3Gate

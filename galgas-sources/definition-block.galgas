@@ -34,6 +34,7 @@ class @andExpression, @orExpression, @xorExpression : @expression {
 #·······················································································································
 
 list @assignmentList {
+  @bool mLetDeclaration
   @lstring mTargetName
   @expression mExpression
 }
@@ -80,12 +81,19 @@ syntax extension logicchecker_syntax {
     ${$
     @assignmentList assignmentList = {}
     repeat
-      <expression> ?let expression
-      $->$
+      @bool letDeclaration
+      select
+        letDeclaration = false
+      or
+        $let$
+        letDeclaration = true
+      end
       $identifier$ ?let targetName
-      assignmentList += !targetName !expression
+      $=$
+      <expression> ?let expression
+      $;$
+      assignmentList += !letDeclaration !targetName !expression
     while
-      $,$
     end
     $}$
     outDefinition = @blockDefinition.new {!blockName !inputVariableList !outputVariableList !assignmentList}
@@ -312,24 +320,43 @@ override method @blockDefinition compute
   ?let @string unused inSourceFile
 {
   message "--------------- Block " + mBlockName + "\n"
-  let variableCount = [mInputVariableList length] + [mOutputVariableList length]
+#---------- Enter output variables
   @variableMap variableMap = {}
-  @variableMap outputVariableMap = {}
-  @stringlist inputVariableList = {}
-  for (name) in mInputVariableList do
-    [!?variableMap insertKey !name !variableCount - [variableMap count] - 1]
-    inputVariableList += !name.string
-  end
+  @stringlist outputAndInternalVariableList = {}
   @stringlist outputVariableList = {}
+  @variableMap outputVariableMap = {}
   for (name) in mOutputVariableList do
-    let variableIndex = variableCount - [variableMap count] - 1
+    let variableIndex = [variableMap count]
     [!?variableMap insertKey !name !variableIndex]
     [!?outputVariableMap insertKey !name !variableIndex]
     outputVariableList += !name.string
+    outputAndInternalVariableList += !name.string
   end
   let outputVarCount = [outputVariableList length]
+#---------- Enter internal variables
+  var internalVarCount = 0
+  for (letDeclaration name *) in mAssignmentList do
+    if letDeclaration then
+      internalVarCount ++
+      let variableIndex = [variableMap count]
+      [!?variableMap insertKey !name !variableIndex]
+      [!?outputVariableMap insertKey !name !variableIndex]
+      outputAndInternalVariableList += !name.string
+    end
+  end
+  let outputAndInternalVarCount = [outputAndInternalVariableList length]
+#---------- Enter input variables
+  @stringlist inputVariableList = {}
+  for (name) in mInputVariableList do
+    [!?variableMap insertKey !name ![variableMap count]]
+    inputVariableList += !name.string
+  end
+  let inputVariableCount = [inputVariableList length]
+  let allVariableCount = inputVariableCount + outputAndInternalVarCount
+  let exportedVariableCount = inputVariableCount + outputVarCount
+#---------- Enter assignments
   @stringset assignedOutputVariableSet = {}
-  for (targetVar expression) in mAssignmentList do
+  for (letDeclaration targetVar expression) in mAssignmentList do
     [variableMap searchKey !targetVar ?*]
     if not [outputVariableMap hasKey !targetVar.string] then
       error targetVar : "this variable should be an output variable"
@@ -342,10 +369,10 @@ override method @blockDefinition compute
     error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
   end
 #  log variableMap
-#--- Compute BDD
+#---------- Compute states and transitions
   var blockStates = @binaryset.fullBinarySet
   var blockTransitions = @binaryset.emptyBinarySet
-  for (targetVar expression) in mAssignmentList do
+  for (* targetVar expression) in mAssignmentList do
   #--- Target var BDD
     [variableMap searchKey !targetVar ?let targetVarIndex]
   #--- Accumulate state
@@ -353,21 +380,76 @@ override method @blockDefinition compute
     let targetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex}
     blockStates = blockStates & [targetVarBDD equalTo !stateExpressionBDD]
   #--- Accumulate transitions
-    let transitionExpressionBDD = [expression computeTransitionExpression !variableMap !outputVarCount]
-    let shiftedTargetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex + variableCount}
+    let transitionExpressionBDD = [expression computeTransitionExpression !variableMap !outputAndInternalVarCount]
+    let shiftedTargetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex + allVariableCount}
     blockTransitions = blockTransitions | [shiftedTargetVarBDD equalTo !transitionExpressionBDD]
   end
-#--- Constraint with stable source states
+#---------- Constraint with stable source states
   blockTransitions = blockTransitions & blockStates
-#--- Constraint with stable target states
-  blockTransitions = blockTransitions & (blockStates << variableCount)
-#--- Display states result
-  message [[blockStates valueCount !variableCount] string]
+#---------- Constraint with stable target states
+  blockTransitions = blockTransitions & (blockStates << allVariableCount)
+#---------- remove internal variables
+  if internalVarCount > 0 then
+    @uintlist stateTranspositionVector = {}
+    var idx = 0
+    for (*) in mOutputVariableList do
+      stateTranspositionVector += !idx
+      idx ++
+    end
+    for (letDeclaration 2*) in mAssignmentList do
+      if letDeclaration then
+        stateTranspositionVector += !idx + inputVariableCount
+        idx ++
+      end
+    end
+    for (*) in mInputVariableList do
+      stateTranspositionVector += !idx - internalVarCount
+      idx ++
+    end
+    blockStates = [blockStates transposedBy !stateTranspositionVector]
+    blockStates = [blockStates existOnBitIndexAndBeyond !exportedVariableCount]
+  #--- Transpose transitions
+    @uintlist transTranspositionVector = {}
+    idx = 0
+    for (*) in mOutputVariableList do
+      transTranspositionVector += !idx
+      idx ++
+    end
+    for (letDeclaration 2*) in mAssignmentList do
+      if letDeclaration then
+        transTranspositionVector += !idx + exportedVariableCount + inputVariableCount
+        idx ++
+      end
+    end
+    for (*) in mInputVariableList do
+      transTranspositionVector += !idx - internalVarCount
+      idx ++
+    end
+    for (*) in mOutputVariableList do
+      transTranspositionVector += !idx - internalVarCount
+      idx ++
+    end
+    for (letDeclaration 2*) in mAssignmentList do
+      if letDeclaration then
+        transTranspositionVector += !idx + inputVariableCount
+        idx ++
+      end
+    end
+    for (*) in mInputVariableList do
+      transTranspositionVector += !idx - 2 * internalVarCount
+      idx ++
+    end
+    # log transTranspositionVector
+    blockTransitions = [blockTransitions transposedBy !transTranspositionVector]
+    blockTransitions = [blockTransitions existOnBitIndexAndBeyond !2 * exportedVariableCount]
+  end
+#---------- Display states result
+  message [[blockStates valueCount !exportedVariableCount] string]
       + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"
-#--- Display transitions
-  message [[blockTransitions valueCount !2* variableCount] string] + " transitions (" +
+#---------- Display transitions
+  message [[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n"
-#--- Enter in block map
+#---------- Enter in block map
    let b = @block.new {!inputVariableList !outputVariableList !blockStates !blockTransitions}
   [!?blockMap insertKey !mBlockName !b]
 }

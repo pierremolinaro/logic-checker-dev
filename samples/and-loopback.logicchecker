@@ -1,5 +1,5 @@
 block loopBack (e) -> (s) {
-  e & s -> s
+  s = e & s ;
 }
 
 display loopBack
@@ -8,7 +8,7 @@ check loopBack
 combinatory loopBack
 
 block instableLoopBack (e) -> (s) {
-  e & /s -> s
+  s = e & /s ;
 }
 
 display instableLoopBack
