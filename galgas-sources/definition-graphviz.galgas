@@ -35,23 +35,19 @@ override method @graphvizDefinition compute ?!@blockMap blockMap {
   var graphviz = "digraph G {\n"
   graphviz += "node [shape=record fontname=helvetica style=rounded] ;\n"
 #--- Display states result
-  let stateList = [states compressedStringValueList !variableCount]
+  let stateList = [states stringValueList !variableCount]
   for (s) in stateList do
-    var st = s
-    if [st length] < variableCount then
-      st += @string.stringWithSequenceOfCharacters {!'X' !variableCount - [st length]}
-    end
-    graphviz += "\"" + st + "\" ;\n"
+    var rs = s # [s reversedString]
+    [!?rs insertCharacterAtIndex !':' ![inputVariableList length]]
+    graphviz += "\"" + rs + "\" ;\n"
   end
 #--- Display transitions
-  let transitionList = [transitions compressedStringValueList !variableCount + variableCount]
+  let transitionList = [transitions stringValueList !variableCount + variableCount]
   for (s) in transitionList do
-    var transition = s
-    if [transition length] < (variableCount + variableCount) then
-      transition += @string.stringWithSequenceOfCharacters {!'X' !2 * variableCount - [transition length]}
-    end
-    let source = [transition subString !0 !variableCount]
-    let target = [transition subString !variableCount !variableCount + variableCount]
+    var source = [s subString !variableCount !variableCount]
+    [!?source insertCharacterAtIndex !':' ![inputVariableList length]]
+    var target = [s subString !0 !variableCount]
+    [!?target insertCharacterAtIndex !':' ![inputVariableList length]]
     graphviz += "\"" + source + "\" -> \"" + target + "\" ;\n"
   end
   graphviz += "}\n\n"

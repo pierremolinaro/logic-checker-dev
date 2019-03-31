@@ -1,0 +1,7 @@
+block loopBack (e) -> (s) {
+  e & s -> s
+}
+
+display loopBack
+graphviz loopBack
+

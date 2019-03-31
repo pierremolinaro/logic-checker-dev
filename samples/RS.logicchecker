@@ -1,3 +1,7 @@
 block rs (r, s) -> (q, qb) {
   /(r & qb) -> q, /(s & q) -> qb
 }
+
+display rs
+
+graphviz rs

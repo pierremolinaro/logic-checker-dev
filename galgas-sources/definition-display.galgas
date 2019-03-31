@@ -62,7 +62,7 @@ override method @displayDefinition compute ?!@blockMap blockMap {
     message line + "\n"
   end
 #--- Display transitions
-  message [[transitions valueCount !variableCount + variableCount] string] + " transitions ("
+  message [[transitions valueCount !2 * variableCount] string] + " transitions ("
     + [[transitions nodeCount] string] + " BDD nodes):\n"
   line = " "
   for (s) in inputVariableList do
@@ -72,7 +72,7 @@ override method @displayDefinition compute ?!@blockMap blockMap {
   for (s) in outputVariableList do
     line += " " + s
   end
-  line += "  ---> "
+  line += "  --> "
   for (s) in inputVariableList do
     line += " " + s
   end
@@ -81,34 +81,34 @@ override method @displayDefinition compute ?!@blockMap blockMap {
     line += " " + s
   end
   message line + "\n"
-  let transitionList = [transitions compressedStringValueList !variableCount + variableCount]
+  let transitionList = [transitions compressedStringValueList !2 * variableCount]
   for (s) in transitionList do
     var compressedString = s
-    line = " "
+    var destString = " "
     for (varName) in inputVariableList do
       [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
+      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      destString += " " + [char string]
     end
-    line += " :"
+    destString += " :"
     for (varName) in outputVariableList do
       [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
+      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      destString += " " + [char string]
     end
-    line += "  ---> "
+    var sourceString = " "
     for (varName) in inputVariableList do
       [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
+      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      sourceString += " " + [char string]
     end
-    line += " :"
+    sourceString += " :"
     for (varName) in outputVariableList do
       [!?compressedString removeCharacterAtIndex ?let char !0]
-      line += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-      line += " " + [char string]
+      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+      sourceString += " " + [char string]
     end
-    message line + "\n"
+    message sourceString + "  -->" + destString + "\n"
   end
 }
 

@@ -170,56 +170,138 @@ map @variableMap {
   search searchKey error message "there is no '%K' variable"
 }
 
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#   STATE COMPUTING
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+abstract getter @expression computeStateExpression ?let @variableMap inVariableMap -> @binaryset
+
 #·······················································································································
 
-abstract getter @expression computeExpression ?let @variableMap inVariableMap -> @binaryset
-
-#·······················································································································
-
-override getter @falseExpression computeExpression ?let @variableMap unused inVariableMap -> @binaryset {
+override getter @falseExpression computeStateExpression ?let @variableMap unused inVariableMap -> @binaryset {
   result = @binaryset.emptyBinarySet
 }
 
 #·······················································································································
 
-override getter @trueExpression computeExpression ?let @variableMap unused inVariableMap -> @binaryset {
+override getter @trueExpression computeStateExpression ?let @variableMap unused inVariableMap -> @binaryset {
   result = @binaryset.fullBinarySet
 }
 
 #·······················································································································
 
-override getter @negationExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
-  result = ~ [mExpression  computeExpression !inVariableMap]
+override getter @negationExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
+  result = ~ [mExpression  computeStateExpression !inVariableMap]
 }
 
 #·······················································································································
 
-override getter @varExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
+override getter @varExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
   [inVariableMap searchKey !mVariableName ?let varIndex]
   result = @binaryset.binarySetWithBit {!varIndex}
 }
 
 #·······················································································································
 
-override getter @andExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
-  let left  = [mLeftExpression  computeExpression !inVariableMap]
-  let right = [mRightExpression computeExpression !inVariableMap]
+override getter @andExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
+  let left  = [mLeftExpression  computeStateExpression !inVariableMap]
+  let right = [mRightExpression computeStateExpression !inVariableMap]
   result = left & right
 }
 
 #·······················································································································
 
-override getter @orExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
-  let left  = [mLeftExpression  computeExpression !inVariableMap]
-  let right = [mRightExpression computeExpression !inVariableMap]
+override getter @orExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
+  let left  = [mLeftExpression  computeStateExpression !inVariableMap]
+  let right = [mRightExpression computeStateExpression !inVariableMap]
   result = left | right
 }
 
 #·······················································································································
 
-override getter @xorExpression computeExpression ?let @variableMap inVariableMap -> @binaryset {
-  let left  = [mLeftExpression  computeExpression !inVariableMap]
-  let right = [mRightExpression computeExpression !inVariableMap]
+override getter @xorExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
+  let left  = [mLeftExpression  computeStateExpression !inVariableMap]
+  let right = [mRightExpression computeStateExpression !inVariableMap]
+  result = left ^ right
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#   TRANSITION COMPUTING
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+abstract getter @expression computeTransitionExpression
+  ?let @variableMap unused inVariableMap
+  ?let @uint unused inOutputVarCount -> @binaryset
+
+#·······················································································································
+
+override getter @falseExpression computeTransitionExpression 
+  ?let @variableMap unused inVariableMap
+  ?let @uint unused inOutputVarCount -> @binaryset {
+  result = @binaryset.emptyBinarySet
+}
+
+#·······················································································································
+
+override getter @trueExpression computeTransitionExpression 
+  ?let @variableMap unused inVariableMap
+  ?let @uint unused inOutputVarCount -> @binaryset {
+  result = @binaryset.fullBinarySet
+}
+
+#·······················································································································
+
+override getter @negationExpression computeTransitionExpression
+  ?let @variableMap inVariableMap
+  ?let @uint inOutputVarCount -> @binaryset
+{
+  result = ~ [mExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+}
+
+#·······················································································································
+
+override getter @varExpression computeTransitionExpression 
+  ?let @variableMap inVariableMap
+  ?let @uint inOutputVarCount -> @binaryset
+{
+  [inVariableMap searchKey !mVariableName ?let varIndex]
+  if varIndex >= inOutputVarCount then # An input variable ?
+    result = @binaryset.binarySetWithBit {!varIndex + [inVariableMap count]}
+  else
+    result = @binaryset.binarySetWithBit {!varIndex}
+  end
+}
+
+#·······················································································································
+
+override getter @andExpression computeTransitionExpression 
+  ?let @variableMap inVariableMap
+  ?let @uint inOutputVarCount -> @binaryset
+{
+  let left  = [mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let right = [mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
+  result = left & right
+}
+
+#·······················································································································
+
+override getter @orExpression computeTransitionExpression 
+  ?let @variableMap inVariableMap
+  ?let @uint inOutputVarCount -> @binaryset
+{
+  let left  = [mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let right = [mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
+  result = left | right
+}
+
+#·······················································································································
+
+override getter @xorExpression computeTransitionExpression 
+  ?let @variableMap inVariableMap
+  ?let @uint inOutputVarCount -> @binaryset
+{
+  let left  = [mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let right = [mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
   result = left ^ right
 }
 
@@ -235,6 +317,7 @@ override method @blockDefinition compute ?!@blockMap blockMap {
     [!?variableMap insertKey !name !variableCount - [variableMap count] - 1]
     inputVariableList += !name.string
   end
+  let inputVarCount = [inputVariableList length]
   @stringlist outputVariableList = {}
   for (name) in mOutputVariableList do
     let variableIndex = variableCount - [variableMap count] - 1
@@ -242,6 +325,7 @@ override method @blockDefinition compute ?!@blockMap blockMap {
     [!?outputVariableMap insertKey !name !variableIndex]
     outputVariableList += !name.string
   end
+  let outputVarCount = [outputVariableList length]
   @stringset assignedOutputVariableSet = {}
   for (targetVar expression) in mAssignmentList do
     [variableMap searchKey !targetVar ?*]
@@ -259,28 +343,26 @@ override method @blockDefinition compute ?!@blockMap blockMap {
   var blockStates = @binaryset.fullBinarySet
   var blockTransitions = @binaryset.emptyBinarySet
   for (targetVar expression) in mAssignmentList do
-  #--- Expression BDD
-    let expressionBDD = [expression computeExpression !variableMap]
   #--- Target var BDD
     [variableMap searchKey !targetVar ?let targetVarIndex]
+  #--- Accumulate state
+    let stateExpressionBDD = [expression computeStateExpression !variableMap]
     let targetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex}
-  #--- Accumulate
-    let assignmentBDD = [targetVarBDD equalTo !expressionBDD]
-    blockStates = blockStates & assignmentBDD
-    blockTransitions = blockTransitions | assignmentBDD
+    blockStates = blockStates & [targetVarBDD equalTo !stateExpressionBDD]
+  #--- Accumulate transitions
+    let transitionExpressionBDD = [expression computeTransitionExpression !variableMap !outputVarCount]
+    let shiftedTargetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex + variableCount}
+    blockTransitions = blockTransitions | [shiftedTargetVarBDD equalTo !transitionExpressionBDD]
   end
-#--- 
-  var constraint = @binaryset.binarySetWithEqualComparison {
-   ![outputVariableList length]
-   ![inputVariableList length]
-   !variableCount + [outputVariableList length]
-  }
-  blockTransitions = blockTransitions & constraint
+#--- Constraint with stable source states
+  blockTransitions = blockTransitions & blockStates
+#--- Constraint with stable target states
+  blockTransitions = blockTransitions & (blockStates << variableCount)
 #--- Display states result
   message [[blockStates valueCount !variableCount] string]
-          + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"
+      + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"
 #--- Display transitions
-  message [[blockTransitions valueCount !variableCount + variableCount] string] + " transitions (" +
+  message [[blockTransitions valueCount !variableCount + variableCount + inputVarCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n"
 #--- Enter in block map
   [!?blockMap insertKey !mBlockName !inputVariableList !outputVariableList !blockStates !blockTransitions]
