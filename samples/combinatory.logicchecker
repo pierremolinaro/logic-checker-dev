@@ -3,6 +3,7 @@ block andGate (a, b) -> (s) {
 }
 
 display andGate
+combinatory andGate
 
 block gate (a, b) -> (s) {
   a & /b -> s
@@ -11,3 +12,4 @@ block gate (a, b) -> (s) {
 display gate
 graphviz gate
 check gate
+combinatory gate

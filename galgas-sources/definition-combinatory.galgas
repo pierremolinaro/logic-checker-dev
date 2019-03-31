@@ -1,0 +1,79 @@
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    AST
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+class @combinatoryDefinition : @definition {
+  @lstring mBlockName
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#    SYNTAX
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+syntax extension logicchecker_syntax {
+
+  #·····················································································································
+
+  rule <definition> !@definition outDefinition {
+    $combinatory$
+    $identifier$ ?let blockName
+    outDefinition = @combinatoryDefinition.new {!blockName}
+  }
+
+  #·····················································································································
+
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+#   SEMANTICS
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+
+override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
+  message "--------------- Combinatory " + mBlockName + "\n"
+  [blockMap searchKey !mBlockName ?let bloc]
+  let outputVarCount = [bloc.mOutputVariableList length]
+  let inputVarCount = [bloc.mInputVariableList length]
+  let variableCount = inputVarCount + outputVarCount
+#------------------------------ Check states are complete
+  let incompleteStates = [bloc uncompleteStates]
+  let incompleteStateCount = [incompleteStates valueCount !variableCount]
+  if incompleteStateCount == 0 then
+    message "All states are complete.\n"
+  else
+    error.nowhere : ""
+       + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
+       + [incompleteStates nodeCount]
+       + " BDD nodes):"
+    [bloc displayStates !incompleteStates]
+  end
+#------------------------------ Check no ambiguous transition
+  let ambiguousTransitions = [bloc ambiguousTransitions]
+#--- Ambiguous transition count
+  let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * variableCount]
+#--- Display ampbiguous transitions
+  if ambiguousTransitionCount == 0 then
+    message "No ambiguous transition.\n"
+  else
+    error .nowhere :
+      [ambiguousTransitionCount string]
+      + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
+      + [[ambiguousTransitions nodeCount] string]
+      + " BDD nodes):"
+    [bloc displayTransitions !ambiguousTransitions]
+  end
+#------------------------------ Check all states are combinatory
+  let nonCombinatoryStates = [bloc nonCombinatoryStates]
+  let nonCombinatoryStateCount = [nonCombinatoryStates valueCount !variableCount]
+  if nonCombinatoryStateCount == 0 then
+    message "All states are combinatory.\n"
+  else
+    error.nowhere : ""
+       + nonCombinatoryStateCount + " non combinatory state" + if nonCombinatoryStateCount > 1 then "s" else "" end + " ("
+       + [nonCombinatoryStates nodeCount]
+       + " BDD nodes):"
+    [bloc displayStates !nonCombinatoryStates]
+  end
+}
+
+#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+

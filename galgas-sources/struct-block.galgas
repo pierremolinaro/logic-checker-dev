@@ -139,4 +139,31 @@ method @block displayTransitions ?let @binaryset inTransitions {
   end
 }
 
+#·······················································································································
+# Ensemble des états non combinatoires
+# : (e, s) est un état -> (e', s') est un état et e = e' et s ≠ s'
+
+getter @block nonCombinatoryStates -> @binaryset {
+  let outputVarCount = [mOutputVariableList length]
+  let inputVarCount  = [mInputVariableList length]
+  let variableCount  = inputVarCount + outputVarCount
+  result = mStates & [mStates binarySetByTranslatingFromIndex !0 !variableCount]
+#--- Constraint e = e'
+  let inputConstraint = @binaryset.binarySetWithEqualComparison {
+    !outputVarCount # e
+    !inputVarCount
+    !variableCount + outputVarCount # e"
+  }
+  result = result & inputConstraint
+#--- Constraint s' ≠ s"
+  let outputConstraint = @binaryset.binarySetWithNotEqualComparison {
+    !0 # s'
+    !outputVarCount
+    !variableCount # s"
+  }
+  result = result & outputConstraint
+#---
+  result = [result existOnBitIndexAndBeyond !variableCount]
+}
+
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

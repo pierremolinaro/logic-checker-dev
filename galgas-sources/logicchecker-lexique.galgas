@@ -13,7 +13,7 @@ $identifier$ ! tokenString error message "an identifier"
 #--- This is the keyword list
 list keyWordList style keywordsStyle error message "the '%K' keyword" {
   "true",  "false",
-  "block", "display", "graphviz", "check"
+  "block", "display", "graphviz", "check", "combinatory"
 }
 
 rule 'a'->'z' |  'A'->'Z' {
