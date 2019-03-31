@@ -25,7 +25,6 @@ project (0:0:1) -> "logicchecker" {
   "galgas-sources/definition-check.galgas"
   "galgas-sources/definition-combinatory.galgas"
 
-  "galgas-sources/logicchecker-grammar.galgas"
   "galgas-sources/logicchecker-cocoa.galgas"
   "galgas-sources/logicchecker-program.galgas"
 }

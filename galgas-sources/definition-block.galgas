@@ -34,9 +34,16 @@ class @andExpression, @orExpression, @xorExpression : @expression {
 #·······················································································································
 
 list @assignmentList {
-  @bool mLetDeclaration
   @lstring mTargetName
   @expression mExpression
+}
+
+#·······················································································································
+
+list @importedBlockList {
+  @lstring mBlockName
+  @lstringlist mBlockInputVariableList
+  @lstringlist mBlockOutputVariableList
 }
 
 #·······················································································································
@@ -44,8 +51,10 @@ list @assignmentList {
 class @blockDefinition : @definition {
   @lstring mBlockName
   @lstringlist mInputVariableList
+  @lstringlist mInternalVariableList
   @lstringlist mOutputVariableList
   @assignmentList mAssignmentList
+  @importedBlockList mImportedBlockList
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -79,24 +88,78 @@ syntax extension logicchecker_syntax {
     end
     $)$
     ${$
+    @lstringlist internalVariableList = {}
     @assignmentList assignmentList = {}
+    @importedBlockList importedBlockList = {}
     repeat
-      @bool letDeclaration
-      select
-        letDeclaration = false
+      <targetVariable> ?let firstTargetName !?internalVariableList
+      select # Single assignment
+        $=$
+        select
+          <expression> ?let expression
+          $;$
+          assignmentList += !firstTargetName !expression
+        or
+          <importBlock> ?let blockName ?let blockInputVariableName
+          importedBlockList += !blockName !blockInputVariableName !{!firstTargetName}
+          $;$
+        end
       or
-        $let$
-        letDeclaration = true
+        @lstringlist targetVarList = {!firstTargetName}
+        repeat
+          <targetVariable> ?let targetName !?internalVariableList
+          targetVarList += !targetName
+         while
+          $,$
+        end
+        $=$
+        <importBlock> ?let blockName ?let blockInputVariableName
+        importedBlockList += !blockName !blockInputVariableName !targetVarList
+        $;$
       end
-      $identifier$ ?let targetName
-      $=$
-      <expression> ?let expression
-      $;$
-      assignmentList += !letDeclaration !targetName !expression
     while
     end
     $}$
-    outDefinition = @blockDefinition.new {!blockName !inputVariableList !outputVariableList !assignmentList}
+    outDefinition = @blockDefinition.new {
+      !blockName
+      !inputVariableList
+      !internalVariableList
+      !outputVariableList
+      !assignmentList
+      !importedBlockList
+    }
+  }
+
+  #·····················································································································
+
+  rule <targetVariable> !@lstring outTargetVarName ?!@lstringlist ioInternalVariableList {
+    @bool letDeclaration
+    select
+      letDeclaration = false
+    or
+      $let$
+      letDeclaration = true
+    end
+    $identifier$ ?outTargetVarName
+    if letDeclaration then
+      ioInternalVariableList += !outTargetVarName
+    end
+  }
+ 
+ 
+  #·····················································································································
+
+  rule <importBlock> !@lstring outBlockName !@lstringlist outBlockInputVariableList {
+    $identifier$ ?outBlockName
+    $($
+    outBlockInputVariableList = {}
+    repeat
+      $identifier$ ?let inputVarName
+      outBlockInputVariableList += !inputVarName
+    while
+      $,$
+    end
+    $)$
   }
 
   #·····················································································································
@@ -334,15 +397,12 @@ override method @blockDefinition compute
   end
   let outputVarCount = [outputVariableList length]
 #---------- Enter internal variables
-  var internalVarCount = 0
-  for (letDeclaration name *) in mAssignmentList do
-    if letDeclaration then
-      internalVarCount ++
-      let variableIndex = [variableMap count]
-      [!?variableMap insertKey !name !variableIndex]
-      [!?outputVariableMap insertKey !name !variableIndex]
-      outputAndInternalVariableList += !name.string
-    end
+  let internalVarCount = [mInternalVariableList length]
+  for (name) in mInternalVariableList do
+    let variableIndex = [variableMap count]
+    [!?variableMap insertKey !name !variableIndex]
+    [!?outputVariableMap insertKey !name !variableIndex]
+    outputAndInternalVariableList += !name.string
   end
   let outputAndInternalVarCount = [outputAndInternalVariableList length]
 #---------- Enter input variables
@@ -356,7 +416,7 @@ override method @blockDefinition compute
   let exportedVariableCount = inputVariableCount + outputVarCount
 #---------- Enter assignments
   @stringset assignedOutputVariableSet = {}
-  for (letDeclaration targetVar expression) in mAssignmentList do
+  for (targetVar expression) in mAssignmentList do
     [variableMap searchKey !targetVar ?*]
     if not [outputVariableMap hasKey !targetVar.string] then
       error targetVar : "this variable should be an output variable"
@@ -365,14 +425,29 @@ override method @blockDefinition compute
     end
     assignedOutputVariableSet += !targetVar.string
   end
+#---------- Enter assignments
+  for (blockName blockInputVarList blockOutputVarList) in mImportedBlockList do
+    [blockMap searchKey !blockName ?let importedBlock]
+    if [importedBlock.mInputVariableList length] != [blockInputVarList length] then
+      error blockName : "this block is defined with " + [importedBlock.mInputVariableList length] + " input variable(s)"
+    end
+    if [importedBlock.mOutputVariableList length] != [blockOutputVarList length] then
+      error blockName : "this block is defined with " + [importedBlock.mOutputVariableList length] + " output variable(s)"
+    end
+    for (name) in blockOutputVarList do
+      assignedOutputVariableSet += !name.string
+    end
+  end
+#---------- Check all ouput variable has been assigned
   for (unassignedVar) in [outputVariableMap keySet] - assignedOutputVariableSet do
     error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
   end
 #  log variableMap
-#---------- Compute states and transitions
+#---------- Compute states and transitions ...
   var blockStates = @binaryset.fullBinarySet
   var blockTransitions = @binaryset.emptyBinarySet
-  for (* targetVar expression) in mAssignmentList do
+#--- ... for assignment list
+  for (targetVar expression) in mAssignmentList do
   #--- Target var BDD
     [variableMap searchKey !targetVar ?let targetVarIndex]
   #--- Accumulate state
@@ -383,6 +458,29 @@ override method @blockDefinition compute
     let transitionExpressionBDD = [expression computeTransitionExpression !variableMap !outputAndInternalVarCount]
     let shiftedTargetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex + allVariableCount}
     blockTransitions = blockTransitions | [shiftedTargetVarBDD equalTo !transitionExpressionBDD]
+  end
+#--- ... for imported blocks
+  for (blockName blockInputVarList blockOutputVarList) in mImportedBlockList do
+    [blockMap searchKey !blockName ?let importedBlock]
+    @uintlist transposition = {}
+    for (name) in blockOutputVarList do
+      [variableMap searchKey !name ?let varIndex]
+      transposition += !varIndex
+    end
+    for (name) in blockInputVarList do
+      [variableMap searchKey !name ?let varIndex]
+      transposition += !varIndex
+    end
+    blockStates = blockStates & [importedBlock.mStates transposedBy !transposition]
+    for (name) in blockOutputVarList do
+      [variableMap searchKey !name ?let varIndex]
+      transposition += !varIndex + allVariableCount
+    end
+    for (name) in blockInputVarList do
+      [variableMap searchKey !name ?let varIndex]
+      transposition += !varIndex + allVariableCount
+    end
+    blockTransitions = blockTransitions | [importedBlock.mTransitions transposedBy !transposition]
   end
 #---------- Constraint with stable source states
   blockTransitions = blockTransitions & blockStates
@@ -396,11 +494,9 @@ override method @blockDefinition compute
       stateTranspositionVector += !idx
       idx ++
     end
-    for (letDeclaration 2*) in mAssignmentList do
-      if letDeclaration then
-        stateTranspositionVector += !idx + inputVariableCount
-        idx ++
-      end
+    for (*) in mInternalVariableList do
+      stateTranspositionVector += !idx + inputVariableCount
+      idx ++
     end
     for (*) in mInputVariableList do
       stateTranspositionVector += !idx - internalVarCount
@@ -415,11 +511,9 @@ override method @blockDefinition compute
       transTranspositionVector += !idx
       idx ++
     end
-    for (letDeclaration 2*) in mAssignmentList do
-      if letDeclaration then
-        transTranspositionVector += !idx + exportedVariableCount + inputVariableCount
-        idx ++
-      end
+    for (*) in mInternalVariableList do
+      transTranspositionVector += !idx + exportedVariableCount + inputVariableCount
+      idx ++
     end
     for (*) in mInputVariableList do
       transTranspositionVector += !idx - internalVarCount
@@ -429,11 +523,9 @@ override method @blockDefinition compute
       transTranspositionVector += !idx - internalVarCount
       idx ++
     end
-    for (letDeclaration 2*) in mAssignmentList do
-      if letDeclaration then
-        transTranspositionVector += !idx + inputVariableCount
-        idx ++
-      end
+    for (*) in mInternalVariableList do
+      transTranspositionVector += !idx + inputVariableCount
+      idx ++
     end
     for (*) in mInputVariableList do
       transTranspositionVector += !idx - 2 * internalVarCount

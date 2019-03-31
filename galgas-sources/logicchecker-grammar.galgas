@@ -1,5 +1,0 @@
-grammar logicchecker_grammar "LL1" {
-  syntax logicchecker_syntax
-  <start_symbol> !@definitionList outDefinitionList
-}
-

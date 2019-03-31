@@ -1,9 +1,9 @@
-block andGate (a, b) -> (s) {
+block and2Gate (a, b) -> (s) {
   s = a & b ;
 }
 
-display andGate
-combinatory andGate
+display and2Gate
+combinatory and2Gate
 
 block gate (a, b) -> (s) {
   s = a & /b ;
@@ -21,3 +21,12 @@ block and3Gate (a, b, c) -> (s) {
 
 display and3Gate
 combinatory and3Gate
+
+block and4Gate (a, b, c, d) -> (s) {
+  let x = and2Gate (a, b) ;
+  let y = and2Gate (c, d) ;
+  s = x & y ;
+}
+
+display and4Gate
+combinatory and4Gate
