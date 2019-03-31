@@ -6,7 +6,7 @@ abstract class @definition {}
 
 #·······················································································································
 
-abstract method @definition compute ?!@blockMap blockMap
+abstract method @definition compute ?!@blockMap blockMap ?let @string inSourceFile
 
 #·······················································································································
 
@@ -33,16 +33,12 @@ syntax logicchecker_syntax (logicchecker_lexique) {
 
   #·····················································································································
 
-  rule <start_symbol> {
-    @definitionList definitionList = {}
+  rule <start_symbol> !@definitionList outDefinitionList {
+    outDefinitionList = {}
     repeat
     while
       <definition> ?let definition
-      definitionList += !definition
-    end
-    @blockMap blockMap = {}
-    for (definition) in definitionList do
-      [definition compute !?blockMap]
+      outDefinitionList += !definition
     end
   }
 

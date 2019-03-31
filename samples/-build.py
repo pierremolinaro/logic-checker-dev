@@ -83,8 +83,6 @@ def compileSource (source) :
   print MAGENTA() + BOLD () + "********** Compile " + os.path.basename (os.getcwd ()) + "/" + source + ENDC ()
   command = ["time", "../makefile-macosx/logicchecker", source]
   returncode = subprocess.call (command)
-  if returncode != 0 :
-    sys.exit (returncode)
 
 #----------------------------------------------------------------------------------------------------------------------*
 

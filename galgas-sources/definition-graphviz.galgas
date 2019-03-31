@@ -28,7 +28,7 @@ syntax extension logicchecker_syntax {
 #   SEMANTICS
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-override method @graphvizDefinition compute ?!@blockMap blockMap {
+override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string inSourceFile {
   message "--------------- Graphviz " + mBlockName + "\n"
   [blockMap searchKey !mBlockName ?let inputVariableList ?let outputVariableList ?let states ?let transitions]
   let variableCount = [inputVariableList length] + [outputVariableList length]
@@ -51,7 +51,7 @@ override method @graphvizDefinition compute ?!@blockMap blockMap {
     graphviz += "\"" + source + "\" -> \"" + target + "\" ;\n"
   end
   graphviz += "}\n\n"
-  let filePath = @string.stringWithSourceFilePath + "." + mBlockName + ".dot"
+  let filePath = inSourceFile + "." + mBlockName + ".dot"
   [graphviz writeToFileWhenDifferentContents !filePath ?*]
 }
 

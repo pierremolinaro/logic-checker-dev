@@ -28,7 +28,7 @@ syntax extension logicchecker_syntax {
 #   SEMANTICS
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-override method @checkDefinition compute ?!@blockMap blockMap {
+override method @checkDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
   message "--------------- Check " + mBlockName + "\n"
   [blockMap searchKey
     !mBlockName
@@ -41,7 +41,8 @@ override method @checkDefinition compute ?!@blockMap blockMap {
   let inputVarCount = [inputVariableList length]
   let variableCount = inputVarCount + outputVarCount
 #  log inputVarCount, outputVarCount
-#--- Check states are complete
+#------------------------------ Check states are complete
+# Ensemble des états complets : ∃s', ∀e' : (e, s) -> (e', s') est une transition et ((e, s) un état
   var tr = transitions
 #  log tr
   tr = [tr existsOnBitRange !variableCount !outputVarCount]
@@ -55,7 +56,9 @@ override method @checkDefinition compute ?!@blockMap blockMap {
   if incompleteStateCount == 0 then
     message "All states are complete\n"
   else
-    error .nowhere : "" + incompleteStateCount + " incomplete states (" + [incompleteStates nodeCount]
+    error.nowhere : ""
+       + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
+       + [incompleteStates nodeCount]
        + " BDD nodes):"
     var line = "  "
     for (s) in inputVariableList do
@@ -84,55 +87,84 @@ override method @checkDefinition compute ?!@blockMap blockMap {
       message line + "\n"
     end
   end
-#--- Display transitions
-#  message [[transitions valueCount !2 * variableCount] string] + " transitions ("
-#    + [[transitions nodeCount] string] + " BDD nodes):\n"
-#  line = " "
-#  for (s) in inputVariableList do
-#    line += " " + s
-#  end
-#  line += " :"
-#  for (s) in outputVariableList do
-#    line += " " + s
-#  end
-#  line += "  --> "
-#  for (s) in inputVariableList do
-#    line += " " + s
-#  end
-#  line += " :"
-#  for (s) in outputVariableList do
-#    line += " " + s
-#  end
-#  message line + "\n"
-#  let transitionList = [transitions compressedStringValueList !2 * variableCount]
-#  for (s) in transitionList do
-#    var compressedString = s
-#    var destString = " "
-#    for (varName) in inputVariableList do
-#      [!?compressedString removeCharacterAtIndex ?let char !0]
-#      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-#      destString += " " + [char string]
-#    end
-#    destString += " :"
-#    for (varName) in outputVariableList do
-#      [!?compressedString removeCharacterAtIndex ?let char !0]
-#      destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-#      destString += " " + [char string]
-#    end
-#    var sourceString = " "
-#    for (varName) in inputVariableList do
-#      [!?compressedString removeCharacterAtIndex ?let char !0]
-#      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-#      sourceString += " " + [char string]
-#    end
-#    sourceString += " :"
-#    for (varName) in outputVariableList do
-#      [!?compressedString removeCharacterAtIndex ?let char !0]
-#      sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
-#      sourceString += " " + [char string]
-#    end
-#    message sourceString + "  -->" + destString + "\n"
-#  end
+#------------------------------ Check no ambiguous transition
+# Ensemble des transitions ambiguës :
+# ∀(e, s) état, ∃(e, s) -> (e', s') transition, ∃(e, s) -> (e", s") transition et e' = e" et s' != s"
+  var result = transitions & [transitions binarySetByTranslatingFromIndex !variableCount !variableCount]
+#--- Constraint e' = e"
+  let inputConstraint = @binaryset.binarySetWithEqualComparison {
+    !variableCount + outputVarCount # e'
+    !inputVarCount
+    !2 * variableCount + outputVarCount # e"
+  }
+  result = result & inputConstraint
+#--- Constraint s' ≠ s"
+  let outputConstraint = @binaryset.binarySetWithNotEqualComparison {
+    !variableCount # s'
+    !outputVarCount
+    !2 * variableCount # s"
+  }
+  result = result & outputConstraint
+#--- Suppress (e", s")
+  result = [result existOnBitIndexAndBeyond !2 * variableCount]
+#--- Ambiguous transition count
+  let ambiguousTransitionCount = [result valueCount !2 * variableCount]
+#--- Display ampbiguous transitions
+  if ambiguousTransitionCount == 0 then
+    message "No ambiguous transition.\n"
+  else
+    error .nowhere :
+      [ambiguousTransitionCount string]
+      + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
+      + [[result nodeCount] string]
+      + " BDD nodes)n"
+    var line = " "
+    for (s) in inputVariableList do
+      line += " " + s
+    end
+    line += " :"
+    for (s) in outputVariableList do
+      line += " " + s
+    end
+    line += "  --> "
+    for (s) in inputVariableList do
+      line += " " + s
+    end
+    line += " :"
+    for (s) in outputVariableList do
+      line += " " + s
+    end
+    message line + "\n"
+    let transitionList = [result compressedStringValueList !2 * variableCount]
+    for (s) in transitionList do
+      var compressedString = s
+      var destString = " "
+      for (varName) in inputVariableList do
+        [!?compressedString removeCharacterAtIndex ?let char !0]
+        destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+        destString += " " + [char string]
+      end
+      destString += " :"
+      for (varName) in outputVariableList do
+        [!?compressedString removeCharacterAtIndex ?let char !0]
+        destString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+        destString += " " + [char string]
+      end
+      var sourceString = " "
+      for (varName) in inputVariableList do
+        [!?compressedString removeCharacterAtIndex ?let char !0]
+        sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+        sourceString += " " + [char string]
+      end
+      sourceString += " :"
+      for (varName) in outputVariableList do
+        [!?compressedString removeCharacterAtIndex ?let char !0]
+        sourceString += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+        sourceString += " " + [char string]
+      end
+      message sourceString + "  -->" + destString + "\n"
+    end
+  end
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

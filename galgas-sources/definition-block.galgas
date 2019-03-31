@@ -307,7 +307,10 @@ override getter @xorExpression computeTransitionExpression
 
 #·······················································································································
 
-override method @blockDefinition compute ?!@blockMap blockMap {
+override method @blockDefinition compute
+  ?!@blockMap blockMap
+  ?let @string unused inSourceFile
+{
   message "--------------- Block " + mBlockName + "\n"
   let variableCount = [mInputVariableList length] + [mOutputVariableList length]
   @variableMap variableMap = {}
@@ -317,7 +320,7 @@ override method @blockDefinition compute ?!@blockMap blockMap {
     [!?variableMap insertKey !name !variableCount - [variableMap count] - 1]
     inputVariableList += !name.string
   end
-  let inputVarCount = [inputVariableList length]
+#  let inputVarCount = [inputVariableList length]
   @stringlist outputVariableList = {}
   for (name) in mOutputVariableList do
     let variableIndex = variableCount - [variableMap count] - 1
@@ -363,7 +366,7 @@ override method @blockDefinition compute ?!@blockMap blockMap {
   message [[blockStates valueCount !variableCount] string]
       + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"
 #--- Display transitions
-  message [[blockTransitions valueCount !variableCount + variableCount + inputVarCount] string] + " transitions (" +
+  message [[blockTransitions valueCount !2* variableCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n"
 #--- Enter in block map
   [!?blockMap insertKey !mBlockName !inputVariableList !outputVariableList !blockStates !blockTransitions]

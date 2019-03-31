@@ -28,7 +28,10 @@ syntax extension logicchecker_syntax {
 #   SEMANTICS
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-override method @displayDefinition compute ?!@blockMap blockMap {
+override method @displayDefinition compute
+  ?!@blockMap blockMap
+  ?let @string unused inSourceFile
+{
   message "--------------- Display " + mBlockName + "\n"
   [blockMap searchKey !mBlockName ?let inputVariableList ?let outputVariableList ?let states ?let transitions]
   let variableCount = [inputVariableList length] + [outputVariableList length]
