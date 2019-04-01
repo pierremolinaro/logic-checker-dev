@@ -107,10 +107,10 @@ syntax extension logicchecker_syntax {
       or
         @lstringlist targetVarList = {!firstTargetName}
         repeat
+          $,$
           <targetVariable> ?let targetName !?internalVariableList
           targetVarList += !targetName
          while
-          $,$
         end
         $=$
         <importBlock> ?let blockName ?let blockInputVariableName
@@ -542,8 +542,33 @@ override method @blockDefinition compute
   message [[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n"
 #---------- Enter in block map
-   let b = @block.new {!inputVariableList !outputVariableList !blockStates !blockTransitions}
-  [!?blockMap insertKey !mBlockName !b]
+   let bloc = @block.new {!inputVariableList !outputVariableList !blockStates !blockTransitions}
+  [!?blockMap insertKey !mBlockName !bloc]
+#------------------------------ States completion
+  let incompleteStates = [bloc uncompleteStates]
+  let incompleteStateCount = [incompleteStates valueCount !exportedVariableCount]
+  if incompleteStateCount == 0 then
+    message "All states are complete.\n"
+  else
+    message ""
+       + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
+       + [incompleteStates nodeCount]
+       + " BDD nodes)\n"
+  end
+#------------------------------ Check no ambiguous transition
+  let ambiguousTransitions = [bloc ambiguousTransitions]
+#--- Ambiguous transition count
+  let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * exportedVariableCount]
+#--- Display ampbiguous transitions
+  if ambiguousTransitionCount == 0 then
+    message "No ambiguous transition.\n"
+  else
+    message
+      [ambiguousTransitionCount string]
+      + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
+      + [[ambiguousTransitions nodeCount] string]
+      + " BDD nodes)\n"
+  end
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

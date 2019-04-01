@@ -1,0 +1,59 @@
+block repeteur2 (Rx0, Rx1) -> (Tx0, Tx1) {
+  Tx0 = Rx1 | /Tx1 ;
+  Tx1 = Rx0 | /Tx0 ;
+}
+display repeteur2
+check repeteur2
+
+block bus (TxA, TxB) -> (RxA, RxB) {
+  RxA = TxA & TxB ;
+  RxB = RxA ;
+}
+display bus
+combinatory bus
+
+block reseauCAN2 (TxG, TxD) -> (RxG, RxD) {
+  RxD, let Rx1 = bus (TxD, Tx1) ;
+  RxG, let Rx0 = bus (TxG, Tx0) ;
+  let Tx0, let Tx1 = repeteur2 (Rx0, Rx1) ;
+}
+display reseauCAN2
+combinatory reseauCAN2
+
+block reseauCAN2Bis (TxG, TxD) -> (RxG, RxD, Tx0, Tx1) {
+  RxD, let Rx1 = bus (TxD, Tx1) ;
+  RxG, let Rx0 = bus (TxG, Tx0) ;
+  Tx0, Tx1 = repeteur2 (Rx0, Rx1) ;
+}
+#display reseauCAN2Bis
+combinatory reseauCAN2Bis
+
+block repeteur3 (Rx0, Rx1, Rx2) -> (Tx0, Tx1, Tx2) {
+  let X0 = /(Rx0 | X1 | X2) ;
+  let X1 = /(Rx1 | X0 | X2) ;
+  let X2 = /(Rx2 | X0 | X1) ;
+  Tx0 = /(X1 | X2) ;
+  Tx1 = /(X0 | X2) ;
+  Tx2 = /(X0 | X1) ;
+}
+#check repeteur3
+
+block reseauCAN3 (TxG, TxD, TxH) -> (RxG, RxD, RxH) {
+  RxG, let Rx0 = bus (TxG, Tx0) ;
+  RxD, let Rx1 = bus (TxD, Tx1) ;
+  RxH, let Rx2 = bus (TxH, Tx2) ;
+  let Tx0, let Tx1, let Tx2 = repeteur3 (Rx0, Rx1, Rx2) ;
+}
+combinatory reseauCAN3
+display reseauCAN3
+
+
+block reseauCAN3Bis (TxG, TxD, TxH) -> (RxG, RxD, RxH, Tx0, Tx1, Tx2) {
+  RxG, let Rx0 = bus (TxG, Tx0) ;
+  RxD, let Rx1 = bus (TxD, Tx1) ;
+  RxH, let Rx2 = bus (TxH, Tx2) ;
+  Tx0, Tx1, Tx2 = repeteur3 (Rx0, Rx1, Rx2) ;
+}
+combinatory reseauCAN3Bis
+display reseauCAN3Bis
+

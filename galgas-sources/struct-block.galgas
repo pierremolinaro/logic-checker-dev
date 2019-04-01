@@ -121,9 +121,9 @@ method @block displayTransitions ?let @binaryset inTransitions {
   message line + "\n"
   let transitionList = [inTransitions compressedStringValueList !2 * variableCount]
   for (s) in transitionList do
-    let source = [s subString !0 !variableCount]
+    let source = [s subString !variableCount !variableCount]
+    let target = [s subString !0 !variableCount]
     var line = " " + displayState (!source !mInputVariableList !mOutputVariableList)
-    let target = [s subString !variableCount !variableCount]
     line +=  "  --> " + displayState (!target !mInputVariableList !mOutputVariableList)
     message line + "\n"
   end
