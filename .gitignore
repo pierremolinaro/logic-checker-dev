@@ -240,3 +240,8 @@ TSWLatexianTemp*
 
 # expex forward references with \gathertags
 *-tags.tex
+makefile-macosx/logicchecker-debug
+makefile-x86linux32-on-macosx/logicchecker
+makefile-x86linux32-on-macosx/logicchecker-debug
+makefile-x86linux64-on-macosx/logicchecker
+makefile-x86linux64-on-macosx/logicchecker-debug
