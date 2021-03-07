@@ -29,8 +29,8 @@ syntax extension logicchecker_syntax {
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @checkDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
-  message "--------------- Check " + mBlockName + "\n"
-  [blockMap searchKey !mBlockName ?let bloc]
+  message "--------------- Check " + self.mBlockName + "\n"
+  [blockMap searchKey !self.mBlockName ?let bloc]
   let outputVarCount = [bloc.mOutputVariableList length]
   let inputVarCount = [bloc.mInputVariableList length]
   let variableCount = inputVarCount + outputVarCount

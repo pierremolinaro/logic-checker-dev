@@ -262,37 +262,37 @@ override getter @trueExpression computeStateExpression ?let @variableMap unused 
 #·······················································································································
 
 override getter @negationExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
-  result = ~ [mExpression  computeStateExpression !inVariableMap]
+  result = ~ [self.mExpression  computeStateExpression !inVariableMap]
 }
 
 #·······················································································································
 
 override getter @varExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
-  [inVariableMap searchKey !mVariableName ?let varIndex]
+  [inVariableMap searchKey !self.mVariableName ?let varIndex]
   result = @binaryset.binarySetWithBit {!varIndex}
 }
 
 #·······················································································································
 
 override getter @andExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
-  let left  = [mLeftExpression  computeStateExpression !inVariableMap]
-  let right = [mRightExpression computeStateExpression !inVariableMap]
+  let left  = [self.mLeftExpression  computeStateExpression !inVariableMap]
+  let right = [self.mRightExpression computeStateExpression !inVariableMap]
   result = left & right
 }
 
 #·······················································································································
 
 override getter @orExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
-  let left  = [mLeftExpression  computeStateExpression !inVariableMap]
-  let right = [mRightExpression computeStateExpression !inVariableMap]
+  let left  = [self.mLeftExpression  computeStateExpression !inVariableMap]
+  let right = [self.mRightExpression computeStateExpression !inVariableMap]
   result = left | right
 }
 
 #·······················································································································
 
 override getter @xorExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
-  let left  = [mLeftExpression  computeStateExpression !inVariableMap]
-  let right = [mRightExpression computeStateExpression !inVariableMap]
+  let left  = [self.mLeftExpression  computeStateExpression !inVariableMap]
+  let right = [self.mRightExpression computeStateExpression !inVariableMap]
   result = left ^ right
 }
 
@@ -326,7 +326,7 @@ override getter @negationExpression computeTransitionExpression
   ?let @variableMap inVariableMap
   ?let @uint inOutputVarCount -> @binaryset
 {
-  result = ~ [mExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  result = ~ [self.mExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
 }
 
 #·······················································································································
@@ -335,7 +335,7 @@ override getter @varExpression computeTransitionExpression
   ?let @variableMap inVariableMap
   ?let @uint inOutputVarCount -> @binaryset
 {
-  [inVariableMap searchKey !mVariableName ?let varIndex]
+  [inVariableMap searchKey !self.mVariableName ?let varIndex]
   if varIndex >= inOutputVarCount then # An input variable ?
     result = @binaryset.binarySetWithBit {!varIndex + [inVariableMap count]}
   else
@@ -349,8 +349,8 @@ override getter @andExpression computeTransitionExpression
   ?let @variableMap inVariableMap
   ?let @uint inOutputVarCount -> @binaryset
 {
-  let left  = [mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
-  let right = [mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let left  = [self.mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let right = [self.mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
   result = left & right
 }
 
@@ -360,8 +360,8 @@ override getter @orExpression computeTransitionExpression
   ?let @variableMap inVariableMap
   ?let @uint inOutputVarCount -> @binaryset
 {
-  let left  = [mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
-  let right = [mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let left  = [self.mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let right = [self.mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
   result = left | right
 }
 
@@ -371,8 +371,8 @@ override getter @xorExpression computeTransitionExpression
   ?let @variableMap inVariableMap
   ?let @uint inOutputVarCount -> @binaryset
 {
-  let left  = [mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
-  let right = [mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let left  = [self.mLeftExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
+  let right = [self.mRightExpression computeTransitionExpression !inVariableMap !inOutputVarCount]
   result = left ^ right
 }
 
@@ -382,13 +382,13 @@ override method @blockDefinition compute
   ?!@blockMap blockMap
   ?let @string unused inSourceFile
 {
-  message "--------------- Block " + mBlockName + "\n"
+  message "--------------- Block " + self.mBlockName + "\n"
 #---------- Enter output variables
   @variableMap variableMap = {}
   @stringlist outputAndInternalVariableList = {}
   @stringlist outputVariableList = {}
   @variableMap outputVariableMap = {}
-  for (name) in mOutputVariableList do
+  for (name) in self.mOutputVariableList do
     let variableIndex = [variableMap count]
     [!?variableMap insertKey !name !variableIndex]
     [!?outputVariableMap insertKey !name !variableIndex]
@@ -397,8 +397,8 @@ override method @blockDefinition compute
   end
   let outputVarCount = [outputVariableList length]
 #---------- Enter internal variables
-  let internalVarCount = [mInternalVariableList length]
-  for (name) in mInternalVariableList do
+  let internalVarCount = [self.mInternalVariableList length]
+  for (name) in self.mInternalVariableList do
     let variableIndex = [variableMap count]
     [!?variableMap insertKey !name !variableIndex]
     [!?outputVariableMap insertKey !name !variableIndex]
@@ -407,7 +407,7 @@ override method @blockDefinition compute
   let outputAndInternalVarCount = [outputAndInternalVariableList length]
 #---------- Enter input variables
   @stringlist inputVariableList = {}
-  for (name) in mInputVariableList do
+  for (name) in self.mInputVariableList do
     [!?variableMap insertKey !name ![variableMap count]]
     inputVariableList += !name.string
   end
@@ -416,7 +416,7 @@ override method @blockDefinition compute
   let exportedVariableCount = inputVariableCount + outputVarCount
 #---------- Enter assignments
   @stringset assignedOutputVariableSet = {}
-  for (targetVar expression) in mAssignmentList do
+  for (targetVar expression) in self.mAssignmentList do
     [variableMap searchKey !targetVar ?*]
     if not [outputVariableMap hasKey !targetVar.string] then
       error targetVar : "this variable should be an output variable"
@@ -426,7 +426,7 @@ override method @blockDefinition compute
     assignedOutputVariableSet += !targetVar.string
   end
 #---------- Enter assignments
-  for (blockName blockInputVarList blockOutputVarList) in mImportedBlockList do
+  for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
     if [importedBlock.mInputVariableList length] != [blockInputVarList length] then
       error blockName : "this block is defined with " + [importedBlock.mInputVariableList length] + " input variable(s)"
@@ -447,7 +447,7 @@ override method @blockDefinition compute
   var blockStates = @binaryset.fullBinarySet
   var blockTransitions = @binaryset.emptyBinarySet
 #--- ... for assignment list
-  for (targetVar expression) in mAssignmentList do
+  for (targetVar expression) in self.mAssignmentList do
   #--- Target var BDD
     [variableMap searchKey !targetVar ?let targetVarIndex]
   #--- Accumulate state
@@ -460,7 +460,7 @@ override method @blockDefinition compute
     blockTransitions = blockTransitions | [shiftedTargetVarBDD equalTo !transitionExpressionBDD]
   end
 #--- ... for imported blocks
-  for (blockName blockInputVarList blockOutputVarList) in mImportedBlockList do
+  for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
     @uintlist transposition = {}
     for (name) in blockOutputVarList do
@@ -490,15 +490,15 @@ override method @blockDefinition compute
   if internalVarCount > 0 then
     @uintlist stateTranspositionVector = {}
     var idx = 0
-    for (*) in mOutputVariableList do
+    for (*) in self.mOutputVariableList do
       stateTranspositionVector += !idx
       idx ++
     end
-    for (*) in mInternalVariableList do
+    for (*) in self.mInternalVariableList do
       stateTranspositionVector += !idx + inputVariableCount
       idx ++
     end
-    for (*) in mInputVariableList do
+    for (*) in self.mInputVariableList do
       stateTranspositionVector += !idx - internalVarCount
       idx ++
     end
@@ -507,27 +507,27 @@ override method @blockDefinition compute
   #--- Transpose transitions
     @uintlist transTranspositionVector = {}
     idx = 0
-    for (*) in mOutputVariableList do
+    for (*) in self.mOutputVariableList do
       transTranspositionVector += !idx
       idx ++
     end
-    for (*) in mInternalVariableList do
+    for (*) in self.mInternalVariableList do
       transTranspositionVector += !idx + exportedVariableCount + inputVariableCount
       idx ++
     end
-    for (*) in mInputVariableList do
+    for (*) in self.mInputVariableList do
       transTranspositionVector += !idx - internalVarCount
       idx ++
     end
-    for (*) in mOutputVariableList do
+    for (*) in self.mOutputVariableList do
       transTranspositionVector += !idx - internalVarCount
       idx ++
     end
-    for (*) in mInternalVariableList do
+    for (*) in self.mInternalVariableList do
       transTranspositionVector += !idx + inputVariableCount
       idx ++
     end
-    for (*) in mInputVariableList do
+    for (*) in self.mInputVariableList do
       transTranspositionVector += !idx - 2 * internalVarCount
       idx ++
     end
@@ -543,7 +543,7 @@ override method @blockDefinition compute
      [[blockTransitions nodeCount] string] + " BDD nodes)\n"
 #---------- Enter in block map
    let bloc = @block.new {!inputVariableList !outputVariableList !blockStates !blockTransitions}
-  [!?blockMap insertKey !mBlockName !bloc]
+  [!?blockMap insertKey !self.mBlockName !bloc]
 #------------------------------ States completion
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !exportedVariableCount]

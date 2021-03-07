@@ -29,8 +29,8 @@ syntax extension logicchecker_syntax {
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
-  message "--------------- Combinatory " + mBlockName + "\n"
-  [blockMap searchKey !mBlockName ?let bloc]
+  message "--------------- Combinatory " + self.mBlockName + "\n"
+  [blockMap searchKey !self.mBlockName ?let bloc]
   let outputVarCount = [bloc.mOutputVariableList length]
   let inputVarCount = [bloc.mInputVariableList length]
   let variableCount = inputVarCount + outputVarCount

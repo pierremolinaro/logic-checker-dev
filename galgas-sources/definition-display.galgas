@@ -32,8 +32,8 @@ override method @displayDefinition compute
   ?!@blockMap blockMap
   ?let @string unused inSourceFile
 {
-  message "--------------- Display " + mBlockName + "\n"
-  [blockMap searchKey !mBlockName ?let bloc]
+  message "--------------- Display " + self.mBlockName + "\n"
+  [blockMap searchKey !self.mBlockName ?let bloc]
   let variableCount = [bloc.mInputVariableList length] + [bloc.mOutputVariableList length]
 #--- Display states result
   message [[bloc.mStates valueCount !variableCount] string] + " states ("
