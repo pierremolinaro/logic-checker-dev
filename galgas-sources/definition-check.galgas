@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-class @checkDefinition : @definition {
+shared class @checkDefinition : @definition {
   @lstring mBlockName
 }
 

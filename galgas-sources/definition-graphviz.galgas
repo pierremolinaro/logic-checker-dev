@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-class @graphvizDefinition : @definition {
+shared class @graphvizDefinition : @definition {
   @lstring mBlockName
 }
 

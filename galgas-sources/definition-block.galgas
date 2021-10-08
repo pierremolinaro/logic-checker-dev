@@ -2,31 +2,31 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-abstract class @expression {}
+abstract shared class @expression {}
 
 #·······················································································································
 
-class @trueExpression : @expression {}
+shared class @trueExpression : @expression {}
 
 #·······················································································································
 
-class @falseExpression : @expression {}
+shared class @falseExpression : @expression {}
 
 #·······················································································································
 
-class @varExpression : @expression {
+shared class @varExpression : @expression {
   @lstring mVariableName
 }
 
 #·······················································································································
 
-class @negationExpression : @expression {
+shared class @negationExpression : @expression {
   @expression mExpression
 }
 
 #·······················································································································
 
-class @andExpression, @orExpression, @xorExpression : @expression {
+shared class @andExpression, @orExpression, @xorExpression : @expression {
   @expression mLeftExpression
   @expression mRightExpression
 }
@@ -48,7 +48,7 @@ list @importedBlockList {
 
 #·······················································································································
 
-class @blockDefinition : @definition {
+shared class @blockDefinition : @definition {
   @lstring mBlockName
   @lstringlist mInputVariableList
   @lstringlist mInternalVariableList

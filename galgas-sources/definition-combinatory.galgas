@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-class @combinatoryDefinition : @definition {
+shared class @combinatoryDefinition : @definition {
   @lstring mBlockName
 }
 
