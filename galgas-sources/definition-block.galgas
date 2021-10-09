@@ -26,7 +26,21 @@ shared class @negationExpression : @expression {
 
 #·······················································································································
 
-shared class @andExpression, @orExpression, @xorExpression : @expression {
+shared class @andExpression : @expression {
+  @expression mLeftExpression
+  @expression mRightExpression
+}
+
+#·······················································································································
+
+shared class @orExpression : @expression {
+  @expression mLeftExpression
+  @expression mRightExpression
+}
+
+#·······················································································································
+
+shared class @xorExpression : @expression {
   @expression mLeftExpression
   @expression mRightExpression
 }
