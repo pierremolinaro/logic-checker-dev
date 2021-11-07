@@ -2,8 +2,8 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-shared class @displayDefinition : @definition {
-  @lstring mBlockName
+refclass @displayDefinition : @definition {
+  public var @lstring mBlockName
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

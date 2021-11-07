@@ -2,8 +2,8 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-shared class @graphvizDefinition : @definition {
-  @lstring mBlockName
+refclass @graphvizDefinition : @definition {
+  public var @lstring mBlockName
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

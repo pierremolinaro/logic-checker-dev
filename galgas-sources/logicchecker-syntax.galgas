@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-abstract shared class @definition {}
+abstract refclass @definition {}
 
 #·······················································································································
 
@@ -11,13 +11,13 @@ abstract method @definition compute ?!@blockMap blockMap ?let @string inSourceFi
 #·······················································································································
 
 list @definitionList {
-  @definition mDefinition
+  public var @definition mDefinition
 }
 
 #·······················································································································
 
 map @blockMap {
-  @block mBlock
+  public var @block mBlock
   insert insertKey error message "the '%K' block is already declared in %L"
   search searchKey error message "there is no '%K' block"
 }

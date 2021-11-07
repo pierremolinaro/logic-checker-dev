@@ -2,73 +2,73 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-abstract shared class @expression {}
+abstract refclass @expression {}
 
 #·······················································································································
 
-shared class @trueExpression : @expression {}
+refclass @trueExpression : @expression {}
 
 #·······················································································································
 
-shared class @falseExpression : @expression {}
+refclass @falseExpression : @expression {}
 
 #·······················································································································
 
-shared class @varExpression : @expression {
-  @lstring mVariableName
+refclass @varExpression : @expression {
+  public var @lstring mVariableName
 }
 
 #·······················································································································
 
-shared class @negationExpression : @expression {
-  @expression mExpression
+refclass @negationExpression : @expression {
+  public var @expression mExpression
 }
 
 #·······················································································································
 
-shared class @andExpression : @expression {
-  @expression mLeftExpression
-  @expression mRightExpression
+refclass @andExpression : @expression {
+  public var @expression mLeftExpression
+  public var @expression mRightExpression
 }
 
 #·······················································································································
 
-shared class @orExpression : @expression {
-  @expression mLeftExpression
-  @expression mRightExpression
+refclass @orExpression : @expression {
+  public var @expression mLeftExpression
+  public var @expression mRightExpression
 }
 
 #·······················································································································
 
-shared class @xorExpression : @expression {
-  @expression mLeftExpression
-  @expression mRightExpression
+refclass @xorExpression : @expression {
+  public var @expression mLeftExpression
+  public var @expression mRightExpression
 }
 
 #·······················································································································
 
 list @assignmentList {
-  @lstring mTargetName
-  @expression mExpression
+  public var @lstring mTargetName
+  public var @expression mExpression
 }
 
 #·······················································································································
 
 list @importedBlockList {
-  @lstring mBlockName
-  @lstringlist mBlockInputVariableList
-  @lstringlist mBlockOutputVariableList
+  public var @lstring mBlockName
+  public var @lstringlist mBlockInputVariableList
+  public var @lstringlist mBlockOutputVariableList
 }
 
 #·······················································································································
 
-shared class @blockDefinition : @definition {
-  @lstring mBlockName
-  @lstringlist mInputVariableList
-  @lstringlist mInternalVariableList
-  @lstringlist mOutputVariableList
-  @assignmentList mAssignmentList
-  @importedBlockList mImportedBlockList
+refclass @blockDefinition : @definition {
+  public var @lstring mBlockName
+  public var @lstringlist mInputVariableList
+  public var @lstringlist mInternalVariableList
+  public var @lstringlist mOutputVariableList
+  public var @assignmentList mAssignmentList
+  public var @importedBlockList mImportedBlockList
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -83,7 +83,7 @@ syntax extension logicchecker_syntax {
     $block$
     $identifier$ ?let blockName
     $($
-    @lstringlist inputVariableList = {}
+    var @lstringlist inputVariableList = {}
     repeat
       $identifier$ ?let inputName
       inputVariableList += !inputName
@@ -93,7 +93,7 @@ syntax extension logicchecker_syntax {
     $)$
     $->$
     $($
-    @lstringlist outputVariableList = {}
+    var @lstringlist outputVariableList = {}
     repeat
       $identifier$ ?let outputName
       outputVariableList += !outputName
@@ -102,9 +102,9 @@ syntax extension logicchecker_syntax {
     end
     $)$
     ${$
-    @lstringlist internalVariableList = {}
-    @assignmentList assignmentList = {}
-    @importedBlockList importedBlockList = {}
+    var @lstringlist internalVariableList = {}
+    var @assignmentList assignmentList = {}
+    var @importedBlockList importedBlockList = {}
     repeat
       <targetVariable> ?let firstTargetName !?internalVariableList
       select # Single assignment
@@ -119,7 +119,7 @@ syntax extension logicchecker_syntax {
           $;$
         end
       or
-        @lstringlist targetVarList = {!firstTargetName}
+        var @lstringlist targetVarList = {!firstTargetName}
         repeat
           $,$
           <targetVariable> ?let targetName !?internalVariableList
@@ -147,7 +147,7 @@ syntax extension logicchecker_syntax {
   #·····················································································································
 
   rule <targetVariable> !@lstring outTargetVarName ?!@lstringlist ioInternalVariableList {
-    @bool letDeclaration
+    var @bool letDeclaration
     select
       letDeclaration = false
     or
@@ -250,7 +250,7 @@ syntax extension logicchecker_syntax {
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 map @variableMap {
-  @uint mIndex
+  public var @uint mIndex
   insert insertKey error message "the '%K' variable is already declared in %L"
   search searchKey error message "there is no '%K' variable"
 }
@@ -398,10 +398,10 @@ override method @blockDefinition compute
 {
   message "--------------- Block " + self.mBlockName + "\n"
 #---------- Enter output variables
-  @variableMap variableMap = {}
-  @stringlist outputAndInternalVariableList = {}
-  @stringlist outputVariableList = {}
-  @variableMap outputVariableMap = {}
+  var @variableMap variableMap = {}
+  var @stringlist outputAndInternalVariableList = {}
+  var @stringlist outputVariableList = {}
+  var @variableMap outputVariableMap = {}
   for (name) in self.mOutputVariableList do
     let variableIndex = [variableMap count]
     [!?variableMap insertKey !name !variableIndex]
@@ -420,7 +420,7 @@ override method @blockDefinition compute
   end
   let outputAndInternalVarCount = [outputAndInternalVariableList length]
 #---------- Enter input variables
-  @stringlist inputVariableList = {}
+  var @stringlist inputVariableList = {}
   for (name) in self.mInputVariableList do
     [!?variableMap insertKey !name ![variableMap count]]
     inputVariableList += !name.string
@@ -429,8 +429,8 @@ override method @blockDefinition compute
   let allVariableCount = inputVariableCount + outputAndInternalVarCount
   let exportedVariableCount = inputVariableCount + outputVarCount
 #---------- Enter assignments
-  @stringset assignedOutputVariableSet = {}
-  for (targetVar expression) in self.mAssignmentList do
+  var @stringset assignedOutputVariableSet = {}
+  for (targetVar *) in self.mAssignmentList do
     [variableMap searchKey !targetVar ?*]
     if not [outputVariableMap hasKey !targetVar.string] then
       error targetVar : "this variable should be an output variable"
@@ -476,7 +476,7 @@ override method @blockDefinition compute
 #--- ... for imported blocks
   for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
-    @uintlist transposition = {}
+    var @uintlist transposition = {}
     for (name) in blockOutputVarList do
       [variableMap searchKey !name ?let varIndex]
       transposition += !varIndex
@@ -502,7 +502,7 @@ override method @blockDefinition compute
   blockTransitions = blockTransitions & (blockStates << allVariableCount)
 #---------- remove internal variables
   if internalVarCount > 0 then
-    @uintlist stateTranspositionVector = {}
+    var @uintlist stateTranspositionVector = {}
     var idx = 0
     for (*) in self.mOutputVariableList do
       stateTranspositionVector += !idx
@@ -519,7 +519,7 @@ override method @blockDefinition compute
     blockStates = [blockStates transposedBy !stateTranspositionVector]
     blockStates = [blockStates existOnBitIndexAndBeyond !exportedVariableCount]
   #--- Transpose transitions
-    @uintlist transTranspositionVector = {}
+    var @uintlist transTranspositionVector = {}
     idx = 0
     for (*) in self.mOutputVariableList do
       transTranspositionVector += !idx

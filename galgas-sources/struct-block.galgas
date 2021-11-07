@@ -3,10 +3,10 @@
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 struct @block {
-  @stringlist mInputVariableList
-  @stringlist mOutputVariableList
-  @binaryset mStates
-  @binaryset mTransitions
+  public var @stringlist mInputVariableList
+  public var @stringlist mOutputVariableList
+  public var @binaryset mStates
+  public var @binaryset mTransitions
 }
 
 #·······················································································································

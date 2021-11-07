@@ -2,8 +2,8 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-shared class @combinatoryDefinition : @definition {
-  @lstring mBlockName
+refclass @combinatoryDefinition : @definition {
+  public var @lstring mBlockName
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
