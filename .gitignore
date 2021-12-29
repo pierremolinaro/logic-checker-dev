@@ -248,3 +248,4 @@ makefile-x86linux64-on-macosx/logicchecker-debug
 makefile-macosx/logicchecker
 makefile-macosx/logicchecker-debug
 makefile-macosx/logicchecker
+makefile-macosx/logicchecker
