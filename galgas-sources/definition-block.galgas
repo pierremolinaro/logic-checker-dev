@@ -147,7 +147,7 @@ syntax extension logicchecker_syntax {
   #·····················································································································
 
   rule <targetVariable> !@lstring outTargetVarName ?!@lstringlist ioInternalVariableList {
-    var @bool letDeclaration
+    let @bool letDeclaration
     select
       letDeclaration = false
     or
