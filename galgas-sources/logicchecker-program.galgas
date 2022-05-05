@@ -3,7 +3,7 @@ case . "logicchecker"
 message "a source text file with the .logicchecker extension"
 grammar logicchecker_grammar
 ?sourceFilePath:@lstring inSourceFile {
-  grammar logicchecker_grammar in inSourceFile ?let definitionList 
+  grammar logicchecker_grammar (?let definitionList ) in inSourceFile
   var @blockMap blockMap = {}
   for (definition) in definitionList do
     [definition compute !?blockMap !inSourceFile]
