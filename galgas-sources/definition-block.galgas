@@ -506,15 +506,15 @@ override method @blockDefinition compute
     var idx = 0
     for (*) in self.mOutputVariableList do
       stateTranspositionVector += !idx
-      idx ++
+      idx += 1
     end
     for (*) in self.mInternalVariableList do
       stateTranspositionVector += !idx + inputVariableCount
-      idx ++
+      idx += 1
     end
     for (*) in self.mInputVariableList do
       stateTranspositionVector += !idx - internalVarCount
-      idx ++
+      idx += 1
     end
     blockStates = [blockStates transposedBy !stateTranspositionVector]
     blockStates = [blockStates existOnBitIndexAndBeyond !exportedVariableCount]
@@ -523,27 +523,27 @@ override method @blockDefinition compute
     idx = 0
     for (*) in self.mOutputVariableList do
       transTranspositionVector += !idx
-      idx ++
+      idx += 1
     end
     for (*) in self.mInternalVariableList do
       transTranspositionVector += !idx + exportedVariableCount + inputVariableCount
-      idx ++
+      idx += 1
     end
     for (*) in self.mInputVariableList do
       transTranspositionVector += !idx - internalVarCount
-      idx ++
+      idx += 1
     end
     for (*) in self.mOutputVariableList do
       transTranspositionVector += !idx - internalVarCount
-      idx ++
+      idx += 1
     end
     for (*) in self.mInternalVariableList do
       transTranspositionVector += !idx + inputVariableCount
-      idx ++
+      idx += 1
     end
     for (*) in self.mInputVariableList do
       transTranspositionVector += !idx - 2 * internalVarCount
-      idx ++
+      idx += 1
     end
     # log transTranspositionVector
     blockTransitions = [blockTransitions transposedBy !transTranspositionVector]
