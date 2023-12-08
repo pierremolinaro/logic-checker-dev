@@ -32,16 +32,16 @@ override method @displayDefinition compute
   ?!@blockMap blockMap
   ?let @string unused inSourceFile
 {
-  message "--------------- Display " + self.mBlockName + "\n"
+  print (!"--------------- Display " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
   let variableCount = [bloc.mInputVariableList length] + [bloc.mOutputVariableList length]
 #--- Display states result
-  message [[bloc.mStates valueCount !variableCount] string] + " states ("
-    + [[bloc.mStates nodeCount] string] + " BDD nodes):\n"
+  print (![[bloc.mStates valueCount !variableCount] string] + " states ("
+    + [[bloc.mStates nodeCount] string] + " BDD nodes):\n")
   [bloc displayStates !bloc.mStates]
 #--- Display transitions
-  message [[bloc.mTransitions valueCount !2 * variableCount] string] + " transitions ("
-    + [[bloc.mTransitions nodeCount] string] + " BDD nodes):\n"
+  print (![[bloc.mTransitions valueCount !2 * variableCount] string] + " transitions ("
+    + [[bloc.mTransitions nodeCount] string] + " BDD nodes):\n")
   [bloc displayTransitions !bloc.mTransitions]
 }
 

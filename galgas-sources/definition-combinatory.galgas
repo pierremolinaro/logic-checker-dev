@@ -29,7 +29,7 @@ syntax extension logicchecker_syntax {
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
-  message "--------------- Combinatory " + self.mBlockName + "\n"
+  print (!"--------------- Combinatory " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
   let outputVarCount = [bloc.mOutputVariableList length]
   let inputVarCount = [bloc.mInputVariableList length]
@@ -38,7 +38,7 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !variableCount]
   if incompleteStateCount == 0 then
-    message "All states are complete.\n"
+    print (!"All states are complete.\n")
   else
     error.nowhere : ""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
@@ -52,7 +52,7 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * variableCount]
 #--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
-    message "No ambiguous transition.\n"
+    print (!"No ambiguous transition.\n")
   else
     error .nowhere :
       [ambiguousTransitionCount string]
@@ -65,7 +65,7 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   let nonCombinatoryStates = [bloc nonCombinatoryStates]
   let nonCombinatoryStateCount = [nonCombinatoryStates valueCount !variableCount]
   if nonCombinatoryStateCount == 0 then
-    message "All states are combinatory.\n"
+    print (!"All states are combinatory.\n")
   else
     error.nowhere : ""
        + nonCombinatoryStateCount + " non combinatory state" + if nonCombinatoryStateCount > 1 then "s" else "" end + " ("

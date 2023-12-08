@@ -62,10 +62,10 @@ method @block displayStates ?let @binaryset inStates {
   for (s) in self.mOutputVariableList do
     line += " " + s
   end
-  message line + "\n"
+  print (!line + "\n")
   let stateList = [inStates compressedStringValueList !variableCount]
   for (s) in stateList do
-    message "  " + displayState (!s !self.mInputVariableList !self.mOutputVariableList) + "\n"
+    print (!"  " + displayState (!s !self.mInputVariableList !self.mOutputVariableList) + "\n")
   end
 }
 
@@ -118,14 +118,14 @@ method @block displayTransitions ?let @binaryset inTransitions {
   for (s) in self.mOutputVariableList do
     line += " " + s
   end
-  message line + "\n"
+  print (!line + "\n")
   let transitionList = [inTransitions compressedStringValueList !2 * variableCount]
   for (s) in transitionList do
     let source = [s subString !variableCount !variableCount]
     let target = [s subString !0 !variableCount]
     var line = " " + displayState (!source !self.mInputVariableList !self.mOutputVariableList)
     line +=  "  --> " + displayState (!target !self.mInputVariableList !self.mOutputVariableList)
-    message line + "\n"
+    print (!line + "\n")
   end
 }
 

@@ -251,8 +251,8 @@ syntax extension logicchecker_syntax {
 
 map @variableMap {
   public var @uint mIndex
-  insert insertKey error message "the '%K' variable is already declared in %L"
-  search searchKey error message "there is no '%K' variable"
+  %insertSetter insertKey %errorMessage "the '%K' variable is already declared in %L"
+  %searchMethod searchKey %errorMessage "there is no '%K' variable"
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
@@ -396,7 +396,7 @@ override method @blockDefinition compute
   ?!@blockMap blockMap
   ?let @string unused inSourceFile
 {
-  message "--------------- Block " + self.mBlockName + "\n"
+  print (!"--------------- Block " + self.mBlockName + "\n")
 #---------- Enter output variables
   var @variableMap variableMap = {}
   var @stringlist outputAndInternalVariableList = {}
@@ -550,11 +550,11 @@ override method @blockDefinition compute
     blockTransitions = [blockTransitions existOnBitIndexAndBeyond !2 * exportedVariableCount]
   end
 #---------- Display states result
-  message [[blockStates valueCount !exportedVariableCount] string]
-      + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n"
+  print (![[blockStates valueCount !exportedVariableCount] string]
+      + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n")
 #---------- Display transitions
-  message [[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
-     [[blockTransitions nodeCount] string] + " BDD nodes)\n"
+  print (![[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
+     [[blockTransitions nodeCount] string] + " BDD nodes)\n")
 #---------- Enter in block map
    let bloc = @block.new {!inputVariableList !outputVariableList !blockStates !blockTransitions}
   [!?blockMap insertKey !self.mBlockName !bloc]
@@ -562,12 +562,12 @@ override method @blockDefinition compute
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !exportedVariableCount]
   if incompleteStateCount == 0 then
-    message "All states are complete.\n"
+    print (!"All states are complete.\n")
   else
-    message ""
+    print (!""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
        + [incompleteStates nodeCount]
-       + " BDD nodes)\n"
+       + " BDD nodes)\n")
   end
 #------------------------------ Check no ambiguous transition
   let ambiguousTransitions = [bloc ambiguousTransitions]
@@ -575,13 +575,12 @@ override method @blockDefinition compute
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * exportedVariableCount]
 #--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
-    message "No ambiguous transition.\n"
+    print (!"No ambiguous transition.\n")
   else
-    message
-      [ambiguousTransitionCount string]
+    print (![ambiguousTransitionCount string]
       + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
       + [[ambiguousTransitions nodeCount] string]
-      + " BDD nodes)\n"
+      + " BDD nodes)\n")
   end
 }
 

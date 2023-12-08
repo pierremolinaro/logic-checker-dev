@@ -29,7 +29,7 @@ syntax extension logicchecker_syntax {
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string inSourceFile {
-  message "--------------- Graphviz " + self.mBlockName + "\n"
+  print (!"--------------- Graphviz " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
   let variableCount = [bloc.mInputVariableList length] + [bloc.mOutputVariableList length]
   var graphviz = "digraph G {\n"

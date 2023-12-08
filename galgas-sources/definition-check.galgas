@@ -29,7 +29,7 @@ syntax extension logicchecker_syntax {
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @checkDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
-  message "--------------- Check " + self.mBlockName + "\n"
+  print (!"--------------- Check " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
   let outputVarCount = [bloc.mOutputVariableList length]
   let inputVarCount = [bloc.mInputVariableList length]
@@ -39,7 +39,7 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !variableCount]
   if incompleteStateCount == 0 then
-    message "All states are complete.\n"
+    print (!"All states are complete.\n")
   else
     error.nowhere : ""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
@@ -53,7 +53,7 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * variableCount]
 #--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
-    message "No ambiguous transition.\n"
+    print (!"No ambiguous transition.\n")
   else
     error .nowhere :
       [ambiguousTransitionCount string]
