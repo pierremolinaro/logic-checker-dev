@@ -18,8 +18,8 @@ list @definitionList {
 
 map @blockMap {
   public var @block mBlock
-  %insertSetter insertKey %errorMessage "the '%K' block is already declared in %L"
-  %searchMethod searchKey %errorMessage "there is no '%K' block"
+  insert insertKey error message "the '%K' block is already declared in %L"
+  search searchKey error message "there is no '%K' block"
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

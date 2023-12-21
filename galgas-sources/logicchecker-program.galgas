@@ -1,6 +1,6 @@
 #--- 'when' clauses
 case . "logicchecker"
-%errorMessage "a source text file with the .logicchecker extension"
+message "a source text file with the .logicchecker extension"
 %useGrammar logicchecker_grammar
 ?sourceFilePath:@lstring inSourceFile {
   grammar logicchecker_grammar (?let definitionList ) in inSourceFile

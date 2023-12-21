@@ -251,8 +251,8 @@ syntax extension logicchecker_syntax {
 
 map @variableMap {
   public var @uint mIndex
-  %insertSetter insertKey %errorMessage "the '%K' variable is already declared in %L"
-  %searchMethod searchKey %errorMessage "there is no '%K' variable"
+  insert insertKey error message "the '%K' variable is already declared in %L"
+  search searchKey error message "there is no '%K' variable"
 }
 
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
