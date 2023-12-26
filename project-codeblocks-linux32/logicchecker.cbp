@@ -111,10 +111,10 @@
    <Unit filename="../build/libpm/bdd/C_RelationSingleType.cpp" />
    <Unit filename="../build/libpm/bdd/C_RelationConfiguration.cpp" />
    <Unit filename="../build/libpm/bdd/C_Relation.cpp" />
-   <Unit filename="../build/libpm/files/C_FileManager.cpp" />
+   <Unit filename="../build/libpm/files/FileManager.cpp" />
    <Unit filename="../build/libpm/files/AC_FileHandle.cpp" />
    <Unit filename="../build/libpm/files/C_TextFileWrite.cpp" />
-   <Unit filename="../build/libpm/files/C_HTML_FileWrite.cpp" />
+   <Unit filename="../build/libpm/files/HTMLFileWrite.cpp" />
    <Unit filename="../build/libpm/files/C_BinaryFileWrite.cpp" />
    <Unit filename="../build/libpm/streams/AC_OutputStream.cpp" />
    <Unit filename="../build/libpm/streams/C_ColoredConsole.cpp" />
@@ -124,7 +124,7 @@
    <Unit filename="../build/libpm/strings/unicode_string_routines.cpp" />
    <Unit filename="../build/libpm/strings/String-class-getters.cpp" />
    <Unit filename="../build/libpm/strings/String-class.cpp" />
-   <Unit filename="../build/libpm/strings/C_HTMLString.cpp" />
+   <Unit filename="../build/libpm/strings/HTMLString.cpp" />
    <Unit filename="../build/libpm/strings/print.cpp" />
    <Unit filename="../build/libpm/time/C_Timer.cpp" />
    <Unit filename="../build/libpm/time/C_DateTime.cpp" />
