@@ -125,7 +125,6 @@
    <Unit filename="../build/libpm/streams/C_ConsoleOut.cpp" />
    <Unit filename="../build/libpm/streams/C_ErrorOut.cpp" />
    <Unit filename="../build/libpm/strings/unicode_character_cpp.cpp" />
-   <Unit filename="../build/libpm/strings/unicode_string_routines.cpp" />
    <Unit filename="../build/libpm/strings/String-class-getters.cpp" />
    <Unit filename="../build/libpm/strings/String-class.cpp" />
    <Unit filename="../build/libpm/strings/HTMLString.cpp" />
@@ -144,6 +143,7 @@
    <Unit filename="../build/libpm/utilities/UInt32Set.cpp" />
    <Unit filename="../build/libpm/utilities/DirectedGraph.cpp" />
    <Unit filename="../build/libpm/utilities/md5.cpp" />
+   <Unit filename="../build/libpm/utilities/SHA256.cpp" />
    <Unit filename="../build/libpm/utilities/galgas-random.cpp" />
    <Unit filename="../build/libpm/galgas2/C_galgas_CLI_Options.cpp" />
    <Unit filename="../build/libpm/galgas2/typeComparisonResult.cpp" />
