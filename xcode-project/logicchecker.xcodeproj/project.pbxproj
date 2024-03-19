@@ -31,25 +31,25 @@
     settings = {ATTRIBUTES = (); };
   };
 
-  99908345F7439F8FFABDFFC4 /* C_BDD.cpp */ = {
+  99908345F7439F8FFABDFFC4 /* BinaryDecisionDiagram.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 5568161A8CDF4AD2299F6D23 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  F8ED5D21A44B0E5886680CB9 /* C_Relation.cpp */ = {
+  F8ED5D21A44B0E5886680CB9 /* BinaryDecisionDiagramRelation.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 8E8850243BE8079A5C74D079 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  7A37563370DED05F5A3BF3EC /* C_RelationConfiguration.cpp */ = {
+  7A37563370DED05F5A3BF3EC /* BinaryDecisionDiagramRelationConfiguration.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 4005F8DA13F42943881C655F ;
     settings = {ATTRIBUTES = (); };
   };
 
-  9DD601BBE69F351039152189 /* C_RelationSingleType.cpp */ = {
+  9DD601BBE69F351039152189 /* BinaryDecisionDiagramRelationSingleType.cpp */ = {
     isa = PBXBuildFile;
     fileRef = E0327AD868D138F2B4FDD6F0 ;
     settings = {ATTRIBUTES = (); };
@@ -403,49 +403,49 @@
     settings = {ATTRIBUTES = (); };
   };
 
-  6F634854F3EF915E2E980C31 /* C_BoolCommandLineOption.cpp */ = {
+  6F634854F3EF915E2E980C31 /* AbstractCommandLineOption.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 2E94197FF767970B67041697 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  40BE98EFAAE0091FA301E613 /* C_CommandLineOption.cpp */ = {
+  40BE98EFAAE0091FA301E613 /* BoolCommandLineOption.cpp */ = {
     isa = PBXBuildFile;
     fileRef = D39FD083F55D4182BF88826D ;
     settings = {ATTRIBUTES = (); };
   };
 
-  10729ED4DA8C3D3F5A3AE7C9 /* C_StringCommandLineOption.cpp */ = {
+  10729ED4DA8C3D3F5A3AE7C9 /* F_mainForLIBPM.cpp */ = {
     isa = PBXBuildFile;
     fileRef = B05B9D5AD24F4333C7658A0E ;
     settings = {ATTRIBUTES = (); };
   };
 
-  E457DDEF7F2C4F25DC8FA865 /* C_StringListCommandLineOption.cpp */ = {
+  E457DDEF7F2C4F25DC8FA865 /* StringCommandLineOption.cpp */ = {
     isa = PBXBuildFile;
     fileRef = CE68DAD4D52D063967F0A705 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  5EE42911677C739EE1734486 /* C_UIntCommandLineOption.cpp */ = {
+  5EE42911677C739EE1734486 /* StringListCommandLineOption.cpp */ = {
     isa = PBXBuildFile;
     fileRef = FD34C64C85CA5B5690EE5293 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  CA20DB309E056E3D2DCD7D69 /* C_builtin_CLI_Options.cpp */ = {
+  CA20DB309E056E3D2DCD7D69 /* UIntCommandLineOption.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 6C3ABCA69FA097B85867D9A4 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  CED301B442654DD8C23B3FC9 /* F_Analyze_CLI_Options.cpp */ = {
+  CED301B442654DD8C23B3FC9 /* analyzeCommandLineOptions.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 07F7F7D035D7BAF04342E1CA ;
     settings = {ATTRIBUTES = (); };
   };
 
-  917CBBA1EEA208541A643E74 /* F_mainForLIBPM.cpp */ = {
+  917CBBA1EEA208541A643E74 /* builtin-command-line-options.cpp */ = {
     isa = PBXBuildFile;
     fileRef = C0E3619E98159E9B6FEBF557 ;
     settings = {ATTRIBUTES = (); };
@@ -835,19 +835,19 @@
     settings = {ATTRIBUTES = (); };
   };
 
-  ED25C2EE1B74DE72DC03C14E /* C_ColoredConsole.cpp */ = {
+  ED25C2EE1B74DE72DC03C14E /* C_ErrorOut.cpp */ = {
     isa = PBXBuildFile;
     fileRef = CA3C61428C26A231F0E49A09 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  598A1291557BED248A998D4E /* C_ConsoleOut.cpp */ = {
+  598A1291557BED248A998D4E /* ColoredConsole.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 5E30BDEE440E4CDF599FEC2B ;
     settings = {ATTRIBUTES = (); };
   };
 
-  BCAACED9A54F1E9D0D2F800D /* C_ErrorOut.cpp */ = {
+  BCAACED9A54F1E9D0D2F800D /* ConsoleOut.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 6A8D8D7904FC0EA8E066B3BB ;
     settings = {ATTRIBUTES = (); };
@@ -1022,39 +1022,39 @@
     sourceTree = "<group>";
   };
 
-  5568161A8CDF4AD2299F6D23 /* C_BDD.cpp */ = {
+  5568161A8CDF4AD2299F6D23 /* BinaryDecisionDiagram.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_BDD.cpp";
-    path = "C_BDD.cpp";
+    name = "BinaryDecisionDiagram.cpp";
+    path = "BinaryDecisionDiagram.cpp";
     sourceTree = "<group>";
   };
 
-  8E8850243BE8079A5C74D079 /* C_Relation.cpp */ = {
+  8E8850243BE8079A5C74D079 /* BinaryDecisionDiagramRelation.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_Relation.cpp";
-    path = "C_Relation.cpp";
+    name = "BinaryDecisionDiagramRelation.cpp";
+    path = "BinaryDecisionDiagramRelation.cpp";
     sourceTree = "<group>";
   };
 
-  4005F8DA13F42943881C655F /* C_RelationConfiguration.cpp */ = {
+  4005F8DA13F42943881C655F /* BinaryDecisionDiagramRelationConfiguration.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_RelationConfiguration.cpp";
-    path = "C_RelationConfiguration.cpp";
+    name = "BinaryDecisionDiagramRelationConfiguration.cpp";
+    path = "BinaryDecisionDiagramRelationConfiguration.cpp";
     sourceTree = "<group>";
   };
 
-  E0327AD868D138F2B4FDD6F0 /* C_RelationSingleType.cpp */ = {
+  E0327AD868D138F2B4FDD6F0 /* BinaryDecisionDiagramRelationSingleType.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_RelationSingleType.cpp";
-    path = "C_RelationSingleType.cpp";
+    name = "BinaryDecisionDiagramRelationSingleType.cpp";
+    path = "BinaryDecisionDiagramRelationSingleType.cpp";
     sourceTree = "<group>";
   };
 
@@ -1310,75 +1310,75 @@
     sourceTree = "<group>";
   };
 
-  2E94197FF767970B67041697 /* C_BoolCommandLineOption.cpp */ = {
+  2E94197FF767970B67041697 /* AbstractCommandLineOption.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_BoolCommandLineOption.cpp";
-    path = "C_BoolCommandLineOption.cpp";
+    name = "AbstractCommandLineOption.cpp";
+    path = "AbstractCommandLineOption.cpp";
     sourceTree = "<group>";
   };
 
-  D39FD083F55D4182BF88826D /* C_CommandLineOption.cpp */ = {
+  D39FD083F55D4182BF88826D /* BoolCommandLineOption.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_CommandLineOption.cpp";
-    path = "C_CommandLineOption.cpp";
+    name = "BoolCommandLineOption.cpp";
+    path = "BoolCommandLineOption.cpp";
     sourceTree = "<group>";
   };
 
-  B05B9D5AD24F4333C7658A0E /* C_StringCommandLineOption.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_StringCommandLineOption.cpp";
-    path = "C_StringCommandLineOption.cpp";
-    sourceTree = "<group>";
-  };
-
-  CE68DAD4D52D063967F0A705 /* C_StringListCommandLineOption.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_StringListCommandLineOption.cpp";
-    path = "C_StringListCommandLineOption.cpp";
-    sourceTree = "<group>";
-  };
-
-  FD34C64C85CA5B5690EE5293 /* C_UIntCommandLineOption.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_UIntCommandLineOption.cpp";
-    path = "C_UIntCommandLineOption.cpp";
-    sourceTree = "<group>";
-  };
-
-  6C3ABCA69FA097B85867D9A4 /* C_builtin_CLI_Options.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_builtin_CLI_Options.cpp";
-    path = "C_builtin_CLI_Options.cpp";
-    sourceTree = "<group>";
-  };
-
-  07F7F7D035D7BAF04342E1CA /* F_Analyze_CLI_Options.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "F_Analyze_CLI_Options.cpp";
-    path = "F_Analyze_CLI_Options.cpp";
-    sourceTree = "<group>";
-  };
-
-  C0E3619E98159E9B6FEBF557 /* F_mainForLIBPM.cpp */ = {
+  B05B9D5AD24F4333C7658A0E /* F_mainForLIBPM.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
     name = "F_mainForLIBPM.cpp";
     path = "F_mainForLIBPM.cpp";
+    sourceTree = "<group>";
+  };
+
+  CE68DAD4D52D063967F0A705 /* StringCommandLineOption.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "StringCommandLineOption.cpp";
+    path = "StringCommandLineOption.cpp";
+    sourceTree = "<group>";
+  };
+
+  FD34C64C85CA5B5690EE5293 /* StringListCommandLineOption.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "StringListCommandLineOption.cpp";
+    path = "StringListCommandLineOption.cpp";
+    sourceTree = "<group>";
+  };
+
+  6C3ABCA69FA097B85867D9A4 /* UIntCommandLineOption.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "UIntCommandLineOption.cpp";
+    path = "UIntCommandLineOption.cpp";
+    sourceTree = "<group>";
+  };
+
+  07F7F7D035D7BAF04342E1CA /* analyzeCommandLineOptions.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "analyzeCommandLineOptions.cpp";
+    path = "analyzeCommandLineOptions.cpp";
+    sourceTree = "<group>";
+  };
+
+  C0E3619E98159E9B6FEBF557 /* builtin-command-line-options.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "builtin-command-line-options.cpp";
+    path = "builtin-command-line-options.cpp";
     sourceTree = "<group>";
   };
 
@@ -1958,30 +1958,30 @@
     sourceTree = "<group>";
   };
 
-  CA3C61428C26A231F0E49A09 /* C_ColoredConsole.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_ColoredConsole.cpp";
-    path = "C_ColoredConsole.cpp";
-    sourceTree = "<group>";
-  };
-
-  5E30BDEE440E4CDF599FEC2B /* C_ConsoleOut.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "C_ConsoleOut.cpp";
-    path = "C_ConsoleOut.cpp";
-    sourceTree = "<group>";
-  };
-
-  6A8D8D7904FC0EA8E066B3BB /* C_ErrorOut.cpp */ = {
+  CA3C61428C26A231F0E49A09 /* C_ErrorOut.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
     name = "C_ErrorOut.cpp";
     path = "C_ErrorOut.cpp";
+    sourceTree = "<group>";
+  };
+
+  5E30BDEE440E4CDF599FEC2B /* ColoredConsole.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "ColoredConsole.cpp";
+    path = "ColoredConsole.cpp";
+    sourceTree = "<group>";
+  };
+
+  6A8D8D7904FC0EA8E066B3BB /* ConsoleOut.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "ConsoleOut.cpp";
+    path = "ConsoleOut.cpp";
     sourceTree = "<group>";
   };
 
@@ -2453,48 +2453,48 @@
     sourceTree = "<group>";
   };
 
-  C9B086079795C442636B55FB /* C_BDD-node.h */ = {
+  C9B086079795C442636B55FB /* BinaryDecisionDiagram-node.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_BDD-node.h";
-    path = "C_BDD-node.h";
+    name = "BinaryDecisionDiagram-node.h";
+    path = "BinaryDecisionDiagram-node.h";
     sourceTree = "<group>";
   };
 
-  210194C475687BE6106A3B84 /* C_BDD.h */ = {
+  210194C475687BE6106A3B84 /* BinaryDecisionDiagram.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_BDD.h";
-    path = "C_BDD.h";
+    name = "BinaryDecisionDiagram.h";
+    path = "BinaryDecisionDiagram.h";
     sourceTree = "<group>";
   };
 
-  748049E45D87B8C7D8B9AACD /* C_Relation.h */ = {
+  748049E45D87B8C7D8B9AACD /* BinaryDecisionDiagramRelation.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_Relation.h";
-    path = "C_Relation.h";
+    name = "BinaryDecisionDiagramRelation.h";
+    path = "BinaryDecisionDiagramRelation.h";
     sourceTree = "<group>";
   };
 
-  3463D06DE0CA9A15B6153677 /* C_RelationConfiguration.h */ = {
+  3463D06DE0CA9A15B6153677 /* BinaryDecisionDiagramRelationConfiguration.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_RelationConfiguration.h";
-    path = "C_RelationConfiguration.h";
+    name = "BinaryDecisionDiagramRelationConfiguration.h";
+    path = "BinaryDecisionDiagramRelationConfiguration.h";
     sourceTree = "<group>";
   };
 
-  AA0EFB9E19094440C317E21B /* C_RelationSingleType.h */ = {
+  AA0EFB9E19094440C317E21B /* BinaryDecisionDiagramRelationSingleType.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_RelationSingleType.h";
-    path = "C_RelationSingleType.h";
+    name = "BinaryDecisionDiagramRelationSingleType.h";
+    path = "BinaryDecisionDiagramRelationSingleType.h";
     sourceTree = "<group>";
   };
 
@@ -2840,75 +2840,75 @@
     sourceTree = "<group>";
   };
 
-  6411F7873CB83DACB17B0AFC /* C_BoolCommandLineOption.h */ = {
+  6411F7873CB83DACB17B0AFC /* AbstractCommandLineOption.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_BoolCommandLineOption.h";
-    path = "C_BoolCommandLineOption.h";
+    name = "AbstractCommandLineOption.h";
+    path = "AbstractCommandLineOption.h";
     sourceTree = "<group>";
   };
 
-  02F5FF68E3E25B9114205D4A /* C_CommandLineOption.h */ = {
+  02F5FF68E3E25B9114205D4A /* BoolCommandLineOption.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
-    name = "C_CommandLineOption.h";
-    path = "C_CommandLineOption.h";
+    name = "BoolCommandLineOption.h";
+    path = "BoolCommandLineOption.h";
     sourceTree = "<group>";
   };
 
-  0AD8981CA2C8286F79F59954 /* C_StringCommandLineOption.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "C_StringCommandLineOption.h";
-    path = "C_StringCommandLineOption.h";
-    sourceTree = "<group>";
-  };
-
-  F98EA8FE223C713B77189A77 /* C_StringListCommandLineOption.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "C_StringListCommandLineOption.h";
-    path = "C_StringListCommandLineOption.h";
-    sourceTree = "<group>";
-  };
-
-  560D78C5E599C2A9C9D0BBD2 /* C_UIntCommandLineOption.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "C_UIntCommandLineOption.h";
-    path = "C_UIntCommandLineOption.h";
-    sourceTree = "<group>";
-  };
-
-  649FFA2B3FF8C02EBFD5659F /* C_builtin_CLI_Options.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "C_builtin_CLI_Options.h";
-    path = "C_builtin_CLI_Options.h";
-    sourceTree = "<group>";
-  };
-
-  AFA4421218A51B1E1F1B0BA2 /* F_Analyze_CLI_Options.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "F_Analyze_CLI_Options.h";
-    path = "F_Analyze_CLI_Options.h";
-    sourceTree = "<group>";
-  };
-
-  325A8F591B52D302E7181331 /* F_mainForLIBPM.h */ = {
+  0AD8981CA2C8286F79F59954 /* F_mainForLIBPM.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
     name = "F_mainForLIBPM.h";
     path = "F_mainForLIBPM.h";
+    sourceTree = "<group>";
+  };
+
+  F98EA8FE223C713B77189A77 /* StringCommandLineOption.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "StringCommandLineOption.h";
+    path = "StringCommandLineOption.h";
+    sourceTree = "<group>";
+  };
+
+  560D78C5E599C2A9C9D0BBD2 /* StringListCommandLineOption.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "StringListCommandLineOption.h";
+    path = "StringListCommandLineOption.h";
+    sourceTree = "<group>";
+  };
+
+  649FFA2B3FF8C02EBFD5659F /* UIntCommandLineOption.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "UIntCommandLineOption.h";
+    path = "UIntCommandLineOption.h";
+    sourceTree = "<group>";
+  };
+
+  AFA4421218A51B1E1F1B0BA2 /* analyzeCommandLineOptions.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "analyzeCommandLineOptions.h";
+    path = "analyzeCommandLineOptions.h";
+    sourceTree = "<group>";
+  };
+
+  325A8F591B52D302E7181331 /* builtin-command-line-options.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "builtin-command-line-options.h";
+    path = "builtin-command-line-options.h";
     sourceTree = "<group>";
   };
 
@@ -3326,30 +3326,30 @@
     sourceTree = "<group>";
   };
 
-  8949FE29BF2A537CFA420E8F /* C_ColoredConsole.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "C_ColoredConsole.h";
-    path = "C_ColoredConsole.h";
-    sourceTree = "<group>";
-  };
-
-  4723ED2AB08E18053AE6DC5B /* C_ConsoleOut.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "C_ConsoleOut.h";
-    path = "C_ConsoleOut.h";
-    sourceTree = "<group>";
-  };
-
-  8CA53723593894116071700C /* C_ErrorOut.h */ = {
+  8949FE29BF2A537CFA420E8F /* C_ErrorOut.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
     name = "C_ErrorOut.h";
     path = "C_ErrorOut.h";
+    sourceTree = "<group>";
+  };
+
+  4723ED2AB08E18053AE6DC5B /* ColoredConsole.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "ColoredConsole.h";
+    path = "ColoredConsole.h";
+    sourceTree = "<group>";
+  };
+
+  8CA53723593894116071700C /* ConsoleOut.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "ConsoleOut.h";
+    path = "ConsoleOut.h";
     sourceTree = "<group>";
   };
 
