@@ -127,7 +127,6 @@
    <Unit filename="../build/libpm/streams/AbstractOutputStream.cpp" />
    <Unit filename="../build/libpm/streams/ColoredConsole.cpp" />
    <Unit filename="../build/libpm/streams/ConsoleOut.cpp" />
-   <Unit filename="../build/libpm/streams/C_ErrorOut.cpp" />
    <Unit filename="../build/libpm/strings/unicode_character_cpp.cpp" />
    <Unit filename="../build/libpm/strings/String-class-getters.cpp" />
    <Unit filename="../build/libpm/strings/String-class.cpp" />
@@ -150,7 +149,6 @@
    <Unit filename="../build/libpm/utilities/SHA256.cpp" />
    <Unit filename="../build/libpm/utilities/galgas-random.cpp" />
    <Unit filename="../build/libpm/galgas2/C_galgas_CLI_Options.cpp" />
-   <Unit filename="../build/libpm/galgas2/typeComparisonResult.cpp" />
    <Unit filename="../build/libpm/galgas2/Compiler.cpp" />
    <Unit filename="../build/libpm/galgas2/Lexique.cpp" />
    <Unit filename="../build/libpm/galgas2/Lexique-parsing.cpp" />
@@ -158,9 +156,9 @@
    <Unit filename="../build/libpm/galgas2/SourceTextInString.cpp" />
    <Unit filename="../build/libpm/galgas2/C_galgas_type_descriptor.cpp" />
    <Unit filename="../build/libpm/galgas2/C_galgas_function_descriptor.cpp" />
-   <Unit filename="../build/libpm/galgas2/C_galgas_io.cpp" />
+   <Unit filename="../build/libpm/galgas2/galgas-input-output.cpp" />
    <Unit filename="../build/libpm/galgas2/C_galgas_class_inspector.cpp" />
-   <Unit filename="../build/libpm/galgas2/C_IssueWithFixIt.cpp" />
+   <Unit filename="../build/libpm/galgas2/IssueWithFixIt.cpp" />
    <Unit filename="../build/libpm/galgas2/cObjectArray.cpp" />
    <Unit filename="../build/libpm/galgas2/cCollectionElement.cpp" />
    <Unit filename="../build/libpm/galgas2/capCollectionElement.cpp" />
