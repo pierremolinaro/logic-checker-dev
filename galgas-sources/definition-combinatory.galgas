@@ -17,7 +17,7 @@ syntax extension logicchecker_syntax {
   rule <definition> !@definition outDefinition {
     $combinatory$
     $identifier$ ?let blockName
-    outDefinition = @combinatoryDefinition.new {!blockName}
+    outDefinition = @combinatoryDefinition.init {!blockName}
   }
 
   #·····················································································································
@@ -31,8 +31,8 @@ syntax extension logicchecker_syntax {
 override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
   print (!"--------------- Combinatory " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
-  let outputVarCount = [bloc.mOutputVariableList length]
-  let inputVarCount = [bloc.mInputVariableList length]
+  let outputVarCount = [bloc.mOutputVariableList count]
+  let inputVarCount = [bloc.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
 #------------------------------ Check states are complete
   let incompleteStates = [bloc uncompleteStates]

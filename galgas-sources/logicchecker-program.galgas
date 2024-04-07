@@ -4,7 +4,7 @@ message "a source text file with the .logicchecker extension"
 %useGrammar logicchecker_grammar
 ?sourceFilePath:@lstring inSourceFile {
   grammar logicchecker_grammar (?let definitionList ) in inSourceFile
-  var @blockMap blockMap = {}
+  var @blockMap blockMap = §[]
   for (definition) in definitionList do
     [definition compute !?blockMap !inSourceFile]
   end

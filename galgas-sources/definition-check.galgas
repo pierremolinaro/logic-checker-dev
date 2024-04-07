@@ -17,7 +17,7 @@ syntax extension logicchecker_syntax {
   rule <definition> !@definition outDefinition {
     $check$
     $identifier$ ?let blockName
-    outDefinition = @checkDefinition.new {!blockName}
+    outDefinition = @checkDefinition.init {!blockName}
   }
 
   #·····················································································································
@@ -31,8 +31,8 @@ syntax extension logicchecker_syntax {
 override method @checkDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
   print (!"--------------- Check " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
-  let outputVarCount = [bloc.mOutputVariableList length]
-  let inputVarCount = [bloc.mInputVariableList length]
+  let outputVarCount = [bloc.mOutputVariableList count]
+  let inputVarCount = [bloc.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
 #  log inputVarCount, outputVarCount
 #------------------------------ Check states are complete

@@ -13,8 +13,8 @@ struct @block {
 # Ensemble des états complets : ∃s', ∀e' : (e, s) -> (e', s') est une transition et ((e, s) un état
 
 getter @block uncompleteStates -> @binaryset {
-  let outputVarCount = [self.mOutputVariableList length]
-  let inputVarCount = [self.mInputVariableList length]
+  let outputVarCount = [self.mOutputVariableList count]
+  let inputVarCount = [self.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
   var tr = self.mTransitions
   tr = [tr existsOnBitRange !variableCount !outputVarCount]
@@ -36,13 +36,13 @@ private func displayState
   var outputList = ""
   for (varName) in inOutputVariableList do
     [!?compressedString removeCharacterAtIndex ?let char !0]
-    outputList += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+    outputList += @string.stringWithSequenceOfCharacters {!' ' ![varName count] - 1}
     outputList += " " + char
   end
   var inputList = ""
   for (varName) in inInputVariableList do
     [!?compressedString removeCharacterAtIndex ?let char !0]
-    inputList += @string.stringWithSequenceOfCharacters {!' ' ![varName length] - 1}
+    inputList += @string.stringWithSequenceOfCharacters {!' ' ![varName count] - 1}
     inputList += " " + char
   end
   result = inputList + " :" + outputList
@@ -51,8 +51,8 @@ private func displayState
 #·······················································································································
 
 method @block displayStates ?let @binaryset inStates {
-  let outputVarCount = [self.mOutputVariableList length]
-  let inputVarCount = [self.mInputVariableList length]
+  let outputVarCount = [self.mOutputVariableList count]
+  let inputVarCount = [self.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
   var line = "  "
   for (s) in self.mInputVariableList do
@@ -72,8 +72,8 @@ method @block displayStates ?let @binaryset inStates {
 #·······················································································································
 
 getter @block ambiguousTransitions -> @binaryset {
-  let outputVarCount = [self.mOutputVariableList length]
-  let inputVarCount = [self.mInputVariableList length]
+  let outputVarCount = [self.mOutputVariableList count]
+  let inputVarCount = [self.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
 # Ensemble des transitions ambiguës :
 # ∀(e, s) état, ∃(e, s) -> (e', s') transition, ∃(e, s) -> (e", s") transition et e' = e" et s' != s"
@@ -99,8 +99,8 @@ getter @block ambiguousTransitions -> @binaryset {
 #·······················································································································
 
 method @block displayTransitions ?let @binaryset inTransitions {
-  let outputVarCount = [self.mOutputVariableList length]
-  let inputVarCount = [self.mInputVariableList length]
+  let outputVarCount = [self.mOutputVariableList count]
+  let inputVarCount = [self.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
   var line = " "
   for (s) in self.mInputVariableList do
@@ -134,8 +134,8 @@ method @block displayTransitions ?let @binaryset inTransitions {
 # : (e, s) est un état -> (e', s') est un état et e = e' et s ≠ s'
 
 getter @block nonCombinatoryStates -> @binaryset {
-  let outputVarCount = [self.mOutputVariableList length]
-  let inputVarCount  = [self.mInputVariableList length]
+  let outputVarCount = [self.mOutputVariableList count]
+  let inputVarCount  = [self.mInputVariableList count]
   let variableCount  = inputVarCount + outputVarCount
   result = self.mStates & [self.mStates binarySetByTranslatingFromIndex !0 !variableCount]
 #--- Constraint e = e'

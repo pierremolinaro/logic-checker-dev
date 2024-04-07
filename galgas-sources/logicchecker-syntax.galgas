@@ -41,7 +41,7 @@ syntax logicchecker_syntax (logicchecker_lexique) {
   #·····················································································································
 
   rule <start_symbol> !@definitionList outDefinitionList {
-    outDefinitionList = {}
+    outDefinitionList = §[]
     repeat
     while
       <definition> ?let definition

@@ -17,7 +17,7 @@ syntax extension logicchecker_syntax {
   rule <definition> !@definition outDefinition {
     $display$
     $identifier$ ?let blockName
-    outDefinition = @displayDefinition.new {!blockName}
+    outDefinition = @displayDefinition.init {!blockName}
   }
 
   #·····················································································································
@@ -34,7 +34,7 @@ override method @displayDefinition compute
 {
   print (!"--------------- Display " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
-  let variableCount = [bloc.mInputVariableList length] + [bloc.mOutputVariableList length]
+  let variableCount = [bloc.mInputVariableList count] + [bloc.mOutputVariableList count]
 #--- Display states result
   print (![[bloc.mStates valueCount !variableCount] string] + " states ("
     + [[bloc.mStates nodeCount] string] + " BDD nodes):\n")
