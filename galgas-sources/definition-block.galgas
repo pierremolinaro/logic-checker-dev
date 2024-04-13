@@ -115,11 +115,11 @@ syntax extension logicchecker_syntax {
           assignmentList += !firstTargetName !expression
         or
           <importBlock> ?let blockName ?let blockInputVariableName
-          importedBlockList += !blockName !blockInputVariableName !§[!firstTargetName]
+          importedBlockList += !blockName !blockInputVariableName !§[.init (firstTargetName)]
           $;$
         end
       or
-        var @lstringlist targetVarList = §[!firstTargetName]
+        var @lstringlist targetVarList = §[.init (firstTargetName)]
         repeat
           $,$
           <targetVariable> ?let targetName !?internalVariableList
