@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-refclass @combinatoryDefinition : @definition {
+class @combinatoryDefinition : @definition {
   public var @lstring mBlockName
 }
 

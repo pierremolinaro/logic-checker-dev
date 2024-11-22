@@ -2,45 +2,45 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-abstract refclass @expression {}
+abstract class @expression {}
 
 #·······················································································································
 
-refclass @trueExpression : @expression {}
+class @trueExpression : @expression {}
 
 #·······················································································································
 
-refclass @falseExpression : @expression {}
+class @falseExpression : @expression {}
 
 #·······················································································································
 
-refclass @varExpression : @expression {
+class @varExpression : @expression {
   public var @lstring mVariableName
 }
 
 #·······················································································································
 
-refclass @negationExpression : @expression {
+class @negationExpression : @expression {
   public var @expression mExpression
 }
 
 #·······················································································································
 
-refclass @andExpression : @expression {
+class @andExpression : @expression {
   public var @expression mLeftExpression
   public var @expression mRightExpression
 }
 
 #·······················································································································
 
-refclass @orExpression : @expression {
+class @orExpression : @expression {
   public var @expression mLeftExpression
   public var @expression mRightExpression
 }
 
 #·······················································································································
 
-refclass @xorExpression : @expression {
+class @xorExpression : @expression {
   public var @expression mLeftExpression
   public var @expression mRightExpression
 }
@@ -62,7 +62,7 @@ list @importedBlockList {
 
 #·······················································································································
 
-refclass @blockDefinition : @definition {
+class @blockDefinition : @definition {
   public var @lstring mBlockName
   public var @lstringlist mInputVariableList
   public var @lstringlist mInternalVariableList

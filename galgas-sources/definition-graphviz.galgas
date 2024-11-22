@@ -2,7 +2,7 @@
 #    AST
 #———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
-refclass @graphvizDefinition : @definition {
+class @graphvizDefinition : @definition {
   public var @lstring mBlockName
 }
 
