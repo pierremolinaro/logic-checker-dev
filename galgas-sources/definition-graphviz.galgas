@@ -17,7 +17,7 @@ syntax extension logicchecker_syntax {
   rule <definition> !@definition outDefinition {
     $graphviz$
     $identifier$ ?let blockName
-    outDefinition = @graphvizDefinition.init {!blockName}
+    outDefinition = @graphvizDefinition {!blockName}
   }
 
   #·····················································································································

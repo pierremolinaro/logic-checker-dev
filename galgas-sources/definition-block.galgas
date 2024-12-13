@@ -83,7 +83,7 @@ syntax extension logicchecker_syntax {
     $block$
     $identifier$ ?let blockName
     $($
-    var @lstringlist inputVariableList = §[]
+    var @lstringlist inputVariableList = @[]
     repeat
       $identifier$ ?let inputName
       inputVariableList += !inputName
@@ -93,7 +93,7 @@ syntax extension logicchecker_syntax {
     $)$
     $->$
     $($
-    var @lstringlist outputVariableList = §[]
+    var @lstringlist outputVariableList = @[]
     repeat
       $identifier$ ?let outputName
       outputVariableList += !outputName
@@ -102,9 +102,9 @@ syntax extension logicchecker_syntax {
     end
     $)$
     ${$
-    var @lstringlist internalVariableList = §[]
-    var @assignmentList assignmentList = §[]
-    var @importedBlockList importedBlockList = §[]
+    var @lstringlist internalVariableList = @[]
+    var @assignmentList assignmentList = @[]
+    var @importedBlockList importedBlockList = @[]
     repeat
       <targetVariable> ?let firstTargetName !?internalVariableList
       select # Single assignment
@@ -115,11 +115,11 @@ syntax extension logicchecker_syntax {
           assignmentList += !firstTargetName !expression
         or
           <importBlock> ?let blockName ?let blockInputVariableName
-          importedBlockList += !blockName !blockInputVariableName !§[.init (firstTargetName)]
+          importedBlockList += !blockName !blockInputVariableName !@[@(firstTargetName)]
           $;$
         end
       or
-        var @lstringlist targetVarList = §[.init (firstTargetName)]
+        var @lstringlist targetVarList = @[@(firstTargetName)]
         repeat
           $,$
           <targetVariable> ?let targetName !?internalVariableList
@@ -134,7 +134,7 @@ syntax extension logicchecker_syntax {
     while
     end
     $}$
-    outDefinition = @blockDefinition.init {
+    outDefinition = @blockDefinition {
       !blockName
       !inputVariableList
       !internalVariableList
@@ -166,7 +166,7 @@ syntax extension logicchecker_syntax {
   rule <importBlock> !@lstring outBlockName !@lstringlist outBlockInputVariableList {
     $identifier$ ?outBlockName
     $($
-    outBlockInputVariableList = §[]
+    outBlockInputVariableList = @[]
     repeat
       $identifier$ ?let inputVarName
       outBlockInputVariableList += !inputVarName
@@ -184,11 +184,11 @@ syntax extension logicchecker_syntax {
     while
       $|$
       <terme> ?let expression
-      outExpression = @orExpression.init {!outExpression !expression}
+      outExpression = @orExpression {!outExpression !expression}
     while
       $^$
       <terme> ?let expression
-      outExpression = @xorExpression.init {!outExpression !expression}
+      outExpression = @xorExpression {!outExpression !expression}
     end
   }
   
@@ -200,7 +200,7 @@ syntax extension logicchecker_syntax {
     while
       $&$
       <factor> ?let expression
-      outExpression = @andExpression.init {!outExpression !expression}
+      outExpression = @andExpression {!outExpression !expression}
     end
   }
   
@@ -209,14 +209,14 @@ syntax extension logicchecker_syntax {
   rule <factor> !@expression outExpression {
     $/$
     <factor> ?let expression
-    outExpression = @negationExpression.init {!expression}
+    outExpression = @negationExpression {!expression}
   }
   
   #·····················································································································
 
   rule <factor> !@expression outExpression {
     $identifier$ ?let variableName
-    outExpression = @varExpression.init {!variableName}
+    outExpression = @varExpression {!variableName}
   }
   
    #·····················································································································
@@ -231,14 +231,14 @@ syntax extension logicchecker_syntax {
 
   rule <factor> !@expression outExpression {
     $true$
-    outExpression = @trueExpression.init
+    outExpression = @trueExpression ()
   }
   
   #·····················································································································
 
   rule <factor> !@expression outExpression {
     $false$
-    outExpression = @falseExpression.init
+    outExpression = @falseExpression ()
   }
   
   #·····················································································································
@@ -398,10 +398,10 @@ override method @blockDefinition compute
 {
   print (!"--------------- Block " + self.mBlockName + "\n")
 #---------- Enter output variables
-  var @variableMap variableMap = §[]
-  var @stringlist outputAndInternalVariableList = §[]
-  var @stringlist outputVariableList = §[]
-  var @variableMap outputVariableMap = §[]
+  var @variableMap variableMap = @[]
+  var @stringlist outputAndInternalVariableList = @[]
+  var @stringlist outputVariableList = @[]
+  var @variableMap outputVariableMap = @[]
   for (name) in self.mOutputVariableList do
     let variableIndex = [variableMap count]
     [!?variableMap insertKey !name !variableIndex]
@@ -420,7 +420,7 @@ override method @blockDefinition compute
   end
   let outputAndInternalVarCount = [outputAndInternalVariableList count]
 #---------- Enter input variables
-  var @stringlist inputVariableList = §[]
+  var @stringlist inputVariableList = @[]
   for (name) in self.mInputVariableList do
     [!?variableMap insertKey !name ![variableMap count]]
     inputVariableList += !name.string
@@ -429,7 +429,7 @@ override method @blockDefinition compute
   let allVariableCount = inputVariableCount + outputAndInternalVarCount
   let exportedVariableCount = inputVariableCount + outputVarCount
 #---------- Enter assignments
-  var @stringset assignedOutputVariableSet = §[]
+  var @stringset assignedOutputVariableSet = @[]
   for (targetVar *) in self.mAssignmentList do
     [variableMap searchKey !targetVar ?*]
     if not [outputVariableMap hasKey !targetVar.string] then
@@ -476,7 +476,7 @@ override method @blockDefinition compute
 #--- ... for imported blocks
   for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
-    var @uintlist transposition = §[]
+    var @uintlist transposition = @[]
     for (name) in blockOutputVarList do
       [variableMap searchKey !name ?let varIndex]
       transposition += !varIndex
@@ -502,7 +502,7 @@ override method @blockDefinition compute
   blockTransitions = blockTransitions & (blockStates << allVariableCount)
 #---------- remove internal variables
   if internalVarCount > 0 then
-    var @uintlist stateTranspositionVector = §[]
+    var @uintlist stateTranspositionVector = @[]
     var idx = 0
     for (*) in self.mOutputVariableList do
       stateTranspositionVector += !idx
@@ -519,7 +519,7 @@ override method @blockDefinition compute
     blockStates = [blockStates transposedBy !stateTranspositionVector]
     blockStates = [blockStates existOnBitIndexAndBeyond !exportedVariableCount]
   #--- Transpose transitions
-    var @uintlist transTranspositionVector = §[]
+    var @uintlist transTranspositionVector = @[]
     idx = 0
     for (*) in self.mOutputVariableList do
       transTranspositionVector += !idx
@@ -556,7 +556,7 @@ override method @blockDefinition compute
   print (![[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n")
 #---------- Enter in block map
-   let bloc = @block.init {!inputVariableList !outputVariableList !blockStates !blockTransitions}
+   let bloc = @block {!inputVariableList !outputVariableList !blockStates !blockTransitions}
   [!?blockMap insertKey !self.mBlockName !bloc]
 #------------------------------ States completion
   let incompleteStates = [bloc uncompleteStates]

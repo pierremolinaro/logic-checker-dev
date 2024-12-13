@@ -17,7 +17,7 @@ syntax extension logicchecker_syntax {
   rule <definition> !@definition outDefinition {
     $combinatory$
     $identifier$ ?let blockName
-    outDefinition = @combinatoryDefinition.init {!blockName}
+    outDefinition = @combinatoryDefinition {!blockName}
   }
 
   #·····················································································································
