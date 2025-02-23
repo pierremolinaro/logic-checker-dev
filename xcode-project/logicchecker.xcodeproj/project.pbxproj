@@ -691,73 +691,73 @@
     settings = {ATTRIBUTES = (); };
   };
 
-  9D1751CF3F247855F937B982 /* IssueWithFixIt.cpp */ = {
+  9D1751CF3F247855F937B982 /* IssueDescriptor.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 25E7C98C50F52CA1B52D3735 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  743DC5D013B1ABAEBD2FAED2 /* Lexique-parsing.cpp */ = {
+  743DC5D013B1ABAEBD2FAED2 /* IssueWithFixIt.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 2E0716F3D8A7A5C4E0DE0D9A ;
     settings = {ATTRIBUTES = (); };
   };
 
-  927D466D6EC9A21B9AC34FFA /* Lexique.cpp */ = {
+  FDA6E89AEC274A3657558A27 /* Lexique-parsing.cpp */ = {
     isa = PBXBuildFile;
-    fileRef = 65C712C49D51A18A32B39F0C ;
+    fileRef = 927D466D6EC9A21B9AC34FFA ;
     settings = {ATTRIBUTES = (); };
   };
 
-  3BFE59267D5ECFAC5310286C /* LocationInSource.cpp */ = {
+  3BFE59267D5ECFAC5310286C /* Lexique.cpp */ = {
     isa = PBXBuildFile;
     fileRef = B9528732C23CC7352950E880 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  139AA4D9AA55B8D237EC5D4A /* SourceTextInString.cpp */ = {
+  139AA4D9AA55B8D237EC5D4A /* LocationInSource.cpp */ = {
     isa = PBXBuildFile;
     fileRef = E5BC5280214E0486B273A5F9 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  3289AF4DD08DE5D1DE54F68F /* acPtr_class.cpp */ = {
+  25D76A6704B08093C652FD79 /* SourceTextInString.cpp */ = {
     isa = PBXBuildFile;
-    fileRef = 25D76A6704B08093C652FD79 ;
+    fileRef = 4CCE62F762A2AAA148D556BD ;
     settings = {ATTRIBUTES = (); };
   };
 
-  2C25763A55CC642422644317 /* acStrongPtr_class.cpp */ = {
+  2C25763A55CC642422644317 /* acPtr_class.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 7642BF815A88822C447D9DC4 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  1D016FFCBF3314DF2B3CB9CE /* cCollectionElement.cpp */ = {
+  1D016FFCBF3314DF2B3CB9CE /* acStrongPtr_class.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 5380FCACCE3976BF7C08AF5B ;
     settings = {ATTRIBUTES = (); };
   };
 
-  938DC2A6340E258630FEBD5A /* cEnumerator_range.cpp */ = {
+  938DC2A6340E258630FEBD5A /* cCollectionElement.cpp */ = {
     isa = PBXBuildFile;
     fileRef = B96FCBA7CDA0CF54A2E802F5 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  B53F4CC0AD3819A36752467B /* cGenericAbstractEnumerator.cpp */ = {
+  B53F4CC0AD3819A36752467B /* cEnumerator_range.cpp */ = {
     isa = PBXBuildFile;
     fileRef = F61279C928F19721878FAC41 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  FF9806D4BCD1EF555BE766CD /* cIndexingDictionary.cpp */ = {
+  FF9806D4BCD1EF555BE766CD /* cGenericAbstractEnumerator.cpp */ = {
     isa = PBXBuildFile;
     fileRef = 710521C12EE76289D9440817 ;
     settings = {ATTRIBUTES = (); };
   };
 
-  6595B338AFBAB333C555292A /* cIssueDescriptor.cpp */ = {
+  6595B338AFBAB333C555292A /* cIndexingDictionary.cpp */ = {
     isa = PBXBuildFile;
     fileRef = C83817B7893BCDEED13799B5 ;
     settings = {ATTRIBUTES = (); };
@@ -1730,7 +1730,16 @@
     sourceTree = "<group>";
   };
 
-  25E7C98C50F52CA1B52D3735 /* IssueWithFixIt.cpp */ = {
+  25E7C98C50F52CA1B52D3735 /* IssueDescriptor.cpp */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.cpp.cpp;
+    name = "IssueDescriptor.cpp";
+    path = "IssueDescriptor.cpp";
+    sourceTree = "<group>";
+  };
+
+  2E0716F3D8A7A5C4E0DE0D9A /* IssueWithFixIt.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1739,7 +1748,7 @@
     sourceTree = "<group>";
   };
 
-  2E0716F3D8A7A5C4E0DE0D9A /* Lexique-parsing.cpp */ = {
+  927D466D6EC9A21B9AC34FFA /* Lexique-parsing.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1748,7 +1757,7 @@
     sourceTree = "<group>";
   };
 
-  65C712C49D51A18A32B39F0C /* Lexique.cpp */ = {
+  B9528732C23CC7352950E880 /* Lexique.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1757,7 +1766,7 @@
     sourceTree = "<group>";
   };
 
-  B9528732C23CC7352950E880 /* LocationInSource.cpp */ = {
+  E5BC5280214E0486B273A5F9 /* LocationInSource.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1766,7 +1775,7 @@
     sourceTree = "<group>";
   };
 
-  E5BC5280214E0486B273A5F9 /* SourceTextInString.cpp */ = {
+  4CCE62F762A2AAA148D556BD /* SourceTextInString.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1775,7 +1784,7 @@
     sourceTree = "<group>";
   };
 
-  25D76A6704B08093C652FD79 /* acPtr_class.cpp */ = {
+  7642BF815A88822C447D9DC4 /* acPtr_class.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1784,7 +1793,7 @@
     sourceTree = "<group>";
   };
 
-  7642BF815A88822C447D9DC4 /* acStrongPtr_class.cpp */ = {
+  5380FCACCE3976BF7C08AF5B /* acStrongPtr_class.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1793,7 +1802,7 @@
     sourceTree = "<group>";
   };
 
-  5380FCACCE3976BF7C08AF5B /* cCollectionElement.cpp */ = {
+  B96FCBA7CDA0CF54A2E802F5 /* cCollectionElement.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1802,7 +1811,7 @@
     sourceTree = "<group>";
   };
 
-  B96FCBA7CDA0CF54A2E802F5 /* cEnumerator_range.cpp */ = {
+  F61279C928F19721878FAC41 /* cEnumerator_range.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1811,7 +1820,7 @@
     sourceTree = "<group>";
   };
 
-  F61279C928F19721878FAC41 /* cGenericAbstractEnumerator.cpp */ = {
+  710521C12EE76289D9440817 /* cGenericAbstractEnumerator.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
@@ -1820,21 +1829,12 @@
     sourceTree = "<group>";
   };
 
-  710521C12EE76289D9440817 /* cIndexingDictionary.cpp */ = {
+  C83817B7893BCDEED13799B5 /* cIndexingDictionary.cpp */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.cpp.cpp;
     name = "cIndexingDictionary.cpp";
     path = "cIndexingDictionary.cpp";
-    sourceTree = "<group>";
-  };
-
-  C83817B7893BCDEED13799B5 /* cIssueDescriptor.cpp */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.cpp.cpp;
-    name = "cIssueDescriptor.cpp";
-    path = "cIssueDescriptor.cpp";
     sourceTree = "<group>";
   };
 
@@ -3098,7 +3098,16 @@
     sourceTree = "<group>";
   };
 
-  B505FFED0D024130F58C5CFA /* IssueWithFixIt.h */ = {
+  B505FFED0D024130F58C5CFA /* IssueDescriptor.h */ = {
+    isa = PBXFileReference;
+    fileEncoding = 4;
+    lastKnownFileType = sourcecode.c.h;
+    name = "IssueDescriptor.h";
+    path = "IssueDescriptor.h";
+    sourceTree = "<group>";
+  };
+
+  65C712C49D51A18A32B39F0C /* IssueWithFixIt.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3107,7 +3116,7 @@
     sourceTree = "<group>";
   };
 
-  FDA6E89AEC274A3657558A27 /* Lexique.h */ = {
+  DA20EF399B63A72D0E4AB575 /* Lexique.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3116,7 +3125,7 @@
     sourceTree = "<group>";
   };
 
-  DA20EF399B63A72D0E4AB575 /* LocationInSource.h */ = {
+  68F23406C6CECF84A7EBB0FE /* LocationInSource.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3125,7 +3134,7 @@
     sourceTree = "<group>";
   };
 
-  68F23406C6CECF84A7EBB0FE /* SourceTextInString.h */ = {
+  3289AF4DD08DE5D1DE54F68F /* SourceTextInString.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3134,7 +3143,7 @@
     sourceTree = "<group>";
   };
 
-  4CCE62F762A2AAA148D556BD /* TemplateDelimiter.h */ = {
+  2FE46A9D49D3D3AF4F57443D /* TemplateDelimiter.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3143,7 +3152,7 @@
     sourceTree = "<group>";
   };
 
-  2FE46A9D49D3D3AF4F57443D /* acPtr_class.h */ = {
+  B191F8F9DE3F924F0940515F /* acPtr_class.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3152,7 +3161,7 @@
     sourceTree = "<group>";
   };
 
-  B191F8F9DE3F924F0940515F /* acStrongPtr_class.h */ = {
+  E2DD305D79C2EBC8C1883422 /* acStrongPtr_class.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3161,7 +3170,7 @@
     sourceTree = "<group>";
   };
 
-  E2DD305D79C2EBC8C1883422 /* cCollectionElement.h */ = {
+  E2E08964BF9F24B15F0E4900 /* cCollectionElement.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3170,7 +3179,7 @@
     sourceTree = "<group>";
   };
 
-  E2E08964BF9F24B15F0E4900 /* cEnumerator_range.h */ = {
+  D8E091C2AB4C7C7DE644D37B /* cEnumerator_range.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3179,7 +3188,7 @@
     sourceTree = "<group>";
   };
 
-  D8E091C2AB4C7C7DE644D37B /* cGenericAbstractEnumerator.h */ = {
+  0E95574250DABE07151BDC23 /* cGenericAbstractEnumerator.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
@@ -3188,21 +3197,12 @@
     sourceTree = "<group>";
   };
 
-  0E95574250DABE07151BDC23 /* cIndexingDictionary.h */ = {
+  2E2CAD213179A3992C0BE53C /* cIndexingDictionary.h */ = {
     isa = PBXFileReference;
     fileEncoding = 4;
     lastKnownFileType = sourcecode.c.h;
     name = "cIndexingDictionary.h";
     path = "cIndexingDictionary.h";
-    sourceTree = "<group>";
-  };
-
-  2E2CAD213179A3992C0BE53C /* cIssueDescriptor.h */ = {
-    isa = PBXFileReference;
-    fileEncoding = 4;
-    lastKnownFileType = sourcecode.c.h;
-    name = "cIssueDescriptor.h";
-    path = "cIssueDescriptor.h";
     sourceTree = "<group>";
   };
 
@@ -3944,13 +3944,13 @@
       B505FFED0D024130F58C5CFA, 
       2E0716F3D8A7A5C4E0DE0D9A, 
       65C712C49D51A18A32B39F0C, 
-      FDA6E89AEC274A3657558A27, 
+      927D466D6EC9A21B9AC34FFA, 
       B9528732C23CC7352950E880, 
       DA20EF399B63A72D0E4AB575, 
       E5BC5280214E0486B273A5F9, 
       68F23406C6CECF84A7EBB0FE, 
       4CCE62F762A2AAA148D556BD, 
-      25D76A6704B08093C652FD79, 
+      3289AF4DD08DE5D1DE54F68F, 
       2FE46A9D49D3D3AF4F57443D, 
       7642BF815A88822C447D9DC4, 
       B191F8F9DE3F924F0940515F, 
@@ -4314,10 +4314,10 @@
         1E345E339F35A30C8F65EDCE,
         9D1751CF3F247855F937B982,
         743DC5D013B1ABAEBD2FAED2,
-        927D466D6EC9A21B9AC34FFA,
+        FDA6E89AEC274A3657558A27,
         3BFE59267D5ECFAC5310286C,
         139AA4D9AA55B8D237EC5D4A,
-        3289AF4DD08DE5D1DE54F68F,
+        25D76A6704B08093C652FD79,
         2C25763A55CC642422644317,
         1D016FFCBF3314DF2B3CB9CE,
         938DC2A6340E258630FEBD5A,
@@ -4448,10 +4448,10 @@
         1E345E339F35A30C8F65EDCE,
         9D1751CF3F247855F937B982,
         743DC5D013B1ABAEBD2FAED2,
-        927D466D6EC9A21B9AC34FFA,
+        FDA6E89AEC274A3657558A27,
         3BFE59267D5ECFAC5310286C,
         139AA4D9AA55B8D237EC5D4A,
-        3289AF4DD08DE5D1DE54F68F,
+        25D76A6704B08093C652FD79,
         2C25763A55CC642422644317,
         1D016FFCBF3314DF2B3CB9CE,
         938DC2A6340E258630FEBD5A,
