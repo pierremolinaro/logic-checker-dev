@@ -162,12 +162,13 @@
    <Unit filename="../build/libpm/galgas/cSortedListElement.cpp" />
    <Unit filename="../build/libpm/galgas/capSortedListElement.cpp" />
    <Unit filename="../build/libpm/galgas/cGenericAbstractEnumerator.cpp" />
-   <Unit filename="../build/libpm/galgas/cEnumerator_range.cpp" />
-   <Unit filename="../build/libpm/galgas/cIndexingDictionary.cpp" />
+   <Unit filename="../build/libpm/galgas/Enumerator_range.cpp" />
+   <Unit filename="../build/libpm/galgas/IndexingDictionary.cpp" />
    <Unit filename="../build/libpm/galgas/IssueDescriptor.cpp" />
    <Unit filename="../build/libpm/galgas/cLexiqueIntrospection.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_root.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_list.cpp" />
+   <Unit filename="../build/libpm/galgas/SharedStringMap.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_sortedlist.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_map.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_reference_class.cpp" />
