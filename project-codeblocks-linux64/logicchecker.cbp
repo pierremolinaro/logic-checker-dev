@@ -144,6 +144,8 @@
    <Unit filename="../build/libpm/utilities/md5.cpp" />
    <Unit filename="../build/libpm/utilities/SHA256.cpp" />
    <Unit filename="../build/libpm/utilities/galgas-random.cpp" />
+   <Unit filename="../build/libpm/utilities/SharedStringMap.cpp" />
+   <Unit filename="../build/libpm/utilities/SharedObjectWithValueSemantics.cpp" />
    <Unit filename="../build/libpm/galgas/C_galgas_CLI_Options.cpp" />
    <Unit filename="../build/libpm/galgas/Compiler.cpp" />
    <Unit filename="../build/libpm/galgas/Lexique.cpp" />
@@ -168,7 +170,6 @@
    <Unit filename="../build/libpm/galgas/cLexiqueIntrospection.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_root.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_list.cpp" />
-   <Unit filename="../build/libpm/galgas/SharedStringMap.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_sortedlist.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_map.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_reference_class.cpp" />
@@ -192,7 +193,7 @@
    <Unit filename="../build/libpm/galgas/GALGAS_function.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_location.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_sint.cpp" />
-   <Unit filename="../build/libpm/galgas/GALGAS_sint_36__34_.cpp" />
+   <Unit filename="../build/libpm/galgas/GALGAS_sint64.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_string.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_string-getters.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_stringset.cpp" />
@@ -200,7 +201,7 @@
    <Unit filename="../build/libpm/galgas/GALGAS_object.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_uint.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_timer.cpp" />
-   <Unit filename="../build/libpm/galgas/GALGAS_uint_36__34_.cpp" />
+   <Unit filename="../build/libpm/galgas/GALGAS_uint64.cpp" />
   <Extensions>
    <code_completion />
    <envvars />
