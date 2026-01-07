@@ -127,7 +127,7 @@
    <Unit filename="../build/libpm/streams/AbstractOutputStream.cpp" />
    <Unit filename="../build/libpm/streams/ColoredConsole.cpp" />
    <Unit filename="../build/libpm/streams/ConsoleOut.cpp" />
-   <Unit filename="../build/libpm/strings/unicode_character_cpp.cpp" />
+   <Unit filename="../build/libpm/strings/utf32.cpp" />
    <Unit filename="../build/libpm/strings/String-class-getters.cpp" />
    <Unit filename="../build/libpm/strings/String-class.cpp" />
    <Unit filename="../build/libpm/strings/HTMLString.cpp" />
