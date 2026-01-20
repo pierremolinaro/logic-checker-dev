@@ -4,26 +4,26 @@ project (0:0:1) -> "logicchecker" {
   %makefile-x86linux32-on-macosx
   %makefile-x86linux64-on-macosx
   %makefile-win32-on-macosx
-  %MacOS
+  %MacSwiftApp
   %applicationBundleBase : "fr.what"
   %codeblocks-windows
   %codeblocks-linux32
   %codeblocks-linux64
 
 #--- Source files
-  "galgas-sources/logicchecker-lexique.galgas"
-  "galgas-sources/logicchecker-options.galgas"
-  "galgas-sources/logicchecker-semantics.galgas"
-  "galgas-sources/logicchecker-syntax.galgas"
+  "sources/logicchecker-lexique.galgas"
+  "sources/logicchecker-options.galgas"
+  "sources/logicchecker-semantics.galgas"
+  "sources/logicchecker-syntax.galgas"
 
-  "galgas-sources/struct-block.galgas"
-  "galgas-sources/definition-block.galgas"
-  "galgas-sources/definition-display.galgas"
-  "galgas-sources/definition-graphviz.galgas"
-  "galgas-sources/definition-check.galgas"
-  "galgas-sources/definition-combinatory.galgas"
+  "sources/struct-block.galgas"
+  "sources/definition-block.galgas"
+  "sources/definition-display.galgas"
+  "sources/definition-graphviz.galgas"
+  "sources/definition-check.galgas"
+  "sources/definition-combinatory.galgas"
 
-  "galgas-sources/logicchecker-cocoa.galgas"
-  "galgas-sources/logicchecker-program.galgas"
+  "sources/logicchecker-cocoa.galgas"
+  "sources/logicchecker-program.galgas"
 }
 
