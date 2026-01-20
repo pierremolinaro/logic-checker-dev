@@ -9,21 +9,5 @@ project (0:0:1) -> "logicchecker" {
   %codeblocks-windows
   %codeblocks-linux32
   %codeblocks-linux64
-
-#--- Source files
-  "sources/logicchecker-lexique.galgas"
-  "sources/logicchecker-options.galgas"
-  "sources/logicchecker-semantics.galgas"
-  "sources/logicchecker-syntax.galgas"
-
-  "sources/struct-block.galgas"
-  "sources/definition-block.galgas"
-  "sources/definition-display.galgas"
-  "sources/definition-graphviz.galgas"
-  "sources/definition-check.galgas"
-  "sources/definition-combinatory.galgas"
-
-  "sources/logicchecker-cocoa.galgas"
-  "sources/logicchecker-program.galgas"
 }
 

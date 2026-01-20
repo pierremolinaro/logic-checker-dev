@@ -69,6 +69,7 @@
    <Add directory="../build/libpm/utilities" />
    <Add directory="../build/user-headers" />
    <Add directory="../build/output" />
+   <Add directory="../sources/tool-sources" />
   </Compiler>
   <Linker>
   </Linker>

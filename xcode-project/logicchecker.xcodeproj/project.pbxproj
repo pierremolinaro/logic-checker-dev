@@ -4339,7 +4339,7 @@
       GCC_WARN_UNUSED_LABEL = YES ;
       GCC_WARN_UNUSED_VALUE = YES ;
       GCC_WARN_UNUSED_VARIABLE = YES ;
-      HEADER_SEARCH_PATHS = ("../build/output", "../build/libpm", "../build/user-headers") ;
+      HEADER_SEARCH_PATHS = ("../build/output", "../build/libpm", "../build/user-headers", "../sources/tool-sources") ;
       SDKROOT = macosx ;
       COPY_PHASE_STRIP = NO ;
       CLANG_ENABLE_OBJC_ARC = YES ;
