@@ -1,18 +1,18 @@
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    AST
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    AST
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 class @checkDefinition : @definition {
   public var @lstring mBlockName
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    SYNTAX
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    SYNTAX
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 syntax extension logicchecker_syntax {
 
-  #·····················································································································
+  //·····················································································································
 
   rule <definition> !@definition outDefinition {
     $check$
@@ -20,13 +20,13 @@ syntax extension logicchecker_syntax {
     outDefinition = @checkDefinition {!blockName}
   }
 
-  #·····················································································································
+  //·····················································································································
 
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#   SEMANTICS
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//   SEMANTICS
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @checkDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
   print (!"--------------- Check " + self.mBlockName + "\n")
@@ -34,8 +34,8 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
   let outputVarCount = [bloc.mOutputVariableList count]
   let inputVarCount = [bloc.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
-#  log inputVarCount, outputVarCount
-#------------------------------ Check states are complete
+//  log inputVarCount, outputVarCount
+//------------------------------ Check states are complete
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !variableCount]
   if incompleteStateCount == 0 then
@@ -47,11 +47,11 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
        + " BDD nodes):"
     [bloc displayStates !incompleteStates]
   end
-#------------------------------ Check no ambiguous transition
+//------------------------------ Check no ambiguous transition
   let ambiguousTransitions = [bloc ambiguousTransitions]
-#--- Ambiguous transition count
+//--- Ambiguous transition count
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * variableCount]
-#--- Display ampbiguous transitions
+//--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
     print (!"No ambiguous transition.\n")
   else
@@ -64,5 +64,5 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
   end
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 

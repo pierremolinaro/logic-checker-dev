@@ -1,58 +1,58 @@
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    AST
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    AST
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 abstract class @expression {}
 
-#·······················································································································
+//·······················································································································
 
 class @trueExpression : @expression {}
 
-#·······················································································································
+////·······················································································································
 
 class @falseExpression : @expression {}
 
-#·······················································································································
+//·······················································································································
 
 class @varExpression : @expression {
   public var @lstring mVariableName
 }
 
-#·······················································································································
+//·······················································································································
 
 class @negationExpression : @expression {
   public var @expression mExpression
 }
 
-#·······················································································································
+//·······················································································································
 
 class @andExpression : @expression {
   public var @expression mLeftExpression
   public var @expression mRightExpression
 }
 
-#·······················································································································
+//·······················································································································
 
 class @orExpression : @expression {
   public var @expression mLeftExpression
   public var @expression mRightExpression
 }
 
-#·······················································································································
+//·······················································································································
 
 class @xorExpression : @expression {
   public var @expression mLeftExpression
   public var @expression mRightExpression
 }
 
-#·······················································································································
+////·······················································································································
 
 list @assignmentList {
   public var @lstring mTargetName
   public var @expression mExpression
 }
 
-#·······················································································································
+//·······················································································································
 
 list @importedBlockList {
   public var @lstring mBlockName
@@ -60,7 +60,7 @@ list @importedBlockList {
   public var @lstringlist mBlockOutputVariableList
 }
 
-#·······················································································································
+//·······················································································································
 
 class @blockDefinition : @definition {
   public var @lstring mBlockName
@@ -71,13 +71,13 @@ class @blockDefinition : @definition {
   public var @importedBlockList mImportedBlockList
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    SYNTAX
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    SYNTAX
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 syntax extension logicchecker_syntax {
 
-  #·····················································································································
+  //·····················································································································
 
   rule <definition> !@definition outDefinition {
     $block$
@@ -107,7 +107,7 @@ syntax extension logicchecker_syntax {
     var @importedBlockList importedBlockList = @()
     repeat
       <targetVariable> ?let firstTargetName !?internalVariableList
-      select # Single assignment
+      select // Single assignment
         $=$
         select
           <expression> ?let expression
@@ -144,7 +144,7 @@ syntax extension logicchecker_syntax {
     }
   }
 
-  #·····················································································································
+  //·····················································································································
 
   rule <targetVariable> !@lstring outTargetVarName ?!@lstringlist ioInternalVariableList {
     let @bool letDeclaration
@@ -161,7 +161,7 @@ syntax extension logicchecker_syntax {
   }
  
  
-  #·····················································································································
+  //·····················································································································
 
   rule <importBlock> !@lstring outBlockName !@lstringlist outBlockInputVariableList {
     $identifier$ ?outBlockName
@@ -176,7 +176,7 @@ syntax extension logicchecker_syntax {
     $)$
   }
 
-  #·····················································································································
+  //·····················································································································
 
   rule <expression> !@expression outExpression {
     <terme> ?outExpression
@@ -192,7 +192,7 @@ syntax extension logicchecker_syntax {
     end
   }
   
-  #·····················································································································
+  //·····················································································································
 
   rule <terme> !@expression outExpression {
     <factor> ?outExpression
@@ -204,7 +204,7 @@ syntax extension logicchecker_syntax {
     end
   }
   
-  #·····················································································································
+  //·····················································································································
 
   rule <factor> !@expression outExpression {
     $/$
@@ -212,14 +212,14 @@ syntax extension logicchecker_syntax {
     outExpression = @negationExpression {!expression}
   }
   
-  #·····················································································································
+  //·····················································································································
 
   rule <factor> !@expression outExpression {
     $identifier$ ?let variableName
     outExpression = @varExpression {!variableName}
   }
   
-   #·····················································································································
+   //·····················································································································
 
   rule <factor> !@expression outExpression {
     $($
@@ -227,27 +227,27 @@ syntax extension logicchecker_syntax {
     $)$
   }
   
-  #·····················································································································
+  //·····················································································································
 
   rule <factor> !@expression outExpression {
     $true$
     outExpression = @trueExpression ()
   }
   
-  #·····················································································································
+  //·····················································································································
 
   rule <factor> !@expression outExpression {
     $false$
     outExpression = @falseExpression ()
   }
   
-  #·····················································································································
+  ////·····················································································································
 
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#   SEMANTICS
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+////   SEMANTICS
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 map @variableMap {
   public var @uint mIndex
@@ -255,38 +255,38 @@ map @variableMap {
   search searchKey error message "there is no '%K' variable"
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#   STATE COMPUTING
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//   STATE COMPUTING
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 abstract getter @expression computeStateExpression ?let @variableMap inVariableMap -> @binaryset
 
-#·······················································································································
+//·······················································································································
 
 override getter @falseExpression computeStateExpression ?let @variableMap unused inVariableMap -> @binaryset {
   result = @binaryset.emptyBinarySet
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @trueExpression computeStateExpression ?let @variableMap unused inVariableMap -> @binaryset {
   result = @binaryset.fullBinarySet
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @negationExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
   result = ~ [self.mExpression  computeStateExpression !inVariableMap]
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @varExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
   [inVariableMap searchKey !self.mVariableName ?let varIndex]
   result = @binaryset.binarySetWithBit {!varIndex}
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @andExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
   let left  = [self.mLeftExpression  computeStateExpression !inVariableMap]
@@ -294,7 +294,7 @@ override getter @andExpression computeStateExpression ?let @variableMap inVariab
   result = left & right
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @orExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
   let left  = [self.mLeftExpression  computeStateExpression !inVariableMap]
@@ -302,7 +302,7 @@ override getter @orExpression computeStateExpression ?let @variableMap inVariabl
   result = left | right
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @xorExpression computeStateExpression ?let @variableMap inVariableMap -> @binaryset {
   let left  = [self.mLeftExpression  computeStateExpression !inVariableMap]
@@ -310,15 +310,15 @@ override getter @xorExpression computeStateExpression ?let @variableMap inVariab
   result = left ^ right
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#   TRANSITION COMPUTING
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//   TRANSITION COMPUTING
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 abstract getter @expression computeTransitionExpression
   ?let @variableMap unused inVariableMap
   ?let @uint unused inOutputVarCount -> @binaryset
 
-#·······················································································································
+//·······················································································································
 
 override getter @falseExpression computeTransitionExpression 
   ?let @variableMap unused inVariableMap
@@ -326,7 +326,7 @@ override getter @falseExpression computeTransitionExpression
   result = @binaryset.emptyBinarySet
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @trueExpression computeTransitionExpression 
   ?let @variableMap unused inVariableMap
@@ -334,7 +334,7 @@ override getter @trueExpression computeTransitionExpression
   result = @binaryset.fullBinarySet
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @negationExpression computeTransitionExpression
   ?let @variableMap inVariableMap
@@ -343,21 +343,21 @@ override getter @negationExpression computeTransitionExpression
   result = ~ [self.mExpression  computeTransitionExpression !inVariableMap !inOutputVarCount]
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @varExpression computeTransitionExpression 
   ?let @variableMap inVariableMap
   ?let @uint inOutputVarCount -> @binaryset
 {
   [inVariableMap searchKey !self.mVariableName ?let varIndex]
-  if varIndex >= inOutputVarCount then # An input variable ?
+  if varIndex >= inOutputVarCount then // An input variable ?
     result = @binaryset.binarySetWithBit {!varIndex + [inVariableMap count]}
   else
     result = @binaryset.binarySetWithBit {!varIndex}
   end
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @andExpression computeTransitionExpression 
   ?let @variableMap inVariableMap
@@ -368,7 +368,7 @@ override getter @andExpression computeTransitionExpression
   result = left & right
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @orExpression computeTransitionExpression 
   ?let @variableMap inVariableMap
@@ -379,7 +379,7 @@ override getter @orExpression computeTransitionExpression
   result = left | right
 }
 
-#·······················································································································
+//·······················································································································
 
 override getter @xorExpression computeTransitionExpression 
   ?let @variableMap inVariableMap
@@ -390,14 +390,14 @@ override getter @xorExpression computeTransitionExpression
   result = left ^ right
 }
 
-#·······················································································································
+//·······················································································································
 
 override method @blockDefinition compute
   ?!@blockMap blockMap
   ?let @string unused inSourceFile
 {
   print (!"--------------- Block " + self.mBlockName + "\n")
-#---------- Enter output variables
+//---------- Enter output variables
   var @variableMap variableMap = @()
   var @stringlist outputAndInternalVariableList = @()
   var @stringlist outputVariableList = @()
@@ -410,7 +410,7 @@ override method @blockDefinition compute
     outputAndInternalVariableList += !name.string
   end
   let outputVarCount = [outputVariableList count]
-#---------- Enter internal variables
+//---------- Enter internal variables
   let internalVarCount = [self.mInternalVariableList count]
   for (name) in self.mInternalVariableList do
     let variableIndex = [variableMap count]
@@ -419,7 +419,7 @@ override method @blockDefinition compute
     outputAndInternalVariableList += !name.string
   end
   let outputAndInternalVarCount = [outputAndInternalVariableList count]
-#---------- Enter input variables
+//---------- Enter input variables
   var @stringlist inputVariableList = @()
   for (name) in self.mInputVariableList do
     [!?variableMap insertKey !name ![variableMap count]]
@@ -428,7 +428,7 @@ override method @blockDefinition compute
   let inputVariableCount = [inputVariableList count]
   let allVariableCount = inputVariableCount + outputAndInternalVarCount
   let exportedVariableCount = inputVariableCount + outputVarCount
-#---------- Enter assignments
+//---------- Enter assignments
   var @stringset assignedOutputVariableSet = @()
   for (targetVar *) in self.mAssignmentList do
     [variableMap searchKey !targetVar ?*]
@@ -439,7 +439,7 @@ override method @blockDefinition compute
     end
     assignedOutputVariableSet ++= targetVar.string
   end
-#---------- Enter assignments
+//---------- Enter assignments
   for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
     if [importedBlock.mInputVariableList count] != [blockInputVarList count] then
@@ -452,28 +452,28 @@ override method @blockDefinition compute
       assignedOutputVariableSet ++= name.string
     end
   end
-#---------- Check all ouput variable has been assigned
+//---------- Check all ouput variable has been assigned
   for (unassignedVar) in [outputVariableMap keySet] - assignedOutputVariableSet do
     error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
   end
-#  log variableMap
-#---------- Compute states and transitions ...
+//  log variableMap
+//---------- Compute states and transitions ...
   var blockStates = @binaryset.fullBinarySet
   var blockTransitions = @binaryset.emptyBinarySet
-#--- ... for assignment list
+//--- ... for assignment list
   for (targetVar expression) in self.mAssignmentList do
-  #--- Target var BDD
+  //--- Target var BDD
     [variableMap searchKey !targetVar ?let targetVarIndex]
-  #--- Accumulate state
+  //--- Accumulate state
     let stateExpressionBDD = [expression computeStateExpression !variableMap]
     let targetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex}
     blockStates = blockStates & [targetVarBDD equalTo !stateExpressionBDD]
-  #--- Accumulate transitions
+  //--- Accumulate transitions
     let transitionExpressionBDD = [expression computeTransitionExpression !variableMap !outputAndInternalVarCount]
     let shiftedTargetVarBDD = @binaryset.binarySetWithBit {!targetVarIndex + allVariableCount}
     blockTransitions = blockTransitions | [shiftedTargetVarBDD equalTo !transitionExpressionBDD]
   end
-#--- ... for imported blocks
+//--- ... for imported blocks
   for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
     var @uintlist transposition = @()
@@ -496,11 +496,11 @@ override method @blockDefinition compute
     end
     blockTransitions = blockTransitions | [importedBlock.mTransitions transposedBy !transposition]
   end
-#---------- Constraint with stable source states
+//---------- Constraint with stable source states
   blockTransitions = blockTransitions & blockStates
-#---------- Constraint with stable target states
+//---------- Constraint with stable target states
   blockTransitions = blockTransitions & (blockStates << allVariableCount)
-#---------- remove internal variables
+//---------- remove internal variables
   if internalVarCount > 0 then
     var @uintlist stateTranspositionVector = @()
     var idx = 0
@@ -518,7 +518,7 @@ override method @blockDefinition compute
     end
     blockStates = [blockStates transposedBy !stateTranspositionVector]
     blockStates = [blockStates existOnBitIndexAndBeyond !exportedVariableCount]
-  #--- Transpose transitions
+  //--- Transpose transitions
     var @uintlist transTranspositionVector = @()
     idx = 0
     for (*) in self.mOutputVariableList do
@@ -545,20 +545,20 @@ override method @blockDefinition compute
       transTranspositionVector += !idx - 2 * internalVarCount
       idx += 1
     end
-    # log transTranspositionVector
+    // log transTranspositionVector
     blockTransitions = [blockTransitions transposedBy !transTranspositionVector]
     blockTransitions = [blockTransitions existOnBitIndexAndBeyond !2 * exportedVariableCount]
   end
-#---------- Display states result
+//---------- Display states result
   print (![[blockStates valueCount !exportedVariableCount] string]
       + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n")
-#---------- Display transitions
+//---------- Display transitions
   print (![[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
      [[blockTransitions nodeCount] string] + " BDD nodes)\n")
-#---------- Enter in block map
+//---------- Enter in block map
    let bloc = @block {!inputVariableList !outputVariableList !blockStates !blockTransitions}
   [!?blockMap insertKey !self.mBlockName !bloc]
-#------------------------------ States completion
+//------------------------------ States completion
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !exportedVariableCount]
   if incompleteStateCount == 0 then
@@ -569,11 +569,11 @@ override method @blockDefinition compute
        + [incompleteStates nodeCount]
        + " BDD nodes)\n")
   end
-#------------------------------ Check no ambiguous transition
+//------------------------------ Check no ambiguous transition
   let ambiguousTransitions = [bloc ambiguousTransitions]
-#--- Ambiguous transition count
+//--- Ambiguous transition count
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * exportedVariableCount]
-#--- Display ampbiguous transitions
+//--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
     print (!"No ambiguous transition.\n")
   else
@@ -584,5 +584,5 @@ override method @blockDefinition compute
   end
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 

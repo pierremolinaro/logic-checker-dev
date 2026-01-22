@@ -1,6 +1,6 @@
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    AST
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    AST
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 struct @block {
   public var @stringlist mInputVariableList
@@ -9,8 +9,8 @@ struct @block {
   public var @binaryset mTransitions
 }
 
-#·······················································································································
-# Ensemble des états complets : ∃s', ∀e' : (e, s) -> (e', s') est une transition et ((e, s) un état
+//·······················································································································
+// Ensemble des états complets : ∃s', ∀e' : (e, s) -> (e', s') est une transition et ((e, s) un état
 
 getter @block uncompleteStates -> @binaryset {
   let outputVarCount = [self.mOutputVariableList count]
@@ -18,15 +18,15 @@ getter @block uncompleteStates -> @binaryset {
   let variableCount = inputVarCount + outputVarCount
   var tr = self.mTransitions
   tr = [tr existsOnBitRange !variableCount !outputVarCount]
-#  message "" + [tr valueCount !2*variableCount] + " temp1 states (" + [tr nodeCount]
-#       + " BDD nodes):\n"
+//  message "" + [tr valueCount !2*variableCount] + " temp1 states (" + [tr nodeCount]
+//       + " BDD nodes):\n"
   tr = [tr forAllOnBitIndexAndBeyond !variableCount]
-#  message "" + [tr valueCount !variableCount] + " temp2 states (" + [tr nodeCount]
-#       + " BDD nodes):\n"
+//  message "" + [tr valueCount !variableCount] + " temp2 states (" + [tr nodeCount]
+//       + " BDD nodes):\n"
   result = self.mStates & ~ tr
 }
 
-#·······················································································································
+//·······················································································································
 
 private func displayState
   ?let @string inCompressedStringValue
@@ -48,7 +48,7 @@ private func displayState
   result = inputList + " :" + outputList
 }
 
-#·······················································································································
+//·······················································································································
 
 method @block displayStates ?let @binaryset inStates {
   let outputVarCount = [self.mOutputVariableList count]
@@ -69,34 +69,34 @@ method @block displayStates ?let @binaryset inStates {
   end
 }
 
-#·······················································································································
+//·······················································································································
 
 getter @block ambiguousTransitions -> @binaryset {
   let outputVarCount = [self.mOutputVariableList count]
   let inputVarCount = [self.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
-# Ensemble des transitions ambiguës :
-# ∀(e, s) état, ∃(e, s) -> (e', s') transition, ∃(e, s) -> (e", s") transition et e' = e" et s' != s"
+// Ensemble des transitions ambiguës :
+// ∀(e, s) état, ∃(e, s) -> (e', s') transition, ∃(e, s) -> (e", s") transition et e' = e" et s' != s"
   result = self.mTransitions & [self.mTransitions binarySetByTranslatingFromIndex !variableCount !variableCount]
-#--- Constraint e' = e"
+//--- Constraint e' = e"
   let inputConstraint = @binaryset.binarySetWithEqualComparison {
-    !variableCount + outputVarCount # e'
+    !variableCount + outputVarCount // e'
     !inputVarCount
-    !2 * variableCount + outputVarCount # e"
+    !2 * variableCount + outputVarCount // e"
   }
   result = result & inputConstraint
-#--- Constraint s' ≠ s"
+//--- Constraint s' ≠ s"
   let outputConstraint = @binaryset.binarySetWithNotEqualComparison {
-    !variableCount # s'
+    !variableCount // s'
     !outputVarCount
-    !2 * variableCount # s"
+    !2 * variableCount // s"
   }
   result = result & outputConstraint
-#--- Suppress (e", s")
+//--- Suppress (e", s")
   result = [result existOnBitIndexAndBeyond !2 * variableCount]
 }
 
-#·······················································································································
+//·······················································································································
 
 method @block displayTransitions ?let @binaryset inTransitions {
   let outputVarCount = [self.mOutputVariableList count]
@@ -129,31 +129,31 @@ method @block displayTransitions ?let @binaryset inTransitions {
   end
 }
 
-#·······················································································································
-# Ensemble des états non combinatoires
-# : (e, s) est un état -> (e', s') est un état et e = e' et s ≠ s'
+//·······················································································································
+// Ensemble des états non combinatoires
+// : (e, s) est un état -> (e', s') est un état et e = e' et s ≠ s'
 
 getter @block nonCombinatoryStates -> @binaryset {
   let outputVarCount = [self.mOutputVariableList count]
   let inputVarCount  = [self.mInputVariableList count]
   let variableCount  = inputVarCount + outputVarCount
   result = self.mStates & [self.mStates binarySetByTranslatingFromIndex !0 !variableCount]
-#--- Constraint e = e'
+//--- Constraint e = e'
   let inputConstraint = @binaryset.binarySetWithEqualComparison {
-    !outputVarCount # e
+    !outputVarCount // e
     !inputVarCount
-    !variableCount + outputVarCount # e"
+    !variableCount + outputVarCount // e"
   }
   result = result & inputConstraint
-#--- Constraint s' ≠ s"
+//--- Constraint s' ≠ s"
   let outputConstraint = @binaryset.binarySetWithNotEqualComparison {
-    !0 # s'
+    !0 // s'
     !outputVarCount
-    !variableCount # s"
+    !variableCount // s"
   }
   result = result & outputConstraint
-#---
+//---
   result = [result existOnBitIndexAndBeyond !variableCount]
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————

@@ -1,18 +1,18 @@
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    AST
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    AST
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 class @graphvizDefinition : @definition {
   public var @lstring mBlockName
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    SYNTAX
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    SYNTAX
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 syntax extension logicchecker_syntax {
 
-  #·····················································································································
+  //·····················································································································
 
   rule <definition> !@definition outDefinition {
     $graphviz$
@@ -20,13 +20,13 @@ syntax extension logicchecker_syntax {
     outDefinition = @graphvizDefinition {!blockName}
   }
 
-  #·····················································································································
+  //·····················································································································
 
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#   SEMANTICS
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//   SEMANTICS
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string inSourceFile {
   print (!"--------------- Graphviz " + self.mBlockName + "\n")
@@ -34,14 +34,14 @@ override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string in
   let variableCount = [bloc.mInputVariableList count] + [bloc.mOutputVariableList count]
   var graphviz = "digraph G {\n"
   graphviz += "node [shape=record fontname=helvetica style=rounded] ;\n"
-#--- Display states result
+//--- Display states result
   let stateList = [bloc.mStates stringValueList !variableCount]
   for (s) in stateList do
-    var rs = s # [s reversedString]
+    var rs = s // [s reversedString]
     [!?rs insertCharacterAtIndex !':' ![bloc.mInputVariableList count]]
     graphviz += "\"" + rs + "\" ;\n"
   end
-#--- Display transitions
+//--- Display transitions
   let transitionList = [bloc.mTransitions stringValueList !variableCount + variableCount]
   for (s) in transitionList do
     var source = [s subString !variableCount !variableCount]
@@ -55,5 +55,5 @@ override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string in
   [graphviz writeToFileWhenDifferentContents !filePath ?*]
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 

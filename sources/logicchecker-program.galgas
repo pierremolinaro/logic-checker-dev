@@ -1,4 +1,4 @@
-#--- 'when' clauses
+//--- 'when' clauses
 case . "logicchecker"
 message "a source text file with the .logicchecker extension"
 grammar logicchecker_grammar

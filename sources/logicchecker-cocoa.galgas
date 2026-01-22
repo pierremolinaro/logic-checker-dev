@@ -1,5 +1,5 @@
 gui cocoa {
-#  with option logicchecker_options
+//  with option logicchecker_options
 
   with lexique logicchecker_lexique {
     fileExtension: "logicchecker"

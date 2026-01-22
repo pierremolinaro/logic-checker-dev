@@ -1,18 +1,18 @@
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    AST
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    AST
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 class @combinatoryDefinition : @definition {
   public var @lstring mBlockName
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#    SYNTAX
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//    SYNTAX
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 syntax extension logicchecker_syntax {
 
-  #·····················································································································
+  //·····················································································································
 
   rule <definition> !@definition outDefinition {
     $combinatory$
@@ -20,13 +20,13 @@ syntax extension logicchecker_syntax {
     outDefinition = @combinatoryDefinition {!blockName}
   }
 
-  #·····················································································································
+  //·····················································································································
 
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
-#   SEMANTICS
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//   SEMANTICS
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
 override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
   print (!"--------------- Combinatory " + self.mBlockName + "\n")
@@ -34,7 +34,7 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   let outputVarCount = [bloc.mOutputVariableList count]
   let inputVarCount = [bloc.mInputVariableList count]
   let variableCount = inputVarCount + outputVarCount
-#------------------------------ Check states are complete
+//------------------------------ Check states are complete
   let incompleteStates = [bloc uncompleteStates]
   let incompleteStateCount = [incompleteStates valueCount !variableCount]
   if incompleteStateCount == 0 then
@@ -46,11 +46,11 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
        + " BDD nodes):"
     [bloc displayStates !incompleteStates]
   end
-#------------------------------ Check no ambiguous transition
+//------------------------------ Check no ambiguous transition
   let ambiguousTransitions = [bloc ambiguousTransitions]
-#--- Ambiguous transition count
+//--- Ambiguous transition count
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * variableCount]
-#--- Display ampbiguous transitions
+//--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
     print (!"No ambiguous transition.\n")
   else
@@ -61,7 +61,7 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
       + " BDD nodes):"
     [bloc displayTransitions !ambiguousTransitions]
   end
-#------------------------------ Check all states are combinatory
+//------------------------------ Check all states are combinatory
   let nonCombinatoryStates = [bloc nonCombinatoryStates]
   let nonCombinatoryStateCount = [nonCombinatoryStates valueCount !variableCount]
   if nonCombinatoryStateCount == 0 then
@@ -75,5 +75,5 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   end
 }
 
-#———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
+//———————————————————————————————————————————————————————————————————————————————————————————————————————————————————————
 
