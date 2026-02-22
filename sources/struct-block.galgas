@@ -32,7 +32,7 @@ private func displayState
   ?let @string inCompressedStringValue
   ?let @stringlist inInputVariableList
   ?let @stringlist inOutputVariableList -> @string {
-  var compressedString = [inCompressedStringValue reversedString]
+  var compressedString = [inCompressedStringValue reversed]
   var outputList = ""
   for (varName) in inOutputVariableList do
     [!?compressedString removeCharacterAtIndex ?let char !0]

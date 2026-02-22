@@ -37,7 +37,7 @@ override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string in
 //--- Display states result
   let stateList = [bloc.mStates stringValueList !variableCount]
   for (s) in stateList do
-    var rs = s // [s reversedString]
+    var rs = s // [s reversed]
     [!?rs insertCharacterAtIndex !':' ![bloc.mInputVariableList count]]
     graphviz += "\"" + rs + "\" ;\n"
   end
