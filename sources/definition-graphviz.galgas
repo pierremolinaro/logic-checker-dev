@@ -31,23 +31,23 @@ syntax extension logicchecker_syntax {
 override method @graphvizDefinition compute ?!@blockMap blockMap ?let @string inSourceFile {
   print (!"--------------- Graphviz " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
-  let variableCount = [bloc.mInputVariableList count] + [bloc.mOutputVariableList count]
+  let variableCount = bloc.mInputVariableList.count + bloc.mOutputVariableList.count
   var graphviz = "digraph G {\n"
   graphviz += "node [shape=record fontname=helvetica style=rounded] ;\n"
 //--- Display states result
   let stateList = [bloc.mStates stringValueList !variableCount]
   for (s) in stateList do
     var rs = s // [s reversed]
-    [!?rs insertCharacterAtIndex !':' ![bloc.mInputVariableList count]]
+    [!?rs insertCharacterAtIndex !':' !bloc.mInputVariableList.count]
     graphviz += "\"" + rs + "\" ;\n"
   end
 //--- Display transitions
   let transitionList = [bloc.mTransitions stringValueList !variableCount + variableCount]
   for (s) in transitionList do
     var source = [s subString !variableCount !variableCount]
-    [!?source insertCharacterAtIndex !':' ![bloc.mInputVariableList count]]
+    [!?source insertCharacterAtIndex !':' !bloc.mInputVariableList.count]
     var target = [s subString !0 !variableCount]
-    [!?target insertCharacterAtIndex !':' ![bloc.mInputVariableList count]]
+    [!?target insertCharacterAtIndex !':' !bloc.mInputVariableList.count]
     graphviz += "\"" + source + "\" -> \"" + target + "\" ;\n"
   end
   graphviz += "}\n\n"

@@ -31,24 +31,24 @@ syntax extension logicchecker_syntax {
 override method @checkDefinition compute ?!@blockMap blockMap ?let @string unused inSourceFile {
   print (!"--------------- Check " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
-  let outputVarCount = [bloc.mOutputVariableList count]
-  let inputVarCount = [bloc.mInputVariableList count]
+  let outputVarCount = bloc.mOutputVariableList.count
+  let inputVarCount = bloc.mInputVariableList.count
   let variableCount = inputVarCount + outputVarCount
 //  log inputVarCount, outputVarCount
 //------------------------------ Check states are complete
-  let incompleteStates = [bloc uncompleteStates]
+  let incompleteStates = bloc.uncompleteStates
   let incompleteStateCount = [incompleteStates valueCount !variableCount]
   if incompleteStateCount == 0 then
     print (!"All states are complete.\n")
   else
     error.nowhere : ""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
-       + [incompleteStates nodeCount]
+       + incompleteStates.nodeCount
        + " BDD nodes):"
     [bloc displayStates !incompleteStates]
   end
 //------------------------------ Check no ambiguous transition
-  let ambiguousTransitions = [bloc ambiguousTransitions]
+  let ambiguousTransitions = bloc.ambiguousTransitions
 //--- Ambiguous transition count
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * variableCount]
 //--- Display ampbiguous transitions
@@ -56,9 +56,9 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
     print (!"No ambiguous transition.\n")
   else
     error .nowhere :
-      [ambiguousTransitionCount string]
+      ambiguousTransitionCount.string
       + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
-      + [[ambiguousTransitions nodeCount] string]
+      + ambiguousTransitions.nodeCount.string
       + " BDD nodes):"
     [bloc displayTransitions !ambiguousTransitions]
   end

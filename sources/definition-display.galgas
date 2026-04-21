@@ -34,14 +34,14 @@ override method @displayDefinition compute
 {
   print (!"--------------- Display " + self.mBlockName + "\n")
   [blockMap searchKey !self.mBlockName ?let bloc]
-  let variableCount = [bloc.mInputVariableList count] + [bloc.mOutputVariableList count]
+  let variableCount = bloc.mInputVariableList.count + bloc.mOutputVariableList.count
 //--- Display states result
-  print (![[bloc.mStates valueCount !variableCount] string] + " states ("
-    + [[bloc.mStates nodeCount] string] + " BDD nodes):\n")
+  print (![bloc.mStates valueCount !variableCount].string + " states ("
+    + bloc.mStates.nodeCount.string + " BDD nodes):\n")
   [bloc displayStates !bloc.mStates]
 //--- Display transitions
-  print (![[bloc.mTransitions valueCount !2 * variableCount] string] + " transitions ("
-    + [[bloc.mTransitions nodeCount] string] + " BDD nodes):\n")
+  print (![bloc.mTransitions valueCount !2 * variableCount].string + " transitions ("
+    + bloc.mTransitions.nodeCount.string + " BDD nodes):\n")
   [bloc displayTransitions !bloc.mTransitions]
 }
 

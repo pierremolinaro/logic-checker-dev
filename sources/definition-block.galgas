@@ -351,7 +351,7 @@ override getter @varExpression computeTransitionExpression
 {
   [inVariableMap searchKey !self.mVariableName ?let varIndex]
   if varIndex >= inOutputVarCount then // An input variable ?
-    result = @binaryset.binarySetWithBit {!varIndex + [inVariableMap count]}
+    result = @binaryset.binarySetWithBit {!varIndex + inVariableMap.count}
   else
     result = @binaryset.binarySetWithBit {!varIndex}
   end
@@ -403,29 +403,29 @@ override method @blockDefinition compute
   var @stringlist outputVariableList = @()
   var @variableMap outputVariableMap = @()
   for (name) in self.mOutputVariableList do
-    let variableIndex = [variableMap count]
+    let variableIndex = variableMap.count
     [!?variableMap insertKey !name !variableIndex]
     [!?outputVariableMap insertKey !name !variableIndex]
     outputVariableList += !name.string
     outputAndInternalVariableList += !name.string
   end
-  let outputVarCount = [outputVariableList count]
+  let outputVarCount = outputVariableList.count
 //---------- Enter internal variables
-  let internalVarCount = [self.mInternalVariableList count]
+  let internalVarCount = self.mInternalVariableList.count
   for (name) in self.mInternalVariableList do
-    let variableIndex = [variableMap count]
+    let variableIndex = variableMap.count
     [!?variableMap insertKey !name !variableIndex]
     [!?outputVariableMap insertKey !name !variableIndex]
     outputAndInternalVariableList += !name.string
   end
-  let outputAndInternalVarCount = [outputAndInternalVariableList count]
+  let outputAndInternalVarCount = outputAndInternalVariableList.count
 //---------- Enter input variables
   var @stringlist inputVariableList = @()
   for (name) in self.mInputVariableList do
-    [!?variableMap insertKey !name ![variableMap count]]
+    [!?variableMap insertKey !name !variableMap.count]
     inputVariableList += !name.string
   end
-  let inputVariableCount = [inputVariableList count]
+  let inputVariableCount = inputVariableList.count
   let allVariableCount = inputVariableCount + outputAndInternalVarCount
   let exportedVariableCount = inputVariableCount + outputVarCount
 //---------- Enter assignments
@@ -442,18 +442,18 @@ override method @blockDefinition compute
 //---------- Enter assignments
   for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
-    if [importedBlock.mInputVariableList count] != [blockInputVarList count] then
-      error blockName : "this block is defined with " + [importedBlock.mInputVariableList count] + " input variable(s)"
+    if importedBlock.mInputVariableList.count != blockInputVarList.count then
+      error blockName : "this block is defined with " + importedBlock.mInputVariableList.count + " input variable(s)"
     end
-    if [importedBlock.mOutputVariableList count] != [blockOutputVarList count] then
-      error blockName : "this block is defined with " + [importedBlock.mOutputVariableList count] + " output variable(s)"
+    if importedBlock.mOutputVariableList.count != blockOutputVarList.count then
+      error blockName : "this block is defined with " + importedBlock.mOutputVariableList.count + " output variable(s)"
     end
     for (name) in blockOutputVarList do
       assignedOutputVariableSet ++= name.string
     end
   end
 //---------- Check all ouput variable has been assigned
-  for (unassignedVar) in [outputVariableMap keySet] - assignedOutputVariableSet do
+  for (unassignedVar) in outputVariableMap.keySet - assignedOutputVariableSet do
     error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
   end
 //  log variableMap
@@ -550,36 +550,36 @@ override method @blockDefinition compute
     blockTransitions = [blockTransitions existOnBitIndexAndBeyond !2 * exportedVariableCount]
   end
 //---------- Display states result
-  print (![[blockStates valueCount !exportedVariableCount] string]
-      + " states (" + [[blockStates nodeCount] string] + " BDD nodes)\n")
+  print (![blockStates valueCount !exportedVariableCount].string
+      + " states (" + blockStates.nodeCount.string + " BDD nodes)\n")
 //---------- Display transitions
-  print (![[blockTransitions valueCount !2* exportedVariableCount] string] + " transitions (" +
-     [[blockTransitions nodeCount] string] + " BDD nodes)\n")
+  print (![blockTransitions valueCount !2* exportedVariableCount].string + " transitions (" +
+     blockTransitions.nodeCount.string + " BDD nodes)\n")
 //---------- Enter in block map
    let bloc = @block {!inputVariableList !outputVariableList !blockStates !blockTransitions}
   [!?blockMap insertKey !self.mBlockName !bloc]
 //------------------------------ States completion
-  let incompleteStates = [bloc uncompleteStates]
+  let incompleteStates = bloc.uncompleteStates
   let incompleteStateCount = [incompleteStates valueCount !exportedVariableCount]
   if incompleteStateCount == 0 then
     print (!"All states are complete.\n")
   else
     print (!""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
-       + [incompleteStates nodeCount]
+       + incompleteStates.nodeCount
        + " BDD nodes)\n")
   end
 //------------------------------ Check no ambiguous transition
-  let ambiguousTransitions = [bloc ambiguousTransitions]
+  let ambiguousTransitions = bloc.ambiguousTransitions
 //--- Ambiguous transition count
   let ambiguousTransitionCount = [ambiguousTransitions valueCount !2 * exportedVariableCount]
 //--- Display ampbiguous transitions
   if ambiguousTransitionCount == 0 then
     print (!"No ambiguous transition.\n")
   else
-    print (![ambiguousTransitionCount string]
+    print (!ambiguousTransitionCount.string
       + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
-      + [[ambiguousTransitions nodeCount] string]
+      + ambiguousTransitions.nodeCount.string
       + " BDD nodes)\n")
   end
 }
