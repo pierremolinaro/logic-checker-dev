@@ -41,10 +41,10 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
   if incompleteStateCount == 0 then
     print (!"All states are complete.\n")
   else
-    error.nowhere : ""
+    error (.nowhere : ""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
        + incompleteStates.nodeCount
-       + " BDD nodes):"
+       + " BDD nodes):")
     [bloc displayStates !incompleteStates]
   end
 //------------------------------ Check no ambiguous transition
@@ -55,11 +55,11 @@ override method @checkDefinition compute ?!@blockMap blockMap ?let @string unuse
   if ambiguousTransitionCount == 0 then
     print (!"No ambiguous transition.\n")
   else
-    error .nowhere :
+    error (.nowhere :
       ambiguousTransitionCount.string
       + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
       + ambiguousTransitions.nodeCount.string
-      + " BDD nodes):"
+      + " BDD nodes):")
     [bloc displayTransitions !ambiguousTransitions]
   end
 }

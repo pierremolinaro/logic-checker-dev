@@ -433,9 +433,9 @@ override method @blockDefinition compute
   for (targetVar *) in self.mAssignmentList do
     [variableMap searchKey !targetVar ?*]
     if not [outputVariableMap hasKey !targetVar.string] then
-      error targetVar : "this variable should be an output variable"
+      error (targetVar : "this variable should be an output variable")
     elsif [assignedOutputVariableSet hasKey !targetVar.string] then
-      error targetVar : "output variable has been already assigned"
+      error (targetVar : "output variable has been already assigned")
     end
     assignedOutputVariableSet ++= targetVar.string
   end
@@ -443,10 +443,10 @@ override method @blockDefinition compute
   for (blockName blockInputVarList blockOutputVarList) in self.mImportedBlockList do
     [blockMap searchKey !blockName ?let importedBlock]
     if importedBlock.mInputVariableList.count != blockInputVarList.count then
-      error blockName : "this block is defined with " + importedBlock.mInputVariableList.count + " input variable(s)"
+      error (blockName : "this block is defined with " + importedBlock.mInputVariableList.count + " input variable(s)")
     end
     if importedBlock.mOutputVariableList.count != blockOutputVarList.count then
-      error blockName : "this block is defined with " + importedBlock.mOutputVariableList.count + " output variable(s)"
+      error (blockName : "this block is defined with " + importedBlock.mOutputVariableList.count + " output variable(s)")
     end
     for (name) in blockOutputVarList do
       assignedOutputVariableSet ++= name.string
@@ -454,7 +454,7 @@ override method @blockDefinition compute
   end
 //---------- Check all ouput variable has been assigned
   for (unassignedVar) in outputVariableMap.keySet - assignedOutputVariableSet do
-    error [outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned"
+    error ([outputVariableMap locationForKey !unassignedVar] : "this output variable should be assigned")
   end
 //  log variableMap
 //---------- Compute states and transitions ...

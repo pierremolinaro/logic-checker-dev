@@ -40,10 +40,10 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   if incompleteStateCount == 0 then
     print (!"All states are complete.\n")
   else
-    error.nowhere : ""
+    error (.nowhere : ""
        + incompleteStateCount + " incomplete state" + if incompleteStateCount > 1 then "s" else "" end + " ("
        + incompleteStates.nodeCount
-       + " BDD nodes):"
+       + " BDD nodes):")
     [bloc displayStates !incompleteStates]
   end
 //------------------------------ Check no ambiguous transition
@@ -54,11 +54,11 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   if ambiguousTransitionCount == 0 then
     print (!"No ambiguous transition.\n")
   else
-    error .nowhere :
+    error (.nowhere :
       ambiguousTransitionCount.string
       + " ambiguous transition" + if ambiguousTransitionCount > 1 then "s" else "" end + " ("
       + ambiguousTransitions.nodeCount.string
-      + " BDD nodes):"
+      + " BDD nodes):")
     [bloc displayTransitions !ambiguousTransitions]
   end
 //------------------------------ Check all states are combinatory
@@ -67,10 +67,10 @@ override method @combinatoryDefinition compute ?!@blockMap blockMap ?let @string
   if nonCombinatoryStateCount == 0 then
     print (!"All states are combinatory.\n")
   else
-    error.nowhere : ""
+    error (.nowhere : ""
        + nonCombinatoryStateCount + " non combinatory state" + if nonCombinatoryStateCount > 1 then "s" else "" end + " ("
        + nonCombinatoryStates.nodeCount
-       + " BDD nodes):"
+       + " BDD nodes):")
     [bloc displayStates !nonCombinatoryStates]
   end
 }
