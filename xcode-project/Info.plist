@@ -26,48 +26,10 @@
  <string>NSApplication</string>
  <key>CFBundleDocumentTypes</key>
  <array>
-  <dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>logicchecker_icns</string>
-      <key>CFBundleTypeIconSystemGenerated</key>
-      <integer>0</integer>
-      <key>CFBundleTypeName</key>
-      <string>logicchecker Source</string>
-      <key>CFBundleTypeRole</key>
-      <string>Editor</string>
-      <key>LSHandlerRank</key>
-      <string>Default</string>
-      <key>LSItemContentTypes</key>
-      <array>
-        <string>$(PRODUCT_BUNDLE_IDENTIFIER).logicchecker</string>
-      </array>
-  </dict>
 
  </array>
  <key>UTExportedTypeDeclarations</key>
  <array>
-  <dict>
-    <key>UTTypeConformsTo</key>
-    <array>
-      <string>public.text</string>
-    </array>
-    <key>UTTypeDescription</key>
-    <string>logicchecker</string>
-    <key>UTTypeIcons</key>
-    <dict>
-      <key>UTTypeIconBadgeName</key>
-      <string>logicchecker_icns</string>
-    </dict>
-    <key>UTTypeIdentifier</key>
-    <string>$(PRODUCT_BUNDLE_IDENTIFIER).logicchecker</string>
-    <key>UTTypeTagSpecification</key>
-    <dict>
-      <key>public.filename-extension</key>
-      <array>
-        <string>logicchecker</string>
-      </array>
-    </dict>
-  </dict>
 
  </array>
 </dict>
