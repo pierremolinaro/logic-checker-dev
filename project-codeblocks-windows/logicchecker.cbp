@@ -84,7 +84,6 @@
    <Unit filename="../build/libpm/command_line_interface/BoolCommandLineOption.cpp" />
    <Unit filename="../build/libpm/command_line_interface/UIntCommandLineOption.cpp" />
    <Unit filename="../build/libpm/command_line_interface/StringCommandLineOption.cpp" />
-   <Unit filename="../build/libpm/command_line_interface/StringListCommandLineOption.cpp" />
    <Unit filename="../build/libpm/command_line_interface/builtin-command-line-options.cpp" />
    <Unit filename="../build/libpm/command_line_interface/analyzeCommandLineOptions.cpp" />
    <Unit filename="../build/libpm/command_line_interface/F_mainForLIBPM.cpp" />
@@ -156,11 +155,9 @@
    <Unit filename="../build/libpm/galgas/LocationInSource.cpp" />
    <Unit filename="../build/libpm/galgas/SourceTextInString.cpp" />
    <Unit filename="../build/libpm/galgas/GALGAS_TypeDescriptor.cpp" />
-   <Unit filename="../build/libpm/galgas/C_galgas_function_descriptor.cpp" />
    <Unit filename="../build/libpm/galgas/galgas-input-output.cpp" />
    <Unit filename="../build/libpm/galgas/C_galgas_class_inspector.cpp" />
    <Unit filename="../build/libpm/galgas/IssueWithFixIt.cpp" />
-   <Unit filename="../build/libpm/galgas/GALGAS_ObjectArray.cpp" />
    <Unit filename="../build/libpm/galgas/CollectionElementPtr.cpp" />
    <Unit filename="../build/libpm/galgas/CollectionElement.cpp" />
    <Unit filename="../build/libpm/galgas/CollectionElementArray.cpp" />
@@ -170,8 +167,6 @@
    <Unit filename="../build/libpm/galgas/LexiqueIntrospection.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_root.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_reference_class.cpp" />
-   <Unit filename="../build/libpm/galgas/AC_GALGAS_value_class.cpp" />
-   <Unit filename="../build/libpm/galgas/AC_GALGAS_graph.cpp" />
    <Unit filename="../build/libpm/galgas/AC_GALGAS_enumAssociatedValues.cpp" />
    <Unit filename="../build/libpm/galgas/AbstractPtrClass.cpp" />
    <Unit filename="../build/libpm/galgas/AbstractStrongPtrClass.cpp" />
@@ -187,15 +182,12 @@
    <Unit filename="../build/libpm/galgas/GGS_data.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_double.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_filewrapper.cpp" />
-   <Unit filename="../build/libpm/galgas/GGS_function.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_location.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_sint.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_sint64.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_string.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_string-getters.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_stringset.cpp" />
-   <Unit filename="../build/libpm/galgas/GGS_type.cpp" />
-   <Unit filename="../build/libpm/galgas/GGS_object.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_uint.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_timer.cpp" />
    <Unit filename="../build/libpm/galgas/GGS_uint64.cpp" />
